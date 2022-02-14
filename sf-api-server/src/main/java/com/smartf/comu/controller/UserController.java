@@ -26,10 +26,10 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserDto> signup(
+    public ResponseEntity<Long> signup(
             @Valid @RequestBody UserDto userDto
     ) {
-        return ResponseEntity.ok(userService.signup(userDto));
+        return ResponseEntity.ok(userService.signup(userDto).getId());
     }
 
     @GetMapping("/user")

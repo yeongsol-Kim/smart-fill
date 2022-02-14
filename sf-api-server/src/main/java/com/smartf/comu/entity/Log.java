@@ -27,6 +27,11 @@ public class Log {
     @Column(name = "liter", length = 50)
     private Long liter;
 
+
+    @ManyToOne
+    @JoinColumn(name = "pump_id")
+    private Pump pump;
+
     //@ManyToOne
     //@JoinColumn(name = "user_id")
     @Column(name = "user_id", length = 50)

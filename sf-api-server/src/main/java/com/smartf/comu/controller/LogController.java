@@ -1,5 +1,6 @@
 package com.smartf.comu.controller;
 
+import com.smartf.comu.dto.LogDto;
 import com.smartf.comu.entity.Log;
 import com.smartf.comu.service.LogService;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,9 @@ public class LogController {
     }
 
     @GetMapping("/fill-logs/members/{memberId}")
-    public ResponseEntity<Log> findByMembers(@PathVariable Long memberId) {
-        Log log = logService.findByMemberId(memberId);
+    public ResponseEntity<LogDto> findByMembers(@PathVariable Long memberId) {
+        LogDto log = logService.findByMemberId(memberId);
 
-        log.setLiter(1L);
         return ResponseEntity.ok(log);
         //return ResponseEntity.ok(log);
     }

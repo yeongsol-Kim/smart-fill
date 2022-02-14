@@ -33,6 +33,7 @@ public class UserService {
                 .build();
 
         User user = User.builder()
+                .userId(userDto.getId())
                 .username(userDto.getUsername())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .nickname(userDto.getNickname())
