@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>hello</title>
+</head>
+<body>
+
+<div class="container">
+
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>로그번호</th>
+                <th>사용자</th>
+                <th>주유량</th>
+                <th>장소</th>
+                <th>주유기</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="fillLog : ${fillLogs}">
+                <td th:text="${fillLog.id}"></td>
+                <td th:text="${fillLog.userId}"></td>
+                <td th:text="${fillLog.fillAmount}"></td>
+                <td th:text="${fillLog.gasPumpId}"></td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <a href="/fillLogs/test">샘플 추가</a>
+</div>
+
+
+</body>
+</html>

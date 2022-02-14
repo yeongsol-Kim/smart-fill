@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+
+<!-- 본 페이지 커스텀 css -->
+<th:block layout:fragment="css">
+    <style>
+        .image-upload {
+            width: 130px;
+            display: flex;
+            cursor: pointer;
+        }
+    </style>
+</th:block>
+
+<!-- 본 페이지 커스텀 script -->
+<th:block layout:fragment="script">
+    <script>
+        function previewImage(targetObj, View_area) {
+        var preview = document.getElementById(View_area); //div id
+        var ua = window.navigator.userAgent;
+
+      //ie일때(IE8 이하에서만 작동)
+        if (ua.indexOf("MSIE") > -1) {
+            targetObj.select();
+            try {
+                var src = document.selection.createRange().text; // get file full path(IE9, IE10에서 사용 불가)
+                var ie_preview_error = document.getElementById("ie_preview_error_" + View_area);
+
+
+                if (ie_preview_error) {
+                    preview.removeChild(ie_preview_error); //error가 있으면 delete
+                }
+
+                var img = document.getElementById(View_area); //이미지가 뿌려질 곳
+
+                //이미지 로딩, sizingMethod는 div에 맞춰서 사이즈를 자동조절 하는 역할
+                img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+src+"', sizingMethod='scale')";
+            } catch (e) {
+                if (!document.getElementById("ie_preview_error_" + View_area)) {
+                    var info = document.createElement("<p>");
+                    info.id = "ie_preview_error_" + View_area;
+                    info.innerHTML = e.name;
+                    preview.insertBefore(info, null);
+                }
+            }
+      //ie가 아닐때(크롬, 사파리, FF)
+        } else {
+            var files = targetObj.files;
+            for ( var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var imageType = /image.*/; //이미지 파일일경우만.. 뿌려준다.
+                if (!file.type.match(imageType))
+                    continue;
+                var prevImg = document.getElementById("prev_" + View_area); //이전에 미리보기가 있다면 삭제
+                if (prevImg) {
+                    preview.removeChild(prevImg);
+                }
+                var img = document.createElement("img");
+                img.id = "prev_" + View_area;
+                img.classList.add("obj");
+                img.file = file;
+                img.style.width = '100px';
+                img.style.height = '160px';
+                preview.appendChild(img);
+                if (window.FileReader) { // FireFox, Chrome, Opera 확인.
+                    var reader = new FileReader();
+                    reader.onloadend = (function(aImg) {
+                        return function(e) {
+                            aImg.src = e.target.result;
+                        };
+                    })(img);
+                    reader.readAsDataURL(file);
+                } else { // safari is not supported FileReader
+                    //alert('not supported FileReader');
+                    if (!document.getElementById("sfr_preview_error_"
+                            + View_area)) {
+                        var info = document.createElement("p");
+                        info.id = "sfr_preview_error_" + View_area;
+                        info.innerHTML = "not supported FileReader";
+                        preview.insertBefore(info, null);
+                    }
+                }
+            }
+        }
+    }
+    </script>
+</th:block>
+
+<th:block layout:fragment="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">직원관리</h1>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+
+            <div class="col-lg-12 mb-4">
+
+                <!-- Illustrations -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">직원 등록</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="/members/new" method="post" enctype="multipart/form-data">
+                            <div class="image-upload">
+                                <label for="profile_pt">
+                                    <span id='View_area' style='position:relative; width: 100px; height: 160px; color: black; border: 0px solid black; dispaly: inline;'>
+                                        <img id="prev_View_area" style="width: 100px; height: 125px; border:1px solid #CDCDCD;" src="/img/user-blank.png"/>
+                                    </span>
+                                </label>
+                                <input type="file" name="file" id="profile_pt" onchange="previewImage(this,'View_area')">
+                            </div>
+                            <div class="pic-upload"></div>
+                            <label for="input-name" class="form-label">직원이름</label>
+                            <input type="text" class="form-control mb-4" name="name" id="input-name" placeholder="ex) 홍길동"/>
+                            <label for="input-email" class="form-label">이메일</label>
+                            <input type="email" class="form-control mb-4" name="email" id="input-email" placeholder="ex) example@xxx.com"/>
+                            <label for="input-phone" class="form-label">휴대폰 번호</label>
+                            <input type="text" class="form-control mb-4" name="phone" id="input-phone" placeholder="ex) 010-0000-0000"/>
+                            <label for="input-address" class="form-label">주소</label>
+                            <input type="text" class="form-control mb-4" name="address" id="input-address" placeholder="ex) OO시 OO구 OO길 OO-OO"/>
+                            <button type="submit" class="btn btn-primary">확인</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+</th:block>
+</html>

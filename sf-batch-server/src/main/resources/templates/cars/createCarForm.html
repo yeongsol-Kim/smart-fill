@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+
+<th:block layout:fragment="css">
+    <style>
+        .image-upload {
+            width: 130px;
+            display: flex;
+            cursor: pointer;
+        }
+    </style>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        function previewImage(targetObj, View_area) {
+        var preview = document.getElementById(View_area); //div id
+        var ua = window.navigator.userAgent;
+
+      //ie일때(IE8 이하에서만 작동)
+        if (ua.indexOf("MSIE") > -1) {
+            targetObj.select();
+            try {
+                var src = document.selection.createRange().text; // get file full path(IE9, IE10에서 사용 불가)
+                var ie_preview_error = document.getElementById("ie_preview_error_" + View_area);
+
+
+                if (ie_preview_error) {
+                    preview.removeChild(ie_preview_error); //error가 있으면 delete
+                }
+
+                var img = document.getElementById(View_area); //이미지가 뿌려질 곳
+
+                //이미지 로딩, sizingMethod는 div에 맞춰서 사이즈를 자동조절 하는 역할
+                img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+src+"', sizingMethod='scale')";
+            } catch (e) {
+                if (!document.getElementById("ie_preview_error_" + View_area)) {
+                    var info = document.createElement("<p>");
+                    info.id = "ie_preview_error_" + View_area;
+                    info.innerHTML = e.name;
+                    preview.insertBefore(info, null);
+                }
+            }
+      //ie가 아닐때(크롬, 사파리, FF)
+        } else {
+            var files = targetObj.files;
+            for ( var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var imageType = /image.*/; //이미지 파일일경우만.. 뿌려준다.
+                if (!file.type.match(imageType))
+                    continue;
+                var prevImg = document.getElementById("prev_" + View_area); //이전에 미리보기가 있다면 삭제
+                if (prevImg) {
+                    preview.removeChild(prevImg);
+                }
+                var img = document.createElement("img");
+                img.id = "prev_" + View_area;
+                img.classList.add("obj");
+                img.file = file;
+                img.style.width = '100px';
+                img.style.height = '160px';
+                preview.appendChild(img);
+                if (window.FileReader) { // FireFox, Chrome, Opera 확인.
+                    var reader = new FileReader();
+                    reader.onloadend = (function(aImg) {
+                        return function(e) {
+                            aImg.src = e.target.result;
+                        };
+                    })(img);
+                    reader.readAsDataURL(file);
+                } else { // safari is not supported FileReader
+                    //alert('not supported FileReader');
+                    if (!document.getElementById("sfr_preview_error_"
+                            + View_area)) {
+                        var info = document.createElement("p");
+                        info.id = "sfr_preview_error_" + View_area;
+                        info.innerHTML = "not supported FileReader";
+                        preview.insertBefore(info, null);
+                    }
+                }
+            }
+        }
+    }
+    </script>
+</th:block>
+
+<th:block layout:fragment="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">차량 관리</h1>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+
+            <div class="col-lg-12 mb-4">
+
+                <!-- Illustrations -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">차량 등록</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="/cars/new" method="post" enctype="multipart/form-data">
+                            <div class="image-upload">
+                                <label for="profile_pt">
+                                    <span id='View_area' style='position:relative; width: 100px; height: 160px; color: black; border: 0px solid black; dispaly: inline;'>
+                                        <img id="prev_View_area" style="width: 100px; height: 125px; border:1px solid #CDCDCD;" src="/img/user-blank.png"/>
+                                    </span>
+                                </label>
+                                <input type="file" name="profile_pt" id="profile_pt" onchange="previewImage(this,'View_area')">
+                            </div>
+                            <div class="pic-upload"></div>
+                            <label for="input-carNumber" class="form-label">차량번호</label>
+                            <input type="text" class="form-control mb-4" name="carNumber" id="input-carNumber" placeholder="ex) 0000"/>
+                            <label for="input-car_type" class="form-label">차종</label>
+                            <input type="text" class="form-control mb-4" name="car_type" id="input-car_type" placeholder="ex) 프리마"/>
+                            <label for="input-years" class="form-label">연식</label>
+                            <input type="text" class="form-control mb-4" name="years" id="input-years" placeholder="ex) 00"/>
+                            <label for="input-registration_number" class="form-label">등록번호</label>
+                            <input type="text" class="form-control mb-4" name="registration_number" id="input-registration_number" placeholder="ex) 12341234"/>
+                            <button type="submit" class="btn btn-primary">확인</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+</th:block>
+</html>
