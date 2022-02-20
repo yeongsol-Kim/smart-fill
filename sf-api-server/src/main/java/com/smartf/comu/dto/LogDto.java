@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.OffsetDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,25 +20,53 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class LogDto {
 
-    @NotNull
-    @Size(min = 3, max = 50)
-    private Long liter;
 
-    @NotNull
-    @Size(min = 3, max = 50)
-    private String datetime;
+    //@NotNull
+    private OffsetDateTime datetime;
 
+    private Long userId;
 
-    private Long pump;
+    private Long pumpId;
+
+    private Long amount;
+
+    private Long branchId;
+
+    private String carNumber;
+
+    private String username;
+
+    private String branchName;
+
+    private String branchCeo;
+
+    private String branchAddress;
+
+    private String branchTEL;
+
+    private String approvalNumber;
+
+    private Long pumpNumber;
+
+    private String product;
 
     public static LogDto from(Log log) {
         if(log == null) return null;
 
 
         return LogDto.builder()
-                .liter(log.getLiter())
-                .datetime(log.getDatetime())
-                .pump(log.getPump().getNumber())
+                .branchName(log.getBranchName())
+                .branchCeo(log.getBranchCeo())
+                .branchAddress(log.getBranchAddress())
+                .branchTEL(log.getBranchTEL())
+                .username(log.getUsername())
+                .approvalNumber(log.getApprovalNumber())
+                .pumpNumber(log.getPumpNumber())
+                .product(log.getProduct())
+                .amount(log.getAmount())
+                .datetime(log.getDateTime())
+                .pumpId(log.getPumpId())
+                .carNumber(log.getCarNumber())
                 .build();
     }
 }

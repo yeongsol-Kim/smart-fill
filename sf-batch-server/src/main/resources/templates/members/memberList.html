@@ -95,36 +95,39 @@
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>이름</th>
-                            <th>이메일</th>
-                            <th>등록차량</th>
-                            <th>연락처</th>
-                            <th>주소</th>
-                            <th>회원타입</th>
-                            <th>관리</th>
-                        </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>이름</th>
+                                <th>기사번호</th>
+                                <th>배차차량</th>
+                                <th>연락처</th>
+                                <th>이메일</th>
+                                <th>주소</th>
+                                <th>회원타입</th>
+                                <th>관리</th>
+                            </tr>
                         </thead>
                         <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>이름</th>
-                            <th>이메일</th>
-                            <th>등록차량</th>
-                            <th>연락처</th>
-                            <th>주소</th>
-                            <th>회원타입</th>
-                            <th>관리</th>
-                        </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>이름</th>
+                                <th>기사번호</th>
+                                <th>배차차량</th>
+                                <th>연락처</th>
+                                <th>이메일</th>
+                                <th>주소</th>
+                                <th>회원타입</th>
+                                <th>관리</th>
+                            </tr>
                         </tfoot>
                         <tbody>
                         <tr th:each="member : ${members}" th:id="${member.id}" class="user-recode">
                             <td th:text="${member.id}"></td>
+                            <td th:text="${member.name}"></td>
                             <td th:text="${member.userName}"></td>
-                            <td th:text="${member.email}"></td>
                             <td th:text="${member.car_id}"></td>
                             <td th:text="${member.phone_number}"></td>
+                            <td th:text="${member.email}"></td>
                             <td th:text="${member.address}"></td>
                             <td th:text="${member.type}"></td>
                             <td>

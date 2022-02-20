@@ -26,4 +26,9 @@ public class Pump {
     @Column(name = "state")
     private Long state;
 
+//    @ManyToOne
+//    @JoinColumn(name = "station_id")
+    @Column(name = "station_id")
+    private Long stationId;
+
 }

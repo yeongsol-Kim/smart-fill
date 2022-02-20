@@ -1,16 +1,23 @@
 package com.smartf.comu.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Table(name = "users")
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Member implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +25,7 @@ public class Member implements UserDetails {
     private String email;
     @Column(name="username")
     private String userName;
+    private String name;
     private String car_id;
     private String phone_number;
     private String address;
@@ -25,6 +33,15 @@ public class Member implements UserDetails {
     private String picture;
     private String password;
     private String auth;
+    private OffsetDateTime datetime;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getAuth() {
         return auth;
@@ -100,6 +117,14 @@ public class Member implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public OffsetDateTime getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(OffsetDateTime datetime) {
+        this.datetime = datetime;
     }
 
     @Override

@@ -7,8 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,28 +24,52 @@ import java.util.Optional;
 public class MemberService implements UserDetailsService {
 
     private final SpringDataJpaMemberRepository memberRepository;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public MemberService(SpringDataJpaMemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
     public Long save(MemberInfoDto infoDto) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         infoDto.setPassword(encoder.encode(infoDto.getPassword()));
 
-        Member member = new Member();
-        member.setUserName(infoDto.getUsername());
-        member.setEmail(infoDto.getEmail());
-        member.setAuth(infoDto.getAuth());
-        member.setPassword("{bcrypt}" + infoDto.getPassword());
+        Member member = Member.builder()
+                .name(infoDto.getUsername())
+                .email(infoDto.getEmail())
+                .auth(infoDto.getAuth())
+                .password("{bcrypt}" + infoDto.getPassword())
+                .build();
 
         return memberRepository.save(member).getId();
     }
 
     // 회원가입
-    public Long join(Member member) {
+    public Long join(MemberInfoDto memberInfo) throws IOException {
         //중복 이름 회원 차단
         //validateDuplicateMember(member);
+        Member member = Member.builder()
+                .name(memberInfo.getName())
+                .userName(memberInfo.getUsername())
+                .email(memberInfo.getEmail())
+                .phone_number(memberInfo.getPhoneNumber())
+                .address(memberInfo.getAddress())
+                .password(encoder.encode(memberInfo.getPassword()))
+                .type(1)
+                .datetime(OffsetDateTime.now())
+                .build();
+
+        MultipartFile file = memberInfo.getFile();
+
+        String dasePath = "C:/Users/W21236/Documents/boiler-plate/hello-spring/src/main/resources/static/uploadUserProfiles/"; //자신의 로컬 저장소
+        String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));; // 파일 확장자
+        String saveFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")); // 저장할 파일 이름 (현재 시간)
+        String downloadPath = dasePath + saveFileName + ext;
+
+        file.transferTo(new File(downloadPath));
+
+        member.setPicture(saveFileName + ext);
+
         memberRepository.save(member);
         return member.getId();
     }
@@ -65,8 +96,8 @@ public class MemberService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Member member = memberRepository.findByUserName(username);
 
         return member;
     }
