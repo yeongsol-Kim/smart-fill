@@ -11,6 +11,15 @@ public class MemberInfoDto {
     private String address;
     private String phoneNumber;
     private MultipartFile file;
+    private Long activated;
+
+    public Long getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Long activated) {
+        this.activated = activated;
+    }
 
     public String getUsername() {
         return username;

@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -22,11 +24,17 @@ public class LogController {
         return ResponseEntity.ok(logService.addLog(logDto));
     }
 
-    @GetMapping("/fill-logs/members/{memberId}")
-    public ResponseEntity<LogDto> findByMembers(@PathVariable Long memberId) {
-        LogDto log = logService.findByMemberId(memberId);
+    @GetMapping("/fill-logs/users")
+    public Collection<Log> getMyLogs() {
+        Collection<Log> log = logService.getMyLogs();
 
-        return ResponseEntity.ok(log);
-        //return ResponseEntity.ok(log);
+        return log;
+    }
+
+    @GetMapping("/fill-logs/users/{username}")
+    public Collection<Log> findByMembers(@PathVariable String username) {
+        Collection<Log> log = logService.getLogs(username);
+
+        return log;
     }
 }

@@ -24,8 +24,6 @@ public class LogDto {
     //@NotNull
     private OffsetDateTime datetime;
 
-    private Long userId;
-
     private Long pumpId;
 
     private Long amount;
@@ -35,6 +33,8 @@ public class LogDto {
     private String carNumber;
 
     private String username;
+
+    private String nickname;
 
     private String branchName;
 
@@ -60,6 +60,7 @@ public class LogDto {
                 .branchAddress(log.getBranchAddress())
                 .branchTEL(log.getBranchTEL())
                 .username(log.getUsername())
+                .nickname(log.getNickname())
                 .approvalNumber(log.getApprovalNumber())
                 .pumpNumber(log.getPumpNumber())
                 .product(log.getProduct())

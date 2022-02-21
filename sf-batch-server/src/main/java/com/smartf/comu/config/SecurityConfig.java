@@ -3,24 +3,28 @@ package com.smartf.comu.config;
 import com.smartf.comu.handler.AuthFailureHandler;
 import com.smartf.comu.handler.AuthSuccessHandler;
 import com.smartf.comu.service.MemberService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final MemberService memberService;
     private final AuthSuccessHandler authSuccessHandler;
     private final AuthFailureHandler authFailureHandler;
 
-    public SecurityConfig(MemberService memberService, AuthSuccessHandler authSuccessHandler, AuthFailureHandler authFailureHandler) {
-        this.memberService = memberService;
+    public SecurityConfig(AuthSuccessHandler authSuccessHandler, AuthFailureHandler authFailureHandler) {
         this.authSuccessHandler = authSuccessHandler;
         this.authFailureHandler = authFailureHandler;
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
 
 
     @Override
@@ -54,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .alwaysRemember(false)
                 .tokenValiditySeconds(3600)
                 .rememberMeParameter("remember-me");
-        ;
+
     }
 }
 

@@ -3,6 +3,7 @@ package com.smartf.comu.controller;
 import com.smartf.comu.domain.Member;
 import com.smartf.comu.dto.MemberInfoDto;
 import com.smartf.comu.service.MemberService;
+import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,8 @@ public class MemberController {
     @PostMapping("/members/new")
     public String create(MemberInfoDto form) throws IOException {
 
-        memberService.join(form);
+        memberService.addDriver(form);
+
 
         return "redirect:/members";
     }

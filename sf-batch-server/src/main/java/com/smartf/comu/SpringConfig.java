@@ -7,7 +7,6 @@ import com.smartf.comu.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SpringConfig {
@@ -22,10 +21,10 @@ public class SpringConfig {
         this.carRepository = carRepository;
     }
 
-    @Bean
-    public MemberService memberService() {
-        return new MemberService(memberRepository);
-    }
+//    @Bean
+//    public MemberService memberService() {
+//        return new MemberService(memberRepository, passwordEncoder);
+//    }
 
     @Bean
     public CarService carService() {

@@ -34,6 +34,15 @@ public class Member implements UserDetails {
     private String password;
     private String auth;
     private OffsetDateTime datetime;
+    private Long activated;
+
+    public Long getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Long activated) {
+        this.activated = activated;
+    }
 
     public String getName() {
         return name;

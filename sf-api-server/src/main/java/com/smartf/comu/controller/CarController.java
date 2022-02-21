@@ -15,7 +15,7 @@ public class CarController {
     }
 
 
-    @GetMapping("/cars/number/{number}")
+    @GetMapping("/cars/numbers/{number}")
     public ResponseEntity<Boolean> isCar(@PathVariable Long number) {
         boolean isCar = carService.isRegistrationCar(number);
         if (isCar) {

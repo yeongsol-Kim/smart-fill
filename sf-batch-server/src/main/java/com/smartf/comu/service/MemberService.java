@@ -6,8 +6,8 @@ import com.smartf.comu.repository.SpringDataJpaMemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,33 +19,35 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+
+@Service
 @Transactional
-//@Service
 public class MemberService implements UserDetailsService {
 
     private final SpringDataJpaMemberRepository memberRepository;
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
 
-    public MemberService(SpringDataJpaMemberRepository memberRepository) {
+    public MemberService(SpringDataJpaMemberRepository memberRepository, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Long save(MemberInfoDto infoDto) {
 
-        infoDto.setPassword(encoder.encode(infoDto.getPassword()));
+        infoDto.setPassword(passwordEncoder.encode(infoDto.getPassword()));
 
         Member member = Member.builder()
-                .name(infoDto.getUsername())
+                .userName(infoDto.getUsername())
                 .email(infoDto.getEmail())
                 .auth(infoDto.getAuth())
-                .password("{bcrypt}" + infoDto.getPassword())
+                .password(infoDto.getPassword())
                 .build();
 
         return memberRepository.save(member).getId();
     }
 
-    // 회원가입
-    public Long join(MemberInfoDto memberInfo) throws IOException {
+    // 기사 추가
+    public Long addDriver(MemberInfoDto memberInfo) throws IOException {
         //중복 이름 회원 차단
         //validateDuplicateMember(member);
         Member member = Member.builder()
@@ -54,9 +56,10 @@ public class MemberService implements UserDetailsService {
                 .email(memberInfo.getEmail())
                 .phone_number(memberInfo.getPhoneNumber())
                 .address(memberInfo.getAddress())
-                .password(encoder.encode(memberInfo.getPassword()))
+                .password(passwordEncoder.encode(memberInfo.getPassword()))
                 .type(1)
                 .datetime(OffsetDateTime.now())
+                .activated(1l)
                 .build();
 
         MultipartFile file = memberInfo.getFile();

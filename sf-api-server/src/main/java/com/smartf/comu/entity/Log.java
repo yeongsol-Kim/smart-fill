@@ -29,12 +29,6 @@ public class Log {
     @Column(name = "pump_id", length = 50)
     private Long pumpId;
 
-    //@ManyToOne
-    //@JoinColumn(name = "user_id")
-    @Column(name = "user_id", length = 50)
-    private Long userId;
-
-
 
     //-----------
 
@@ -64,6 +58,9 @@ public class Log {
 
     @Column(name = "username")
     private String username;
+
+    @Column(name = "nickname")
+    private String nickname;
 
     @Column(name = "car_number")
     private String carNumber;

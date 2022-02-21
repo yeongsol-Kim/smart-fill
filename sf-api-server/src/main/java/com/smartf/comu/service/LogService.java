@@ -9,9 +9,11 @@ import com.smartf.comu.repository.BranchRepository;
 import com.smartf.comu.repository.CompanyRepository;
 import com.smartf.comu.repository.LogRepository;
 import com.smartf.comu.repository.PumpRepository;
+import com.smartf.comu.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.Set;
 
 @Service
 public class LogService {
@@ -34,11 +36,11 @@ public class LogService {
         CompanyDto company = CompanyDto.from(companyRepository.findById(branch.getCompanyId()).orElse(null));
 
         Log log = Log.builder()
-                .userId(logDto.getUserId())
                 .pumpId(logDto.getPumpId())
                 .carNumber(logDto.getCarNumber())
                 .amount(logDto.getAmount())
                 .username(logDto.getUsername())
+                .nickname(logDto.getNickname())
                 .pumpNumber(pump.getNumber())
                 .branchName(branch.getName())
                 .branchCeo(company.getCeo())
@@ -51,7 +53,12 @@ public class LogService {
         return LogDto.from(logRepository.save(log));
     }
 
-    public LogDto findByMemberId(Long memberId) {
-        return LogDto.from(logRepository.findWithPumpsByUserId(memberId).orElse(null));
+    public Set<Log> getLogs(String username) {
+        return logRepository.findWithPumpsByUsername(username);
     }
+
+    public Set<Log> getMyLogs() {
+        return logRepository.findWithPumpsByUsername(SecurityUtil.getCurrentUsername().orElse(null));
+    }
+
 }
