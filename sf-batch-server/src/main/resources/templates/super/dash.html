@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<th:block layout:fragment="css">
+
+</th:block>
+
+<th:block layout:fragment="script">
+
+</th:block>
+
+<th:block layout:fragment="content">
+    <div class="block">
+        <form action="company/new" method="post">
+            <h5>회사</h5>
+            <input type="text" name="name">
+            <input type="text" name="ceo">
+            <input type="text" name="tel">
+            <input type="text" name="address">
+        </form>
+    </div>
+</th:block>
+</html>

@@ -9,9 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Table(name = "users")
 @Entity
@@ -29,12 +27,35 @@ public class Member implements UserDetails {
     private String car_id;
     private String phone_number;
     private String address;
-    private Integer type;
+    private Long type;
     private String picture;
     private String password;
     private String auth;
     private OffsetDateTime datetime;
+    @Column(name="branch_id")
+    private Long branchId;
     private Long activated;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
+
+
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public Long getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
+    }
 
     public Long getActivated() {
         return activated;
@@ -108,11 +129,11 @@ public class Member implements UserDetails {
         this.car_id = car_id;
     }
 
-    public Integer getType() {
+    public Long getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(Long type) {
         this.type = type;
     }
 
@@ -140,12 +161,18 @@ public class Member implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 //        Collection < GrantedAuthority > collectors = new ArrayList<>();
 //        collectors.add(() -> {
-//            return "계정별 등록할 권한";
+//            return authorities.toString();
 //        });
+//        System.out.println(authorities.toString());
 //        return collectors;
         Set<GrantedAuthority> roles = new HashSet<>();
-        for(String role : auth.split(",")) {
-            roles.add(new SimpleGrantedAuthority(role));
+//        for(String role : auth.split(",")) {
+//            roles.add(new SimpleGrantedAuthority(role));
+//        }
+        //System.out.println(authorities.toString());
+        Iterator<Authority> iterator = authorities.iterator();
+        while (iterator.hasNext()) {
+            roles.add(new SimpleGrantedAuthority(iterator.next().getAuthorityName()));
         }
         return roles;
     }

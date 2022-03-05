@@ -8,8 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DashboardController {
 
 
-    @GetMapping("/")
+    @GetMapping("/das")
     public String dashboard(Model model) {
         return "dashboard/register_place";
     }
+
+    @GetMapping("/super")
+    public String superDash(Model model) {
+        return "super/register_place";
+    }
+
 }

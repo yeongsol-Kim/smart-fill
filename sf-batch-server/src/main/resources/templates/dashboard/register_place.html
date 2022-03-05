@@ -132,12 +132,122 @@
             padding-top:30px;
         }
 
+        .table-responsive {
+            max-height: 300px;
+        }
+        .table td {
+            padding: .2rem;
+        }
+        .tank {
+            min-height:300px;
+            border: 2px solid #888888;
+            border-radius: 1rem;
+        }
+        .progress {
+            width: 12px;
+            height: 100%;
+            background-color: #eaecf4;
+            border-radius: .5rem;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+        .progress-bar {
+            height: 60%;
+            width: 1rem;
+            background-color: #4e73df;
+            overflow:hidden;
+            bottom: 0px;
+        }
+
     </style>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        $(function(){
+            $("#sel-reservoir").on('change', function() {
+                $(".reservoir").addClass("d-none");
+                $("#reservoir-" + $(this).val()).removeClass("d-none");
+            })
+        })
+    </script>
 </th:block>
 
 
 <th:block layout:fragment="content">
     <!-- Begin Page Content -->
+    <div class="container-fluid">
+        <!-- DataTales Example -->
+        <div class="row">
+<!--            로그 조회 -->
+            <div class=" col-xl-8">
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>기사번호</th>
+                                        <th>날짜</th>
+                                        <th>차량번호</th>
+                                        <th>시간</th>
+                                        <th>종류</th>
+                                        <th>사용량</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="log : ${fillLogs}">
+                                        <td th:text="${log.username}"></td>
+                                        <td th:text="${#temporals.format(log.datetime, 'yyyy/MM/dd')}"></td>
+                                        <td th:text="${log.carNumber}"></td>
+                                        <td th:text="${#temporals.format(log.datetime, 'hh:mm:ss')}"></td>
+                                        <td th:text="${log.product}"></td>
+                                        <td th:text="${log.amount}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="search-date">
+                            <input type="date"> ~
+                            <input type="date">
+                            <input type="button" class="btn btn-primary" value="조회">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!--            요소수 잔량 확인 -->
+            <div class="col-xl-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <select id="sel-reservoir" class="form-control" >
+                            <option th:each="reservoir : ${reservoirs}" th:text="${reservoir.reservoirName}" th:value="${reservoir.id}"></option>
+                        </select>
+                    </div>
+                    <div th:each="reservoir, index : ${reservoirs}" th:id="'reservoir-' + ${reservoir.id}" class="card-body reservoir"  th:classappend="${index.index > 0 ? 'd-none' : ''}">
+                        <div class="row">
+                            <div class="tank col-4 p-4">
+                                <div class="progress" style="bottom">
+                                    <div class="progress-bar" style="overflow: hidden: "></div>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <form action="/reservoir/put" method="post">
+                                    <input type="number" placeholder="입고할 양을 입력하세요" name="amount" class="form-control mb-2" value="입고">
+                                    <input type="hidden" name="id" th:value="${reservoir.id}">
+                                    <input type="submit" class="btn btn-info form-control mb-4" value="입고">
+                                </form>
+                                <div class="text-right">
+                                    <div class="h5" th:text="'MAX ' + ${reservoir.fuelMax} + 'L'">MAX  ---</div>
+                                    <div class="h6" th:text="${reservoir.fuelLevel} + 'L'">---</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card">
         <!--        상단-->
         <div class="container_row">
@@ -297,4 +407,5 @@
         </div>
     </div>
 </th:block>
+
 </html>

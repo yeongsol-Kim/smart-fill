@@ -34,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .authorizeRequests()
                     .antMatchers("/login", "/register", "/signup", "/js/**", "/css/**", "/vender/**", "/img/**").permitAll()
-                    .anyRequest().authenticated()
+                    //.anyRequest().authenticated()
+                    .anyRequest().hasRole("ADMIN")
             .and()
                 .formLogin()
                     .loginPage("/login")
@@ -46,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .logoutSuccessUrl("/login")
                     .invalidateHttpSession(true) // 인증정보 삭제, 세션 무효화
-                    .deleteCookies("JSESSIONID", "remember-me")
+                    //.deleteCookies("JSESSIONID", "remember-me")
                     .permitAll()
             .and()
                 .sessionManagement()
@@ -54,10 +55,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .maxSessionsPreventsLogin(false) // true=중복 로그인 금지, flase=이전 로그인 세션 해제
                     .expiredUrl("/login")// 세션 만료시 이동
                 .and()
-            .and().rememberMe()
-                .alwaysRemember(false)
-                .tokenValiditySeconds(3600)
-                .rememberMeParameter("remember-me");
+//            .and().rememberMe()
+//                .alwaysRemember(false)
+//                .tokenValiditySeconds(3600)
+//                .rememberMeParameter("remember-me");
+        ;
 
     }
 }

@@ -2,8 +2,6 @@ package com.smartf.comu;
 
 import com.smartf.comu.repository.*;
 import com.smartf.comu.service.CarService;
-import com.smartf.comu.service.FillLogService;
-import com.smartf.comu.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +11,14 @@ public class SpringConfig {
 
     private final SpringDataJpaMemberRepository memberRepository;
     private final SpringDataJpaCarRepository carRepository;
+    private final FillLogRepository fillLogRepository;
 
     @Autowired
-    public SpringConfig(SpringDataJpaMemberRepository memberRepository, SpringDataJpaCarRepository carRepository) {
+    public SpringConfig(SpringDataJpaMemberRepository memberRepository, SpringDataJpaCarRepository carRepository, FillLogRepository fillLogRepository) {
         this.memberRepository = memberRepository;
         //this.carRepository = null;
         this.carRepository = carRepository;
+        this.fillLogRepository = fillLogRepository;
     }
 
 //    @Bean
@@ -31,13 +31,13 @@ public class SpringConfig {
         return new CarService(carRepository);
     }
 
-    @Bean
-    public FillLogService fillLogService() {
-        return new FillLogService(fillLogRepository());
-    }
+//    @Bean
+//    public FillLogService fillLogService() {
+//        return new FillLogService(fillLogRepository());
+//    }
 
-    public FillLogRepository fillLogRepository() {
-        return new MemoryFillLogRepository();
-    }
+//    public FillLogRepository fillLogRepository() {
+//        return new MemoryFillLogRepository();
+//    }
 
 }

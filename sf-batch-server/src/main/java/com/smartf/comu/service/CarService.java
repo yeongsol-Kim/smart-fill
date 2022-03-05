@@ -2,6 +2,7 @@ package com.smartf.comu.service;
 
 import com.smartf.comu.domain.Car;
 import com.smartf.comu.repository.SpringDataJpaCarRepository;
+import com.smartf.comu.util.SecurityUtil;
 
 import java.util.List;
 
@@ -15,6 +16,11 @@ public class CarService {
 
     public List<Car> findCars() {
         return carRepository.findAll();
+    }
+
+    public List<Car> getMyBranchCarList() {
+        Long branchId = SecurityUtil.getCurrentBranchId().orElse(null);
+        return carRepository.findByBranchId(branchId);
     }
 
     public Long insert(Car car) {

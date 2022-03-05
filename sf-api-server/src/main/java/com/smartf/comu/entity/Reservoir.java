@@ -7,12 +7,12 @@ import lombok.Setter;
 
 import javax.persistence.*;
 @Entity
-@Table(name = "stations")
+@Table(name = "reservoir")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Station {
+public class Reservoir {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

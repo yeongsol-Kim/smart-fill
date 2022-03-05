@@ -12,6 +12,7 @@ import com.smartf.comu.repository.PumpRepository;
 import com.smartf.comu.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Set;
 
@@ -32,7 +33,6 @@ public class LogService {
     public LogDto addLog(LogDto logDto) {
         PumpDto pump = PumpDto.from(pumpRepository.findById(logDto.getPumpId()).orElse(null));
         BranchDto branch = BranchDto.from(branchRepository.findById(logDto.getBranchId()).orElse(null));
-        System.out.println(branch.getCompanyId());
         CompanyDto company = CompanyDto.from(companyRepository.findById(branch.getCompanyId()).orElse(null));
 
         Log log = Log.builder()
@@ -42,11 +42,12 @@ public class LogService {
                 .username(logDto.getUsername())
                 .nickname(logDto.getNickname())
                 .pumpNumber(pump.getNumber())
+                .branchId(logDto.getBranchId())
                 .branchName(branch.getName())
                 .branchCeo(company.getCeo())
                 .branchAddress(company.getAddress())
                 .branchTEL(company.getTel())
-                .dateTime(OffsetDateTime.now())
+                .datetime(LocalDateTime.now())
                 .product("요소수")
                 .build();
 

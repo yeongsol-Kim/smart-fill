@@ -1,8 +1,10 @@
 package com.smartf.comu.service;
 
+import com.smartf.comu.domain.Authority;
 import com.smartf.comu.domain.Member;
 import com.smartf.comu.dto.MemberInfoDto;
 import com.smartf.comu.repository.SpringDataJpaMemberRepository;
+import com.smartf.comu.util.SecurityUtil;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +53,11 @@ public class MemberService implements UserDetailsService {
     public Long addDriver(MemberInfoDto memberInfo) throws IOException {
         //중복 이름 회원 차단
         //validateDuplicateMember(member);
+
+        Authority authority = Authority.builder()
+                .authorityName("ROLE_USER")
+                .build();
+
         Member member = Member.builder()
                 .name(memberInfo.getName())
                 .userName(memberInfo.getUsername())
@@ -57,8 +65,9 @@ public class MemberService implements UserDetailsService {
                 .phone_number(memberInfo.getPhoneNumber())
                 .address(memberInfo.getAddress())
                 .password(passwordEncoder.encode(memberInfo.getPassword()))
-                .type(1)
+                .type(1L)
                 .datetime(OffsetDateTime.now())
+                .authorities(Collections.singleton(authority))
                 .activated(1l)
                 .build();
 
@@ -87,6 +96,12 @@ public class MemberService implements UserDetailsService {
     // 전체 회원 조회
     public List<Member> findMembers() {
         return memberRepository.findAll();
+    }
+
+    // 해당 회사 회원 조회
+    public List<Member> findMyBranchMembers() {
+        Long id = SecurityUtil.getCurrentBranchId().orElse(null);
+        return memberRepository.findByBranchIdAndType(id, 1L);
     }
 
     // 회원 아이디로 조회

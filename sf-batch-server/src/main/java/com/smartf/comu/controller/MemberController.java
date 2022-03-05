@@ -30,9 +30,19 @@ public class MemberController {
     }
 
 
+
+    //슈퍼관리자만 가능
+    @GetMapping("/members/all")
+    public String listAll(Model model) {
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members);
+        return "members/memberList";
+    }
+
+    //로그인 회사 지점의 기사 리스트
     @GetMapping("/members")
     public String list(Model model) {
-        List<Member> members = memberService.findMembers();
+        List<Member> members = memberService.findMyBranchMembers();
         model.addAttribute("members", members);
         return "members/memberList";
     }

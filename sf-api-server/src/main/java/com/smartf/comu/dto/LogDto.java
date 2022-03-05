@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class LogDto {
 
 
     //@NotNull
-    private OffsetDateTime datetime;
+    private LocalDateTime datetime;
 
     private Long pumpId;
 
@@ -65,7 +66,7 @@ public class LogDto {
                 .pumpNumber(log.getPumpNumber())
                 .product(log.getProduct())
                 .amount(log.getAmount())
-                .datetime(log.getDateTime())
+                .datetime(log.getDatetime())
                 .pumpId(log.getPumpId())
                 .carNumber(log.getCarNumber())
                 .build();

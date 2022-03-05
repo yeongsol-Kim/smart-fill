@@ -13,6 +13,9 @@ public class Car {
     private String car_type;
     private Long registration_number;
 
+    @Column(name = "branchId")
+    private Long branchId;
+
     public Long getId() {
         return id;
     }

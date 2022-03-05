@@ -21,7 +21,7 @@ public class CarController {
 
     @GetMapping("/cars")
     public String carList(Model model) {
-        List<Car> cars = carService.findCars();
+        List<Car> cars = carService.getMyBranchCarList();
         model.addAttribute("cars", cars);
         return "cars/carList";
     }

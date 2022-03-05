@@ -1,4 +1,4 @@
-package com.smartf.comu.entity;
+package com.smartf.comu.domain;
 
 
 import lombok.*;
@@ -21,7 +21,7 @@ public class Log {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "datetime")
+    @Column(name = "datetime", length = 50)
     private LocalDateTime datetime;
 
 //    @ManyToOne
@@ -29,8 +29,8 @@ public class Log {
     @Column(name = "pump_id", length = 50)
     private Long pumpId;
 
-
     //-----------
+
     @Column(name = "branch_id")
     private Long branchId;
 
