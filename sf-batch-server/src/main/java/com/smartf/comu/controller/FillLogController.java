@@ -1,14 +1,19 @@
 package com.smartf.comu.controller;
 
+import com.smartf.comu.domain.Admin;
+import com.smartf.comu.domain.Branch;
 import com.smartf.comu.domain.Log;
 import com.smartf.comu.domain.Reservoir;
 import com.smartf.comu.dto.ReservoirDto;
+import com.smartf.comu.service.CompanyAdminService;
 import com.smartf.comu.service.FillLogService;
 import com.smartf.comu.service.ReservoirService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -17,17 +22,37 @@ import java.util.List;
 public class FillLogController {
     private final FillLogService fillLogService;
     private final ReservoirService reservoirService;
+    private final CompanyAdminService companyAdminService;
 
     @Autowired
-    public FillLogController(FillLogService fillLogService, ReservoirService reservoirService) {
+    public FillLogController(FillLogService fillLogService, ReservoirService reservoirService, CompanyAdminService companyAdminService) {
         this.fillLogService = fillLogService;
         this.reservoirService = reservoirService;
+        this.companyAdminService = companyAdminService;
     }
 
 
     @GetMapping("/")
-    public String dashboard(Model model) {
-        List<Log> fillLogs = fillLogService.getMyBranchLogs();
+    public String dashboard(Model model, Authentication authentication) {
+        if (authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+            List<Branch> branches = companyAdminService.getMyBranches();
+            model.addAttribute("branches", branches);
+            return "company/demo";
+        } else {
+            List<Log> fillLogs = fillLogService.getMyBranchLogs();
+            List<Reservoir> reservoirs = reservoirService.getMyReservoir();
+            model.addAttribute("fillLogs", fillLogs);
+            model.addAttribute("reservoirs", reservoirs);
+            return "dashboard/register_place";
+        }
+
+    }
+
+
+    // 미완성---
+    @GetMapping("/dashboard/{branchId}")
+    public String dashboardById(@PathVariable Long id, Model model) {
+        List<Log> fillLogs = fillLogService.getLogsByBranchId(id);
         List<Reservoir> reservoirs = reservoirService.getMyReservoir();
         model.addAttribute("fillLogs", fillLogs);
         model.addAttribute("reservoirs", reservoirs);
@@ -39,26 +64,5 @@ public class FillLogController {
         reservoirService.putReservoir(reservoirDto);
         return "redirect:/";
     }
-
-//    @GetMapping("/fillLogs")
-//    public String fillLogList(Model model) {
-//        List<FillLog> fillLogs = fillLogService.findFillLogs();
-//        model.addAttribute("fillLogs", fillLogs);
-//        return "fillLogs/fillLogList";
-//    }
-//
-//    @GetMapping("/fillLogs/test")
-//    public String memberSampleData() {
-//        FillLog fillLog1 = new FillLog(1L,1L ,13L ,1L);
-//        fillLogService.join(fillLog1);
-//
-//        FillLog fillLog2 = new FillLog(2L,1L ,26L ,1L);
-//        fillLogService.join(fillLog2);
-//
-//        FillLog fillLog3 = new FillLog(3L,1L ,34L ,1L);
-//        fillLogService.join(fillLog3);
-//
-//        return "redirect:/";
-//    }
 
 }

@@ -1,5 +1,6 @@
 package com.smartf.comu.util;
 
+import com.smartf.comu.domain.Admin;
 import com.smartf.comu.domain.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class SecurityUtil {
         return Optional.ofNullable(id);
     }
 
-    public static Optional<Long> getCurrentBranchId() {
+    public static Optional<Long> getCurrentDependentId() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null) {
@@ -45,12 +46,13 @@ public class SecurityUtil {
 
         Long id = null;
         if (authentication.getPrincipal() instanceof UserDetails) {
-            Member springSecurityUser = (Member) authentication.getPrincipal();
-            id = springSecurityUser.getBranchId();
+            Admin springSecurityUser = (Admin) authentication.getPrincipal();
+            id = springSecurityUser.getDependentId();
         } else if (authentication.getPrincipal() instanceof Long) {
             id = (Long) authentication.getPrincipal();
         }
 
         return Optional.ofNullable(id);
     }
+
 }

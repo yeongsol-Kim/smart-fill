@@ -22,7 +22,7 @@ public class ReservoirService {
 
 
     public List<Reservoir> getMyReservoir() {
-        Long id = SecurityUtil.getCurrentBranchId().orElse(null);
+        Long id = SecurityUtil.getCurrentDependentId().orElse(null);
         return reservoirRepository.findByBranchId(id);
     }
 

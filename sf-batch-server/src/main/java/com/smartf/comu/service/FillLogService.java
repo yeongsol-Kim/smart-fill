@@ -27,8 +27,12 @@ public class FillLogService {
         return fillLogRepository.findAll();
     }
 
+    public List<Log> getLogsByBranchId(Long branchId) {
+        return fillLogRepository.findByBranchId(branchId);
+    }
+
     public List<Log> getMyBranchLogs() {
-        Long id = SecurityUtil.getCurrentBranchId().orElse(null);
+        Long id = SecurityUtil.getCurrentDependentId().orElse(null);
         return fillLogRepository.findByBranchId(id);
     }
 }

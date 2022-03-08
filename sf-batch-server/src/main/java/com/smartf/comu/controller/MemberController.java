@@ -30,7 +30,6 @@ public class MemberController {
     }
 
 
-
     //슈퍼관리자만 가능
     @GetMapping("/members/all")
     public String listAll(Model model) {

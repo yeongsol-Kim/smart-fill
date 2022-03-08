@@ -19,7 +19,7 @@ public class CarService {
     }
 
     public List<Car> getMyBranchCarList() {
-        Long branchId = SecurityUtil.getCurrentBranchId().orElse(null);
+        Long branchId = SecurityUtil.getCurrentDependentId().orElse(null);
         return carRepository.findByBranchId(branchId);
     }
 

@@ -7,7 +7,6 @@ public class MemberInfoDto {
     private String name;
     private String email;
     private String password;
-    private String auth;
     private String address;
     private String phoneNumber;
     private MultipartFile file;
@@ -51,14 +50,6 @@ public class MemberInfoDto {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getAuth() {
-        return auth;
-    }
-
-    public void setAuth(String auth) {
-        this.auth = auth;
     }
 
     public String getAddress() {

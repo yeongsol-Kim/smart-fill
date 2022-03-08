@@ -2,8 +2,10 @@ package com.smartf.comu.service;
 
 import com.smartf.comu.domain.Authority;
 import com.smartf.comu.domain.Member;
+import com.smartf.comu.domain.UserAuthority;
 import com.smartf.comu.dto.MemberInfoDto;
 import com.smartf.comu.repository.SpringDataJpaMemberRepository;
+import com.smartf.comu.repository.UserAuthorityRepository;
 import com.smartf.comu.util.SecurityUtil;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,13 +27,15 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MemberService implements UserDetailsService {
+public class MemberService {
 
     private final SpringDataJpaMemberRepository memberRepository;
+    private final UserAuthorityRepository userAuthorityRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public MemberService(SpringDataJpaMemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+    public MemberService(SpringDataJpaMemberRepository memberRepository, UserAuthorityRepository userAuthorityRepository, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
+        this.userAuthorityRepository = userAuthorityRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -42,9 +46,16 @@ public class MemberService implements UserDetailsService {
         Member member = Member.builder()
                 .userName(infoDto.getUsername())
                 .email(infoDto.getEmail())
-                .auth(infoDto.getAuth())
                 .password(infoDto.getPassword())
                 .build();
+
+        UserAuthority userAuthority = UserAuthority.builder()
+                .userId(memberRepository.save(member).getId())
+                .authorityName("ROLE_ADMIN")
+                .build();
+
+        userAuthorityRepository.save(userAuthority);
+
 
         return memberRepository.save(member).getId();
     }
@@ -100,7 +111,7 @@ public class MemberService implements UserDetailsService {
 
     // 해당 회사 회원 조회
     public List<Member> findMyBranchMembers() {
-        Long id = SecurityUtil.getCurrentBranchId().orElse(null);
+        Long id = SecurityUtil.getCurrentDependentId().orElse(null);
         return memberRepository.findByBranchIdAndType(id, 1L);
     }
 
@@ -113,10 +124,10 @@ public class MemberService implements UserDetailsService {
         memberRepository.deleteById(id);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findByUserName(username);
-
-        return member;
-    }
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        Member member = memberRepository.findByUserName(username);
+//
+//        return member;
+//    }
 }

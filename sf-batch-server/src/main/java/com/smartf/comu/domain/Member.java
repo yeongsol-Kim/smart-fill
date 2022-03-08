@@ -16,7 +16,7 @@ import java.util.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member implements UserDetails {
+public class Member{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +30,6 @@ public class Member implements UserDetails {
     private Long type;
     private String picture;
     private String password;
-    private String auth;
     private OffsetDateTime datetime;
     @Column(name="branch_id")
     private Long branchId;
@@ -71,14 +70,6 @@ public class Member implements UserDetails {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAuth() {
-        return auth;
-    }
-
-    public void setAuth(String auth) {
-        this.auth = auth;
     }
 
     public String getPicture() {
@@ -157,53 +148,44 @@ public class Member implements UserDetails {
         this.datetime = datetime;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        Collection < GrantedAuthority > collectors = new ArrayList<>();
-//        collectors.add(() -> {
-//            return authorities.toString();
-//        });
-//        System.out.println(authorities.toString());
-//        return collectors;
-        Set<GrantedAuthority> roles = new HashSet<>();
-//        for(String role : auth.split(",")) {
-//            roles.add(new SimpleGrantedAuthority(role));
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        Set<GrantedAuthority> roles = new HashSet<>();
+//
+//        Iterator<Authority> iterator = authorities.iterator();
+//        while (iterator.hasNext()) {
+//            roles.add(new SimpleGrantedAuthority(iterator.next().getAuthorityName()));
 //        }
-        //System.out.println(authorities.toString());
-        Iterator<Authority> iterator = authorities.iterator();
-        while (iterator.hasNext()) {
-            roles.add(new SimpleGrantedAuthority(iterator.next().getAuthorityName()));
-        }
-        return roles;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+//        return roles;
+//    }
+//
+//    @Override
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return email;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 }
