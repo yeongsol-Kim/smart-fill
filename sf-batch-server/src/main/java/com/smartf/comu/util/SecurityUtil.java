@@ -27,7 +27,7 @@ public class SecurityUtil {
 
         Long id = null;
         if (authentication.getPrincipal() instanceof UserDetails) {
-            Member springSecurityUser = (Member) authentication.getPrincipal();
+            Admin springSecurityUser = (Admin) authentication.getPrincipal();
             id = springSecurityUser.getId();
         } else if (authentication.getPrincipal() instanceof Long) {
             id = (Long) authentication.getPrincipal();

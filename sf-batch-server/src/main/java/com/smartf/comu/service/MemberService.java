@@ -70,28 +70,34 @@ public class MemberService {
                 .build();
 
         Member member = Member.builder()
-                .name(memberInfo.getName())
+
                 .userName(memberInfo.getUsername())
+                .password(passwordEncoder.encode(memberInfo.getPassword()))
+                .name(memberInfo.getName())
                 .email(memberInfo.getEmail())
                 .phone_number(memberInfo.getPhoneNumber())
                 .address(memberInfo.getAddress())
-                .password(passwordEncoder.encode(memberInfo.getPassword()))
-                .type(1L)
                 .datetime(OffsetDateTime.now())
+                .branchId(SecurityUtil.getCurrentDependentId().orElse(null))
                 .authorities(Collections.singleton(authority))
                 .activated(1l)
                 .build();
 
-        MultipartFile file = memberInfo.getFile();
+        try {
+            MultipartFile file = memberInfo.getFile();
 
-        String dasePath = "C:/Users/W21236/Documents/boiler-plate/hello-spring/src/main/resources/static/uploadUserProfiles/"; //자신의 로컬 저장소
-        String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));; // 파일 확장자
-        String saveFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")); // 저장할 파일 이름 (현재 시간)
-        String downloadPath = dasePath + saveFileName + ext;
+            String dasePath = "C:/Users/W21236/Documents/boiler-plate/hello-spring/src/main/resources/static/uploadUserProfiles/"; //자신의 로컬 저장소
+            String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));; // 파일 확장자
+            String saveFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")); // 저장할 파일 이름 (현재 시간)
+            String downloadPath = dasePath + saveFileName + ext;
 
-        file.transferTo(new File(downloadPath));
+            file.transferTo(new File(downloadPath));
 
-        member.setPicture(saveFileName + ext);
+            member.setPicture(saveFileName + ext);
+        } catch (Exception e) {
+            member.setPicture("");
+        }
+
 
         memberRepository.save(member);
         return member.getId();
@@ -112,7 +118,7 @@ public class MemberService {
     // 해당 회사 회원 조회
     public List<Member> findMyBranchMembers() {
         Long id = SecurityUtil.getCurrentDependentId().orElse(null);
-        return memberRepository.findByBranchIdAndType(id, 1L);
+        return memberRepository.findByBranchId(id);
     }
 
     // 회원 아이디로 조회

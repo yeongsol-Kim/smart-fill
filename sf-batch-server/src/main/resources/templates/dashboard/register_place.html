@@ -163,13 +163,24 @@
 </th:block>
 
 <th:block layout:fragment="script">
-    <script>
+    <script th:inline="javascript">
+
         $(function(){
+            var re = [[${reservoirs}]];
+
+            if (re != null) {
+                $("#reservoir-max").text('MAX ' + re[0].fuelMax + 'L');
+                $("#reservoir-level").text(re[0].fuelLevel + 'L');
+            }
             $("#sel-reservoir").on('change', function() {
-                $(".reservoir").addClass("d-none");
-                $("#reservoir-" + $(this).val()).removeClass("d-none");
-            })
+                var id = $("#sel-reservoir option").index("#sel-reservoir option:selected") * -1;
+
+                $("#reservoir-max").text('MAX ' + re[id].fuelMax + 'L');
+                $("#reservoir-level").text(re[id].fuelLevel + 'L');
+            });
         })
+
+        /*]]>*/
     </script>
 </th:block>
 
@@ -220,11 +231,9 @@
             <div class="col-xl-4">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <select id="sel-reservoir" class="form-control" >
-                            <option th:each="reservoir : ${reservoirs}" th:text="${reservoir.reservoirName}" th:value="${reservoir.id}"></option>
-                        </select>
+                        요소수 잔량 확인
                     </div>
-                    <div th:each="reservoir, index : ${reservoirs}" th:id="'reservoir-' + ${reservoir.id}" class="card-body reservoir"  th:classappend="${index.index > 0 ? 'd-none' : ''}">
+                    <div class="card-body reservoir">
                         <div class="row">
                             <div class="tank col-4 p-4">
                                 <div class="progress" style="bottom">
@@ -233,13 +242,15 @@
                             </div>
                             <div class="col-8">
                                 <form action="/reservoir/put" method="post">
-                                    <input type="number" placeholder="입고할 양을 입력하세요" name="amount" class="form-control mb-2" value="입고">
-                                    <input type="hidden" name="id" th:value="${reservoir.id}">
+                                    <select id="sel-reservoir" name="id">
+                                        <option th:each="reservoir, idx : ${reservoirs}" th:text="${reservoir.reservoirName}" th:id="${idx.index}" th:value="${reservoir.id}"></option>
+                                    </select>
+                                    <input type="text" placeholder="입고할 양을 입력하세요" name="amount" class="form-control mb-2" required="required">
                                     <input type="submit" class="btn btn-info form-control mb-4" value="입고">
                                 </form>
                                 <div class="text-right">
-                                    <div class="h5" th:text="'MAX ' + ${reservoir.fuelMax} + 'L'">MAX  ---</div>
-                                    <div class="h6" th:text="${reservoir.fuelLevel} + 'L'">---</div>
+                                    <div id="reservoir-max" class="h5">MAX  ---L</div>
+                                    <div id="reservoir-level" class="h6">---L</div>
                                 </div>
                             </div>
                         </div>

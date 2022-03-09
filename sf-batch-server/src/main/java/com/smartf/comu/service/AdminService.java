@@ -32,6 +32,7 @@ public class AdminService implements UserDetailsService {
 
         adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
 
+        System.out.println(adminDto.getDependentId());
         Admin admin = Admin.builder()
                 .username(adminDto.getUsername())
                 .password(adminDto.getPassword())
@@ -59,7 +60,7 @@ public class AdminService implements UserDetailsService {
         Admin admin = Admin.builder()
                 .username(adminDto.getUsername())
                 .password(adminDto.getPassword())
-                .dependentId(SecurityUtil.getCurrentDependentId().orElse(null))
+                .dependentId(adminDto.getDependentId())
                 .build();
 
         Long id = adminRepository.save(admin).getId();
