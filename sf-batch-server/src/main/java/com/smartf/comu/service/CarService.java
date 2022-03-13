@@ -1,6 +1,7 @@
 package com.smartf.comu.service;
 
 import com.smartf.comu.domain.Car;
+import com.smartf.comu.dto.CarDto;
 import com.smartf.comu.repository.SpringDataJpaCarRepository;
 import com.smartf.comu.util.SecurityUtil;
 
@@ -23,9 +24,17 @@ public class CarService {
         return carRepository.findByBranchId(branchId);
     }
 
-    public Long insert(Car car) {
+
+    public void addCar(CarDto carDto) {
+        Car car = Car.builder()
+                .carNumber(carDto.getCarNumber())
+                .carType(carDto.getCarType())
+                .years(carDto.getYears())
+                .registrationNumber(carDto.getRegistrationNumber())
+                .branchId(SecurityUtil.getCurrentDependentId().orElse(null))
+                .build();
+
         carRepository.save(car);
-        return car.getId();
     }
 
     public void deleteCar(Long id) {

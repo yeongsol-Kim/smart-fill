@@ -21,9 +21,20 @@ public class ReservoirService {
     }
 
 
-    public List<Reservoir> getMyReservoir() {
+    public List<Reservoir> getMyReservoirs() {
         Long id = SecurityUtil.getCurrentDependentId().orElse(null);
         return reservoirRepository.findByBranchId(id);
+    }
+
+    public void addReservoir(ReservoirDto reservoirDto) {
+        Reservoir reservoir = Reservoir.builder()
+                .branchId(SecurityUtil.getCurrentDependentId().orElse(null))
+                .reservoirName(reservoirDto.getReservoirName())
+                .fuelMax(reservoirDto.getFuelMax())
+                .fuelLevel(0D)
+                .build();
+
+        reservoirRepository.save(reservoir);
     }
 
     public Long putReservoir(ReservoirDto reservoirDto) {

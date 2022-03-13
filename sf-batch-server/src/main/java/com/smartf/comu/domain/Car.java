@@ -1,58 +1,35 @@
 package com.smartf.comu.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Table(name = "cars")
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Car {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
+
     @Column(name="car_number")
     private Long carNumber;
-    private Long years;
-    private String car_type;
-    private Long registration_number;
 
-    @Column(name = "branchId")
+    @Column(name="years")
+    private Long years;
+
+    @Column(name="car_type")
+    private String carType;
+
+    @Column(name="registration_number")
+    private Long registrationNumber;
+
+    @Column(name = "branch_id")
     private Long branchId;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getCarNumber() {
-        return carNumber;
-    }
-
-    public void setCarNumber(Long carNumber) {
-        this.carNumber = carNumber;
-    }
-
-    public Long getYears() {
-        return years;
-    }
-
-    public void setYears(Long years) {
-        this.years = years;
-    }
-
-    public String getCar_type() {
-        return car_type;
-    }
-
-    public void setCar_type(String car_type) {
-        this.car_type = car_type;
-    }
-
-    public Long getRegistration_number() {
-        return registration_number;
-    }
-
-    public void setRegistration_number(Long registration_number) {
-        this.registration_number = registration_number;
-    }
 }

@@ -40,7 +40,10 @@ public class FillLogController {
             return "company/demo";
         } else {
             List<Log> fillLogs = fillLogService.getMyBranchLogs();
-            List<Reservoir> reservoirs = reservoirService.getMyReservoir();
+            List<Reservoir> reservoirs = reservoirService.getMyReservoirs();
+            if (reservoirs.isEmpty()) {
+                reservoirs = null;
+            }
             model.addAttribute("fillLogs", fillLogs);
             model.addAttribute("reservoirs", reservoirs);
             return "dashboard/register_place";
@@ -53,16 +56,10 @@ public class FillLogController {
     @GetMapping("/dashboard/{branchId}")
     public String dashboardById(@PathVariable Long id, Model model) {
         List<Log> fillLogs = fillLogService.getLogsByBranchId(id);
-        List<Reservoir> reservoirs = reservoirService.getMyReservoir();
+        List<Reservoir> reservoirs = reservoirService.getMyReservoirs();
         model.addAttribute("fillLogs", fillLogs);
         model.addAttribute("reservoirs", reservoirs);
         return "dashboard/register_place";
-    }
-
-    @PostMapping("/reservoir/put")
-    public String reservoirPut(ReservoirDto reservoirDto) {
-        reservoirService.putReservoir(reservoirDto);
-        return "redirect:/";
     }
 
 }

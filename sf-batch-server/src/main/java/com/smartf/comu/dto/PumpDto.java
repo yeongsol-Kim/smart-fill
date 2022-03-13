@@ -9,13 +9,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReservoirDto {
+public class PumpDto {
 
-    private Long id;
+    private String id;
 
-    private Double amount;
+    private Long reservoirId;
 
-    private String reservoirName;
+    private Long number;
 
-    private Double fuelMax;
+    private Long branchId;
 }

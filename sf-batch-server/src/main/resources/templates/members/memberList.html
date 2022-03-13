@@ -103,7 +103,6 @@
                                 <th>연락처</th>
                                 <th>이메일</th>
                                 <th>주소</th>
-                                <th>회원타입</th>
                                 <th>관리</th>
                             </tr>
                         </thead>
@@ -116,7 +115,6 @@
                                 <th>연락처</th>
                                 <th>이메일</th>
                                 <th>주소</th>
-                                <th>회원타입</th>
                                 <th>관리</th>
                             </tr>
                         </tfoot>
@@ -129,7 +127,6 @@
                             <td th:text="${member.phone_number}"></td>
                             <td th:text="${member.email}"></td>
                             <td th:text="${member.address}"></td>
-                            <td th:text="${member.type}"></td>
                             <td>
                                 <a th:href="@{#}" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                 <a th:href="@{'/memberDelete/' + ${member.id}}" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a>

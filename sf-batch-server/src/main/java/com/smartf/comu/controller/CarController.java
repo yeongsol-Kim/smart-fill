@@ -1,6 +1,7 @@
 package com.smartf.comu.controller;
 
 import com.smartf.comu.domain.Car;
+import com.smartf.comu.dto.CarDto;
 import com.smartf.comu.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,14 +39,8 @@ public class CarController {
     }
 
     @PostMapping("/cars/new")
-    public String create(CarForm form) {
-        Car car = new Car();
-        car.setCarNumber(form.getCarNumber());
-        car.setCar_type(form.getCar_type());
-        car.setYears(form.getYears());
-        car.setRegistration_number(form.getRegistration_number());
-
-        carService.insert(car);
+    public String create(CarDto carDto) {
+        carService.addCar(carDto);
 
         return "redirect:/cars";
     }

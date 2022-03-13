@@ -152,14 +152,13 @@
             flex-direction: column-reverse;
         }
         .progress-bar {
-            height: 60%;
             width: 1rem;
             background-color: #4e73df;
             overflow:hidden;
             bottom: 0px;
         }
-
     </style>
+    <link th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet">
 </th:block>
 
 <th:block layout:fragment="script">
@@ -171,12 +170,14 @@
             if (re != null) {
                 $("#reservoir-max").text('MAX ' + re[0].fuelMax + 'L');
                 $("#reservoir-level").text(re[0].fuelLevel + 'L');
+                $(".progress-bar").css("height", (re[0].fuelLevel / re[0].fuelMax * 100) + '%');
             }
             $("#sel-reservoir").on('change', function() {
                 var id = $("#sel-reservoir option").index("#sel-reservoir option:selected") * -1;
 
                 $("#reservoir-max").text('MAX ' + re[id].fuelMax + 'L');
                 $("#reservoir-level").text(re[id].fuelLevel + 'L');
+                $(".progress-bar").css("height", (re[id].fuelLevel / re[id].fuelMax * 100) + '%');
             });
         })
 
@@ -234,14 +235,15 @@
                         요소수 잔량 확인
                     </div>
                     <div class="card-body reservoir">
-                        <div class="row">
+
+                        <div class="row" th:if="${reservoirs != null}">
                             <div class="tank col-4 p-4">
                                 <div class="progress" style="bottom">
-                                    <div class="progress-bar" style="overflow: hidden: "></div>
+                                    <div class="progress-bar" style="overflow: hidden;"></div>
                                 </div>
                             </div>
                             <div class="col-8">
-                                <form action="/reservoir/put" method="post">
+                                <form action="/reservoirs/put" method="post">
                                     <select id="sel-reservoir" name="id">
                                         <option th:each="reservoir, idx : ${reservoirs}" th:text="${reservoir.reservoirName}" th:id="${idx.index}" th:value="${reservoir.id}"></option>
                                     </select>
@@ -249,9 +251,15 @@
                                     <input type="submit" class="btn btn-info form-control mb-4" value="입고">
                                 </form>
                                 <div class="text-right">
-                                    <div id="reservoir-max" class="h5">MAX  ---L</div>
-                                    <div id="reservoir-level" class="h6">---L</div>
+                                    <div id="reservoir-max" class="h6">MAX  ---L</div>
+                                    <div id="reservoir-level" class="h5">---L</div>
                                 </div>
+                            </div>
+                        </div>
+                        <div th:unless="${reservoirs != nul}">
+                            <div class="info-blank p-20 text-center">
+                                <h4>등록된 저장조가 없습니다.</h4>
+                                <a href="/reservoirs/new" class="btn btn-primary">저장조 등록</a>
                             </div>
                         </div>
                     </div>
