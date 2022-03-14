@@ -25,7 +25,7 @@ public class LogDto {
     //@NotNull
     private LocalDateTime datetime;
 
-    private Long pumpId;
+    private String pumpId;
 
     private Long amount;
 

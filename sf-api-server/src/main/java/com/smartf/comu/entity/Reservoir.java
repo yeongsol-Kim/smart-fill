@@ -18,8 +18,11 @@ public class Reservoir {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "station_name")
-    private String stationName;
+    @Column(name = "branch_id")
+    private Long branchId;
+
+    @Column(name = "reservoir_name")
+    private String reservoirName;
 
     @Column(name = "fuel_level")
     private Double fuelLevel;

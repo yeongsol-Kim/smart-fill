@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class Pump {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
     @Column(name = "number")
     private Long number;
@@ -28,7 +28,7 @@ public class Pump {
 
 //    @ManyToOne
 //    @JoinColumn(name = "station_id")
-    @Column(name = "station_id")
-    private Long stationId;
+    @Column(name = "reservoir_id")
+    private Long reservoirId;
 
 }

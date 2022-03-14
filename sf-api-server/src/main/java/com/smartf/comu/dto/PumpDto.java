@@ -16,14 +16,15 @@ public class PumpDto {
 
     private Long state;
 
-    private Long stationId;
+    private Long reservoirId;
+
     public static PumpDto from(Pump pump) {
         if(pump == null) return null;
 
 
         return PumpDto.builder()
                 .number(pump.getNumber())
-                .stationId(pump.getStationId())
+                .reservoirId(pump.getReservoirId())
                 .build();
     }
 }

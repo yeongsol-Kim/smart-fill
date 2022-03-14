@@ -27,7 +27,7 @@ public class Log {
 //    @ManyToOne
 //    @JoinColumn(name = "pump_id")
     @Column(name = "pump_id", length = 50)
-    private Long pumpId;
+    private String pumpId;
 
 
     //-----------
