@@ -31,13 +31,11 @@ public class LogService {
 
     public LogDto addLog(LogDto logDto) {
         PumpDto pump = PumpDto.from(pumpRepository.findById(logDto.getPumpId()).orElse(null));
-        BranchDto branch = BranchDto.from(branchRepository.findById(logDto.getBranchId()).orElse(null));
+        Reservoir reservoir = reservoirRepository.findById(pump.getReservoirId()).orElse(null);
+        BranchDto branch = BranchDto.from(branchRepository.findById(reservoir.getBranchId()).orElse(null));
         CompanyDto company = CompanyDto.from(companyRepository.findById(branch.getCompanyId()).orElse(null));
 
-
-        Reservoir reservoir = reservoirRepository.findById(pump.getReservoirId()).orElse(null);
         reservoir.setFuelLevel(reservoir.getFuelLevel() - logDto.getAmount());
-
         reservoirRepository.save(reservoir);
 
         Log log = Log.builder()
@@ -47,7 +45,7 @@ public class LogService {
                 .username(logDto.getUsername())
                 .nickname(logDto.getNickname())
                 .pumpNumber(pump.getNumber())
-                .branchId(logDto.getBranchId())
+                .branchId(reservoir.getBranchId())
                 .branchName(branch.getName())
                 .branchCeo(company.getCeo())
                 .branchAddress(company.getAddress())

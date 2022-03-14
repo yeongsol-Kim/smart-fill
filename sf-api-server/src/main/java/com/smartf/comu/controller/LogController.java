@@ -4,6 +4,7 @@ import com.smartf.comu.dto.LogDto;
 import com.smartf.comu.entity.Log;
 import com.smartf.comu.service.LogService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,14 @@ public class LogController {
 
     @PostMapping("/fill-logs")
     public ResponseEntity<LogDto> addLog(@Valid @RequestBody LogDto logDto) {
+        return ResponseEntity.ok(logService.addLog(logDto));
+    }
+
+    @PostMapping("/fill-logs/users")
+    public ResponseEntity<LogDto> addMyLog(@Valid @RequestBody LogDto logDto, Authentication authentication) {
+        String userId = authentication.getName();
+        System.out.println(userId);
+        logDto.setUsername(userId);
         return ResponseEntity.ok(logService.addLog(logDto));
     }
 
