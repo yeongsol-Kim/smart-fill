@@ -5,6 +5,7 @@ import com.smartf.comu.dto.MemberInfoDto;
 import com.smartf.comu.service.MemberService;
 import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,7 @@ public class MemberController {
 
     //슈퍼관리자만 가능
     @GetMapping("/members/all")
+    @PreAuthorize("hasRole('SUPER')")
     public String listAll(Model model) {
         List<Member> members = memberService.findMembers();
         model.addAttribute("members", members);
@@ -40,6 +42,7 @@ public class MemberController {
 
     //로그인 회사 지점의 기사 리스트
     @GetMapping("/members")
+    @PreAuthorize("hasRole('BRANCH')")
     public String list(Model model) {
         List<Member> members = memberService.findMyBranchMembers();
         model.addAttribute("members", members);
@@ -48,6 +51,7 @@ public class MemberController {
 
 
     @GetMapping("/members/new")
+    @PreAuthorize("hasRole('BRANCH')")
     public String createForm() {
         return "members/createMemberForm";
     }
@@ -55,6 +59,7 @@ public class MemberController {
 
 
     @PostMapping("/members/new")
+    @PreAuthorize("hasRole('BRANCH')")
     public String create(MemberInfoDto form) throws IOException {
 
         memberService.addDriver(form);
@@ -64,6 +69,7 @@ public class MemberController {
     }
 
     @GetMapping("/memberDelete/{id}")
+    @PreAuthorize("hasRole('BRANCH')")
     public String carDelete(@PathVariable Long id) {
         memberService.deleteMember(id);
         return "redirect:/members";

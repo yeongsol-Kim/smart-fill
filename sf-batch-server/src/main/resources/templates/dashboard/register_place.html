@@ -5,75 +5,75 @@
 
 <th:block layout:fragment="css">
     <style>
-    .account-form-container{
-        padding-top:10%;
-    }
-    .register-account{
-    padding-left: 50%;
-    padding-top: 10%;
-    }
-    .account-container{
-        padding-top:5px;
-        padding-left: 33%;
-        display:flex;
-    }
-    .account-form{
-        width:100px;
-        height:40px;
-    }
-    .text1{
-    font-size: 1.25rem;
-    padding-left: 35%;
-    padding-top: 5%;
-    }
-    .text{
-    font-size: 1.25rem;
-    padding-left: 35%;
-    padding-top: 2%;
-    }
-    .graph{
-    border: 1px solid;
-    width: 30%;
-    }
-    .search{
-    border: 1px solid;
-    width: 35%;
-    }
-    .register-form{
-        width:35%;
-       border-left: groove;
-    }
-    .button-register-postion{
-        padding-left:50%;
-        padding-top:7%;
-    }
-    .register-button-top-right{
-            padding-top: 20%;
-            padding-left: 50%;
-    }
-    .button-column{
-        padding-left:20%;
-        display:grid;
-    }
-    .select-container-postion{
-        padding-top:30px;
-        padding-left:240px;
-    }
-    .inquire_container{
-    border-left: groove;
-    }
+        .account-form-container{
+            padding-top:10%;
+        }
+        .register-account{
+        padding-left: 50%;
+        padding-top: 10%;
+        }
+        .account-container{
+            padding-top:5px;
+            padding-left: 33%;
+            display:flex;
+        }
+        .account-form{
+            width:100px;
+            height:40px;
+        }
+        .text1{
+        font-size: 1.25rem;
+        padding-left: 35%;
+        padding-top: 5%;
+        }
+        .text{
+        font-size: 1.25rem;
+        padding-left: 35%;
+        padding-top: 2%;
+        }
+        .graph{
+        border: 1px solid;
+        width: 30%;
+        }
+        .search{
+        border: 1px solid;
+        width: 35%;
+        }
+        .register-form{
+            width:35%;
+           border-left: groove;
+        }
+        .button-register-postion{
+            padding-left:50%;
+            padding-top:7%;
+        }
+        .register-button-top-right{
+                padding-top: 20%;
+                padding-left: 50%;
+        }
+        .button-column{
+            padding-left:20%;
+            display:grid;
+        }
+        .select-container-postion{
+            padding-top:30px;
+            padding-left:240px;
+        }
+        .inquire_container{
+        border-left: groove;
+        }
 
-    .bottom-container{
-        padding-top:25px;
-        display:flex;
-    }
-    .right-top-container{
-        display:flex;
-    }
-    #submit{
-        height: 70px;
-        width: 80px;
-    }
+        .bottom-container{
+            padding-top:25px;
+            display:flex;
+        }
+        .right-top-container{
+            display:flex;
+        }
+        #submit{
+            height: 70px;
+            width: 80px;
+        }
         #logo-form{
            width:300px;
            }
@@ -89,14 +89,14 @@
         }
         .tank-select{
             width: 200px;
-         height: 60px;
-            }
-         .place-form{
+            height: 60px;
+        }
+        .place-form{
             padding-left:30px;
             display:flex;
             height:70px;
-           }
-         .select-container{
+        }
+        .select-container{
             display:flex;
                 align-items: baseline;
          }
@@ -132,10 +132,9 @@
             padding-top:30px;
         }
 
-        .table-responsive {
-            max-height: 300px;
-        }
+
         .table td {
+            color:black;
             padding: .2rem;
         }
         .tank {
@@ -164,7 +163,14 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
 
-        $(function(){
+        $(document).ready(function() {
+
+            $('#dataTable').DataTable( {
+                "scrollY":        "200px",
+                "scrollCollapse": true,
+                "paging":         false
+            } );
+
             var re = [[${reservoirs}]];
 
             if (re != null) {
@@ -183,6 +189,12 @@
 
         /*]]>*/
     </script>
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
 </th:block>
 
 
@@ -194,31 +206,31 @@
 <!--            로그 조회 -->
             <div class=" col-xl-8">
                 <div class="card shadow mb-4">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>기사번호</th>
-                                        <th>날짜</th>
-                                        <th>차량번호</th>
-                                        <th>시간</th>
-                                        <th>종류</th>
-                                        <th>사용량</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="log : ${fillLogs}">
-                                        <td th:text="${log.username}"></td>
-                                        <td th:text="${#temporals.format(log.datetime, 'yyyy/MM/dd')}"></td>
-                                        <td th:text="${log.carNumber}"></td>
-                                        <td th:text="${#temporals.format(log.datetime, 'hh:mm:ss')}"></td>
-                                        <td th:text="${log.product}"></td>
-                                        <td th:text="${log.amount}"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>날짜</th>
+                                    <th>시간</th>
+                                    <th>기사번호</th>
+                                    <th>차량번호</th>
+                                    <th>종류</th>
+                                    <th>L</th>
+                                </tr>
+                            </thead>
+                            <div>
+                            <tbody>
+                                <tr th:each="log : ${fillLogs}" style="max-height: 100px !important; overflow:scroll;">
+                                    <td th:text="${#temporals.format(log.datetime, 'yyyy/MM/dd')}"></td>
+                                    <td th:text="${#temporals.format(log.datetime, 'hh:mm:ss')}"></td>
+                                    <td th:text="${log.username}"></td>
+                                    <td th:text="${log.carNumber}"></td>
+                                    <td th:text="${log.product}"></td>
+                                    <td th:text="${log.amount}"></td>
+                                </tr>
+                            </tbody>
+                            </div>
+                        </table>
                         <div class="search-date">
                             <input type="date"> ~
                             <input type="date">
@@ -265,164 +277,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="card">
-        <!--        상단-->
-        <div class="container_row">
-
-            <div class="img-container">
-                <img style="width: 150px; height: 200px; border:1px solid #CDCDCD;" src="/img/main-img.png" >
-            </div>
-
-            <div class="register_tank">
-                <div class="right-top-container">
-                    <form method="post" class="place-form">
-                        <input id="logo-form" type="text" placeholder="업체 로고 및 상호 표시"/>
-                        <input type="submit" id="submit">
-                    </form>
-                    <div class="select-container">
-                        <div class="text-next">지점 선택</div>
-                        <select name="place" class="tank-select" >
-                            <option value="" selected>지점 선택</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="bottom-container">
-                    <div class="select-container">
-                        <div class="text-next">저장 탱크수</div>
-                        <select name="place" class="tank-select" >
-                            <option value="" selected>숫자</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                        </select>
-                    </div>
-                    <form method="post" class="place-form">
-                        <input class="input_form" type="text" placeholder="업체 로고 및 상호 표시"/>
-                        <input type="submit" class="submit-button">
-                    </form>
-                </div>
-
-                <div class="bottom-container">
-                    <div class="select-container">
-                        <div class="text-next">주입기 수량</div>
-                        <select name="place" class="tank-select" >
-                            <option value="" selected>숫자</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                        </select>
-                    </div>
-
-                    <form method="post" class="place-form">
-                        <input class="input_form" type="text" placeholder="업체 로고 및 상호 표시"/>
-                        <input type="submit" class="submit-button">
-                    </form>
-                </div>
-
-                <div class="button-register-postion">
-                    <button class="register-button">
-                        등록
-                    </button>
-                </div>
-
-
-            </div>
-            <div class="inquire_container">
-                <div class="select-container-postion">
-
-                    <div class="select-container">
-                        <div class="text-next">주입기 수량</div>
-                        <select name="place" class="tank-select" >
-                            <option value="" selected>숫자</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                        </select>
-                    </div>
-                    <div class="button-column">
-                        <div class="button-postion">
-                            <button class="register-button">
-                                입고
-                            </button>
-                        </div>
-
-                        <div class="button-postion">
-                            <button class="register-button">
-                                조회
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="register-button-top-right">
-                    <button class="register-button">
-                        등록
-                    </button>
-                </div>
-
-            </div>
-        </div>
-        <!--        하단-->
-        <div class="container_row">
-            <div class="graph">
-
-            </div>
-            <div class="search">
-
-            </div>
-            <div class="register-form">
-                <div class="text1">지점 관리자 조회 권환 </div>
-                <div class="text">아이디,패스워드 설정</div>
-                <div class="account-form-container">
-                    <div class="account-container">
-                        ID
-                        <form method="post" class="account-form">
-                            <input id="register-id" type="text" placeholder="아이디"/>
-                        </form>
-                    </div>
-                    <div class="account-container">
-                        PW
-                        <form method="post" class="account-form">
-                            <input id="register-pw" type="text" placeholder="비밀번호"/>
-                        </form>
-                    </div>
-                    <div class="account-container">
-                        RE
-                        <form method="post" class="account-form">
-                            <input id="check-pw" type="text" placeholder="비밀번호 확인"/>
-                        </form>
-                    </div>
-                </div>
-
-
-                <div class="register-account">
-                    <button class="register-button">
-                        등록
-                    </button>
-                </div>
-
-            </div>
-
-
-
         </div>
     </div>
 </th:block>

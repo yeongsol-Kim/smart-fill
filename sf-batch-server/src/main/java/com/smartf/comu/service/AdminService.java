@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AdminService implements UserDetailsService {
 
@@ -29,15 +31,15 @@ public class AdminService implements UserDetailsService {
 
     public Long addAdmin(AdminDto adminDto) {
 
-
         adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
 
-        System.out.println(adminDto.getDependentId());
         Admin admin = Admin.builder()
                 .username(adminDto.getUsername())
                 .password(adminDto.getPassword())
                 .dependentId(adminDto.getDependentId())
                 .build();
+
+        validateDuplicateAdmin(admin);
 
         Long id = adminRepository.save(admin).getId();
 
@@ -55,6 +57,7 @@ public class AdminService implements UserDetailsService {
     public Long addBranchAdmin(AdminDto adminDto) {
 
 
+
         adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
 
         Admin admin = Admin.builder()
@@ -62,6 +65,9 @@ public class AdminService implements UserDetailsService {
                 .password(adminDto.getPassword())
                 .dependentId(adminDto.getDependentId())
                 .build();
+
+
+
 
         Long id = adminRepository.save(admin).getId();
 
@@ -76,10 +82,17 @@ public class AdminService implements UserDetailsService {
         return id;
     }
 
+    private void validateDuplicateAdmin(Admin admin) {
+        adminRepository.findByUsername(admin.getUsername())
+                .ifPresent(m -> {
+                    throw new IllegalStateException("이미 존재하는 회원입니다.");
+                });
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Admin admin = adminRepository.findByUsername(username);
+        Optional<Admin> admin = adminRepository.findByUsername(username);
 
-        return admin;
+        return admin.orElse(null);
     }
 }

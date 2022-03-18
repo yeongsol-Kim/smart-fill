@@ -28,7 +28,6 @@ public class LogController {
     @PostMapping("/fill-logs/users")
     public ResponseEntity<LogDto> addMyLog(@Valid @RequestBody LogDto logDto, Authentication authentication) {
         String userId = authentication.getName();
-        System.out.println(userId);
         logDto.setUsername(userId);
         return ResponseEntity.ok(logService.addLog(logDto));
     }

@@ -37,9 +37,18 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String signup(AdminDto adminDto) {
-        adminService.addAdmin(adminDto);
+    public String signup(Model model, AdminDto adminDto) {
+
+        try {
+            adminService.addAdmin(adminDto);
+        } catch (Exception e) {
+            model.addAttribute("error", true);
+            model.addAttribute("exception", "중복된 아이디입니다. 다른 아이디를 사용해 주세요");
+            return "signup";
+        }
+
         return "redirect:login";
+
     }
 
     @PostMapping("/branchAdmin/new")

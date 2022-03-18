@@ -13,10 +13,15 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class AdminDto {
 
-    @Size(max = 20)
+    @Size(min = 2, max = 20)
     private String username;
 
+    @Size(min = 8, max = 16)
     private String password;
 
+    @Size(min = 8, max = 16)
+    private String passwordConfirm;
+
+    @Size(max = 10)
     private Long dependentId;
 }

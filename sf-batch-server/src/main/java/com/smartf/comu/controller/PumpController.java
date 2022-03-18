@@ -5,6 +5,7 @@ import com.smartf.comu.domain.Reservoir;
 import com.smartf.comu.dto.PumpDto;
 import com.smartf.comu.service.PumpService;
 import com.smartf.comu.service.ReservoirService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ public class PumpController {
     }
 
     @GetMapping("pumps")
+    @PreAuthorize("hasRole('BRANCH')")
     public String pumpList(Model model) {
         List<Pump> pumps = pumpService.getMyPumps();
         model.addAttribute("pumps", pumps);
@@ -31,6 +33,7 @@ public class PumpController {
     }
 
     @GetMapping("pumps/new")
+    @PreAuthorize("hasRole('BRANCH')")
     public String addPumpForm(Model model) {
         List<Reservoir> reservoirs = reservoirService.getMyReservoirs();
         model.addAttribute("reservoirs", reservoirs);
@@ -38,6 +41,7 @@ public class PumpController {
     }
 
     @PostMapping("pumps/new")
+    @PreAuthorize("hasRole('BRANCH')")
     public String addPump(PumpDto pumpDto) {
         pumpService.addPump(pumpDto);
         return "redirect:/pumps";

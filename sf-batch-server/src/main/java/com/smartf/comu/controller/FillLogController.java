@@ -32,26 +32,6 @@ public class FillLogController {
     }
 
 
-    @GetMapping("/")
-    public String dashboard(Model model, Authentication authentication) {
-        if (authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-            List<Branch> branches = companyAdminService.getMyBranches();
-            model.addAttribute("branches", branches);
-            return "company/demo";
-        } else {
-            List<Log> fillLogs = fillLogService.getMyBranchLogs();
-            List<Reservoir> reservoirs = reservoirService.getMyReservoirs();
-            if (reservoirs.isEmpty()) {
-                reservoirs = null;
-            }
-            model.addAttribute("fillLogs", fillLogs);
-            model.addAttribute("reservoirs", reservoirs);
-            return "dashboard/register_place";
-        }
-
-    }
-
-
     // 미완성---
     @GetMapping("/dashboard/{branchId}")
     public String dashboardById(@PathVariable Long id, Model model) {

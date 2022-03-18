@@ -3,6 +3,7 @@ package com.smartf.comu.controller;
 import com.smartf.comu.domain.Reservoir;
 import com.smartf.comu.dto.ReservoirDto;
 import com.smartf.comu.service.ReservoirService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ public class ReservoirController {
     }
 
     @GetMapping("/reservoirs")
+    @PreAuthorize("hasRole('BRANCH')")
     public String reservoirList(Model model) {
         List<Reservoir> reservoirs = reservoirService.getMyReservoirs();
         model.addAttribute("reservoirs", reservoirs);
@@ -27,17 +29,20 @@ public class ReservoirController {
     }
 
     @GetMapping("/reservoirs/new")
+    @PreAuthorize("hasRole('BRANCH')")
     public String createReservoirForm() {
         return "reservoirs/reservoirCreateForm";
     }
 
     @PostMapping("/reservoirs/new")
+    @PreAuthorize("hasRole('BRANCH')")
     public String createReservoir(ReservoirDto reservoirDto) {
         reservoirService.addReservoir(reservoirDto);
         return "redirect:/reservoirs";
     }
 
     @PostMapping("/reservoirs/put")
+    @PreAuthorize("hasRole('BRANCH')")
     public String reservoirPut(ReservoirDto reservoirDto) {
         reservoirService.putReservoir(reservoirDto);
         return "redirect:/";
