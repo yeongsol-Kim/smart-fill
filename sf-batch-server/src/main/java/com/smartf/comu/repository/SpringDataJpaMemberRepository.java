@@ -7,9 +7,8 @@ import java.util.List;
 
 public interface SpringDataJpaMemberRepository extends JpaRepository<Member, Long> {
 
-    Member findByUserName(String aString);
+    Member findByUsername(String aString);
     Member findByEmail(String email);
     List<Member> findByBranchId(Long branchId);
-    List<Member> findByBranchIdAndType(Long branchId, Long type);
 
 }

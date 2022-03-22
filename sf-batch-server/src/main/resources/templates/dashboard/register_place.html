@@ -253,10 +253,11 @@
                                 <div class="progress" style="bottom">
                                     <div class="progress-bar" style="overflow: hidden;"></div>
                                 </div>
+                                <p>36.1%</p>
                             </div>
                             <div class="col-8">
                                 <form action="/reservoirs/put" method="post">
-                                    <select id="sel-reservoir" name="id">
+                                    <select id="sel-reservoir" name="id" class="mb-4">
                                         <option th:each="reservoir, idx : ${reservoirs}" th:text="${reservoir.reservoirName}" th:id="${idx.index}" th:value="${reservoir.id}"></option>
                                     </select>
                                     <input type="text" placeholder="입고할 양을 입력하세요" name="amount" class="form-control mb-2" required="required">

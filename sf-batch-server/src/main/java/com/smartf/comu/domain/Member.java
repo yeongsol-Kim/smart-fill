@@ -1,8 +1,6 @@
 package com.smartf.comu.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +11,8 @@ import java.util.*;
 
 @Table(name = "users")
 @Entity
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,12 +22,11 @@ public class Member{
     private Long id;
     private String email;
     @Column(name="username")
-    private String userName;
+    private String username;
     private String name;
-    private String car_id;
-    private String phone_number;
+    private String carId;
+    private String phoneNumber;
     private String address;
-    private Long type;
     private String picture;
     private String password;
     private OffsetDateTime datetime;
@@ -44,109 +43,6 @@ public class Member{
 
 
 
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
-    public Long getBranchId() {
-        return branchId;
-    }
-
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
-    }
-
-    public Long getActivated() {
-        return activated;
-    }
-
-    public void setActivated(Long activated) {
-        this.activated = activated;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone_number() {
-        return phone_number;
-    }
-
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getCar_id() {
-        return car_id;
-    }
-
-    public void setCar_id(String car_id) {
-        this.car_id = car_id;
-    }
-
-    public Long getType() {
-        return type;
-    }
-
-    public void setType(Long type) {
-        this.type = type;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public OffsetDateTime getDatetime() {
-        return datetime;
-    }
-
-    public void setDatetime(OffsetDateTime datetime) {
-        this.datetime = datetime;
-    }
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {

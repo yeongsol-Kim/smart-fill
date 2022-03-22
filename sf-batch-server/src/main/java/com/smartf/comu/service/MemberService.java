@@ -44,7 +44,7 @@ public class MemberService {
         infoDto.setPassword(passwordEncoder.encode(infoDto.getPassword()));
 
         Member member = Member.builder()
-                .userName(infoDto.getUsername())
+                .username(infoDto.getUsername())
                 .email(infoDto.getEmail())
                 .password(infoDto.getPassword())
                 .build();
@@ -71,11 +71,11 @@ public class MemberService {
 
         Member member = Member.builder()
 
-                .userName(memberInfo.getUsername())
+                .username(memberInfo.getUsername())
                 .password(passwordEncoder.encode(memberInfo.getPassword()))
                 .name(memberInfo.getName())
                 .email(memberInfo.getEmail())
-                .phone_number(memberInfo.getPhoneNumber())
+                .phoneNumber(memberInfo.getPhoneNumber())
                 .address(memberInfo.getAddress())
                 .datetime(OffsetDateTime.now())
                 .branchId(SecurityUtil.getCurrentDependentId().orElse(null))
@@ -103,6 +103,21 @@ public class MemberService {
         return member.getId();
     }
 
+    public void updateDriver(MemberInfoDto memberInfo) {
+        Member member = memberRepository.findById(memberInfo.getId()).orElse(null);
+
+        member.setUsername(memberInfo.getUsername());
+        if (memberInfo.getPassword() != null) {
+            member.setPassword(passwordEncoder.encode(memberInfo.getPassword()));
+        }
+        member.setName(memberInfo.getName());
+        member.setEmail(memberInfo.getEmail());
+        member.setPhoneNumber(memberInfo.getPhoneNumber());
+        member.setAddress(memberInfo.getAddress());
+
+        memberRepository.save(member);
+    }
+
 //    private void validateDuplicateMember(Member member) {
 //        memberRepository.findByName(member.getUserName())
 //                        .ifPresent(m -> {
@@ -121,8 +136,18 @@ public class MemberService {
         return memberRepository.findByBranchId(id);
     }
 
+    public Member getMemberEditInfo(Long memberId) throws Exception {
+        Optional<Member> member = getMemberById(memberId);
+        member.orElseThrow(() -> new Exception("member is null"));
+        if(member.get().getBranchId() != SecurityUtil.getCurrentDependentId().orElse(null)) {
+           throw new Exception("not branch member");
+        }
+        return member.orElse(null);
+
+    }
+
     // 회원 아이디로 조회
-    public Optional<Member> findOne(Long memberId) {
+    public Optional<Member> getMemberById(Long memberId) {
         return memberRepository.findById(memberId);
     }
 

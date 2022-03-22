@@ -122,13 +122,13 @@
                         <tr th:each="member : ${members}" th:id="${member.id}" class="user-recode">
                             <td th:text="${member.id}"></td>
                             <td th:text="${member.name}"></td>
-                            <td th:text="${member.userName}"></td>
-                            <td th:text="${member.car_id}"></td>
-                            <td th:text="${member.phone_number}"></td>
+                            <td th:text="${member.username}"></td>
+                            <td th:text="${member.carId}"></td>
+                            <td th:text="${member.phoneNumber}"></td>
                             <td th:text="${member.email}"></td>
                             <td th:text="${member.address}"></td>
                             <td>
-                                <a th:href="@{#}" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                <a th:href="@{'/members/update/' + ${member.id}}" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                 <a th:href="@{'/memberDelete/' + ${member.id}}" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a>
                             </td>
                         </tr>
@@ -153,9 +153,9 @@
                                         <img id="prev_View_area" style="width: 100px; height: 125px; border:1px solid #CDCDCD;" th:src="'/uploadUserProfiles/' + ${member.picture}"/>
                                     </span>
                             <div class="content-header">
-                                <div th:text="'이름: ' + ${member.userName}"></div>
+                                <div th:text="'이름: ' + ${member.username}"></div>
                                 <div th:text="'번호: ' + ${member.id} + '번 기사'"></div>
-                                <div class="input_content" th:text="'연락처: ' + ${member.phone_number}"></div>
+                                <div class="input_content" th:text="'연락처: ' + ${member.phoneNumber}"></div>
                             </div>
                         </div>
 
