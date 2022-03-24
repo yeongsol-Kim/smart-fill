@@ -53,9 +53,8 @@ public class MemberController {
     @GetMapping("/members/new")
     @PreAuthorize("hasRole('BRANCH')")
     public String createForm(Model model) {
-        Member member = Member.builder().build();
         model.addAttribute("req", "new");
-        model.addAttribute("member", member);
+        model.addAttribute("member", Member.builder().build());
         return "members/createMemberForm";
     }
 
@@ -74,11 +73,14 @@ public class MemberController {
     @PreAuthorize("hasRole('BRANCH')")
     public String editForm(Model model, @PathVariable Long id) throws Exception {
         try {
-            Member member = memberService.getMemberEditInfo(id);
+            Member member = memberService.getEditMemberInfo(id);
+
             model.addAttribute("req", "update");
             model.addAttribute("id", id);
             model.addAttribute("member", member);
+
             return "members/createMemberForm";
+
         } catch (Exception e) {
             return "redirect:/members";
         }
@@ -86,14 +88,18 @@ public class MemberController {
 
     @PostMapping("/members/update")
     @PreAuthorize("hasRole('BRANCH')")
-    public String updateMember(MemberInfoDto memberInfoDto) {
-        memberService.updateDriver(memberInfoDto);
+    public String updateMember(MemberInfoDto memberInfoDto) throws Exception {
+        try {
+            memberService.updateDriver(memberInfoDto);
+        } catch (Exception e) {
+            return "redirect:/members";
+        }
         return "redirect:/members";
     }
 
     @GetMapping("/memberDelete/{id}")
     @PreAuthorize("hasRole('BRANCH')")
-    public String carDelete(@PathVariable Long id) {
+    public String carDelete(@PathVariable Long id) throws Exception {
         memberService.deleteMember(id);
         return "redirect:/members";
     }

@@ -110,7 +110,7 @@
                             <td th:text="${reservoir.reservoirName}"></td>
                             <td th:text="${reservoir.fuelMax}"></td>
                             <td th:text="${reservoir.fuelLevel}"></td>
-                            <td th:text="${reservoir.fuelLevel / reservoir.fuelMax * 100} + '%'"></td>
+                            <td th:text="${#numbers.formatPercent(reservoir.fuelLevel / reservoir.fuelMax, 1, 2)}"></td>
 
                             <td>
                                 <a th:href="@{#}" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>

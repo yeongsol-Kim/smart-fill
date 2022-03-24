@@ -10,6 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 public class CarDto {
 
+    private Long id;
+
     private Long carNumber;
 
     private String carType;

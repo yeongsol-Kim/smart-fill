@@ -30,7 +30,7 @@ public class CarController {
         return "cars/carList";
     }
 
-    @DeleteMapping("/cars/{id}")
+    @GetMapping("/carDelete/{id}")
     @PreAuthorize("hasRole('BRANCH')")
     public String carDelete(@PathVariable Long id) {
         carService.deleteCar(id);
@@ -40,6 +40,8 @@ public class CarController {
     @GetMapping("/cars/new")
     @PreAuthorize("hasRole('BRANCH')")
     public String createForm(Model model) {
+        model.addAttribute("req", "new");
+        model.addAttribute("car", Car.builder().build());
         return "cars/createCarForm";
     }
 
@@ -52,13 +54,35 @@ public class CarController {
     }
 
 
+    @GetMapping("/cars/update/{id}")
+    @PreAuthorize("hasRole('BRANCH')")
+    public String updateForm(Model model, @PathVariable Long id) throws Exception {
+        try {
+            Car car = carService.getEditCarInfo(id);
 
-    // --------------------------------- 앱 통신
+            model.addAttribute("req", "update");
+            model.addAttribute("id", id);
+            model.addAttribute("car", car);
 
-    @ResponseBody
-    @GetMapping("/cars/number/{number}")
-    public Boolean isCar(@PathVariable Long number) {
-        boolean isCar = carService.isRegistrationCar(number);
-        return isCar;
+            return "cars/createCarForm";
+        } catch (Exception e) {
+            return "redirect:/cars";
+        }
+
     }
+
+    @PostMapping("/cars/update")
+    @PreAuthorize("hasRole('BRANCH')")
+    public String updateCar(CarDto carDto) throws Exception {
+        try {
+            carService.updateCar(carDto);
+            return "redirect:/cars";
+        } catch (Exception e) {
+            return "redirect:/cars";
+        }
+    }
+
+
+
+
 }

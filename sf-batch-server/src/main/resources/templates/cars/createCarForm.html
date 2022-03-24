@@ -108,7 +108,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">차량 등록</h6>
                     </div>
                     <div class="card-body">
-                        <form action="/cars/new" method="post" enctype="multipart/form-data">
+                        <form th:action="@{'/cars/' + ${req}}" method="post" enctype="multipart/form-data">
                             <div class="image-upload">
                                 <label for="profile_pt">
                                     <span id='View_area' style='position:relative; width: 100px; height: 160px; color: black; border: 0px solid black; dispaly: inline;'>
@@ -118,14 +118,17 @@
                                 <input type="file" name="profile_pt" id="profile_pt" onchange="previewImage(this,'View_area')">
                             </div>
                             <div class="pic-upload"></div>
+                            <span th:if="${req} == 'update'">
+                                <input type="hidden" name="id" th:value="${id}"/>
+                            </span>
                             <label for="input-carNumber" class="form-label">차량번호</label>
-                            <input type="text" class="form-control mb-4" name="carNumber" id="input-carNumber" placeholder="ex) 0000"/>
-                            <label for="input-car_type" class="form-label">차종</label>
-                            <input type="text" class="form-control mb-4" name="carType" id="input-car_type" placeholder="ex) 프리마"/>
+                            <input type="text" class="form-control mb-4" name="carNumber" id="input-carNumber" placeholder="ex) 0000" th:value="${car.carNumber}"/>
+                            <label for="input-carType" class="form-label">차종</label>
+                            <input type="text" class="form-control mb-4" name="carType" id="input-carType" placeholder="ex) 프리마" th:value="${car.carType}"/>
                             <label for="input-years" class="form-label">연식</label>
-                            <input type="text" class="form-control mb-4" name="years" id="input-years" placeholder="ex) 00"/>
-                            <label for="input-registration_number" class="form-label">등록번호</label>
-                            <input type="text" class="form-control mb-4" name="registrationNumber" id="input-registration_number" placeholder="ex) 12341234"/>
+                            <input type="text" class="form-control mb-4" name="years" id="input-years" placeholder="ex) 00" th:value="${car.years}"/>
+                            <label for="input-registrationNumber" class="form-label">등록번호</label>
+                            <input type="text" class="form-control mb-4" name="registrationNumber" id="input-registrationNumber" placeholder="ex) 12341234" th:value="${car.registrationNumber}"/>
                             <button type="submit" class="btn btn-primary">확인</button>
                         </form>
                     </div>

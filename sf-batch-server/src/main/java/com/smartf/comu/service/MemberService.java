@@ -103,17 +103,21 @@ public class MemberService {
         return member.getId();
     }
 
-    public void updateDriver(MemberInfoDto memberInfo) {
-        Member member = memberRepository.findById(memberInfo.getId()).orElse(null);
+    public void updateDriver(MemberInfoDto memberInfo) throws Exception {
+        // 올바른 접근인지 검사
+        Member member = isMyBranchMember(memberInfo.getId());
 
+        // 입력값들 업데이트
         member.setUsername(memberInfo.getUsername());
-        if (memberInfo.getPassword() != null) {
-            member.setPassword(passwordEncoder.encode(memberInfo.getPassword()));
-        }
         member.setName(memberInfo.getName());
         member.setEmail(memberInfo.getEmail());
         member.setPhoneNumber(memberInfo.getPhoneNumber());
         member.setAddress(memberInfo.getAddress());
+
+        //비밀번호는 빈칸일 경우에는 유지
+        if (!memberInfo.getPassword().isBlank()) {
+            member.setPassword(passwordEncoder.encode(memberInfo.getPassword()));
+        }
 
         memberRepository.save(member);
     }
@@ -136,13 +140,11 @@ public class MemberService {
         return memberRepository.findByBranchId(id);
     }
 
-    public Member getMemberEditInfo(Long memberId) throws Exception {
-        Optional<Member> member = getMemberById(memberId);
-        member.orElseThrow(() -> new Exception("member is null"));
-        if(member.get().getBranchId() != SecurityUtil.getCurrentDependentId().orElse(null)) {
-           throw new Exception("not branch member");
-        }
-        return member.orElse(null);
+    public Member getEditMemberInfo(Long memberId) throws Exception {
+        // 올바른 접근인지 검사
+        Member member = isMyBranchMember(memberId);
+
+        return member;
 
     }
 
@@ -151,8 +153,27 @@ public class MemberService {
         return memberRepository.findById(memberId);
     }
 
-    public void deleteMember(Long id) {
+    public void deleteMember(Long id) throws Exception {
+        // 올바른 접근인지 검사
+        Member member = isMyBranchMember(id);
+
         memberRepository.deleteById(id);
+    }
+
+
+
+    private Member isMyBranchMember(Long id) throws Exception {
+        Optional<Member> member = getMemberById(id);
+
+        // 잘못된 uri (없는 직원)일 때 오류 발생
+        member.orElseThrow(() -> new Exception("member is null"));
+
+        // 다른 회사의 직원을 수정하려고 할 때 오류 발생
+        if(member.get().getBranchId() != SecurityUtil.getCurrentDependentId().orElse(null)) {
+            throw new Exception("not branch member");
+        }
+
+        return member.get();
     }
 
 //    @Override

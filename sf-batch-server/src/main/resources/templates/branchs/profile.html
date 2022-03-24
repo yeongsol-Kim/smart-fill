@@ -5,60 +5,8 @@
 
 <th:block layout:fragment="css">
     <style>
-        th {
-            font-size: 0.8rem;
-        }
-        td {
-            padding:2px;
-            font-size: 0.8rem;
-            color: black;
-        }
-        .profile_image {
-            padding: 20px;
-            width: 130px;
-            display: flex;
-            cursor: pointer;
-        }
-        .content-header{
-            width:200px;
-            display:grid;
-            padding-left: 30px;
-        }
-        .input_content{
 
-             width: max-content;
-
-        }
-
-        .content-body-value{
-            padding :10px
-        }
-
-        button.button_check{
-        width: 120px;
-            height: 40px;
-            color: #fff;
-            background: #004fff;
-            font-size: 16px;
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 4px 16px rgb(0 79 255 / 30%);
-            transition: 0.3s;
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%,-50%);
-            top: 100%;
-        }
-        button:focus {
-            outline:0;
-        }
-        button:hover{
-            background: rgba(0,79,255,0.9);
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,79,255,0.6);
-        }
     </style>
-    <link th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet">
 </th:block>
 
 <th:block layout:fragment="script">
@@ -75,18 +23,7 @@
     <script src="js/demo/datatables-demo.js"></script>
 
     <script>
-        $(function(){
-            $(".user-recode").on("click",function(){
-                $('#modal-' + $(this).attr("id")).modal('show');
-            })
 
-            $(".btn-delete").on("click", function() {
-                if ( confirm("해당 직원을 삭제하시겠습니까?") ) {
-                    var uri = "/memberDelete/" + $(this).val();
-                    location.replace(uri);
-                }
-            })
-        })
     </script>
 </th:block>
 
@@ -97,8 +34,8 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">직원 관리</h1>
-<!--            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i-->
-<!--                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
+            <!--            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i-->
+            <!--                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
         </div>
 
         <!-- DataTales Example -->
@@ -110,28 +47,28 @@
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>이름</th>
-                                <th>기사번호</th>
-                                <th>배차차량</th>
-                                <th>연락처</th>
-                                <th>이메일</th>
-                                <th>주소</th>
-                                <th>관리</th>
-                            </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>이름</th>
+                            <th>기사번호</th>
+                            <th>배차차량</th>
+                            <th>연락처</th>
+                            <th>이메일</th>
+                            <th>주소</th>
+                            <th>관리</th>
+                        </tr>
                         </thead>
                         <tfoot>
-                            <tr>
-                                <th>#</th>
-                                <th>이름</th>
-                                <th>기사번호</th>
-                                <th>배차차량</th>
-                                <th>연락처</th>
-                                <th>이메일</th>
-                                <th>주소</th>
-                                <th>관리</th>
-                            </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>이름</th>
+                            <th>기사번호</th>
+                            <th>배차차량</th>
+                            <th>연락처</th>
+                            <th>이메일</th>
+                            <th>주소</th>
+                            <th>관리</th>
+                        </tr>
                         </tfoot>
                         <tbody>
                         <tr th:each="member : ${members}" th:id="${member.id}" class="user-recode">
@@ -182,12 +119,12 @@
                         </div>
                         <button class="button_check" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">확인</span></button>
-<!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                            <span aria-hidden="true">&times;</span>-->
-<!--                        </button>-->
-<!--                        <button type="button" class="check_button" data-dismiss="modal" aria-label="Close">-->
-<!--                            <span aria-hidden="true">&times;</span>-->
-<!--                        </button>-->
+                        <!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                        <!--                            <span aria-hidden="true">&times;</span>-->
+                        <!--                        </button>-->
+                        <!--                        <button type="button" class="check_button" data-dismiss="modal" aria-label="Close">-->
+                        <!--                            <span aria-hidden="true">&times;</span>-->
+                        <!--                        </button>-->
 
                     </div>
                 </div>
