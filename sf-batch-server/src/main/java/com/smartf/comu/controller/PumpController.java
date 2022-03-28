@@ -44,6 +44,6 @@ public class PumpController {
     @PreAuthorize("hasRole('BRANCH')")
     public String addPump(PumpDto pumpDto) {
         pumpService.addPump(pumpDto);
-        return "redirect:/pumps";
+        return "redirect:/reservoirs";
     }
 }

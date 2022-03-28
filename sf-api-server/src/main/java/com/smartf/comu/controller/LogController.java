@@ -14,7 +14,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api")
 public class LogController {
-    private LogService logService;
+    private final LogService logService;
 
     public LogController(LogService logService) {
         this.logService = logService;
