@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -49,8 +50,9 @@ public class ReservoirController {
 
     @PostMapping("/reservoirs/put")
     @PreAuthorize("hasRole('BRANCH')")
-    public String reservoirPut(ReservoirDto reservoirDto) {
+    public String reservoirPut(HttpServletRequest request, ReservoirDto reservoirDto) {
         reservoirService.putReservoir(reservoirDto);
-        return "redirect:/";
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 }

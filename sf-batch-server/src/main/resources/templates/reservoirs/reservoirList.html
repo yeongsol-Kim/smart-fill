@@ -146,6 +146,7 @@
                                             </div>
                                             <div class="">
                                                 <form action="/reservoirs/put" method="post">
+                                                    <input type="hidden" name="id" th:value="${reservoir.id}">
                                                     <input type="text" placeholder="입고할 양을 입력하세요" name="amount" class="form-control mb-2" required="required">
                                                     <input type="submit" class="btn btn-info form-control mb-4" value="입고">
                                                 </form>
@@ -169,7 +170,7 @@
                                                 <form th:action="@{pumps/new}" method="post">
                                                     <tr>
                                                         <td>
-                                                            <input type="hidden" name="reservoirId" th:value="${reservoir.id} + '.'">
+                                                            <input type="hidden" name="reservoirId" th:value="${reservoir.id}">
                                                         </td>
                                                         <td>
                                                             <input type="text" class="form-control" name="number" placeholder="번호">
