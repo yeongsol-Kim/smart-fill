@@ -3,6 +3,7 @@ package com.smartf.comu.controller;
 import com.smartf.comu.domain.Branch;
 import com.smartf.comu.domain.Log;
 import com.smartf.comu.domain.Reservoir;
+import com.smartf.comu.dto.LogReportDto;
 import com.smartf.comu.service.BranchService;
 import com.smartf.comu.service.CompanyAdminService;
 import com.smartf.comu.service.FillLogService;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,11 +41,23 @@ public class DashboardController {
         } else {
             List<Log> fillLogs = fillLogService.getMyBranchLogs();
             List<Reservoir> reservoirs = reservoirService.getMyReservoirs();
+            List<LogReportDto> logReports = fillLogService.getMyGraphData();
+            List<String> months = new ArrayList<>();
+            List<Long> amounts = new ArrayList<>();
+
             if (reservoirs.isEmpty()) {
                 reservoirs = null;
             }
+
+            logReports.stream().forEach(s -> {
+                months.add(s.getMonth() + "월");
+                amounts.add(s.getSumAmount());
+            });
+
             model.addAttribute("fillLogs", fillLogs);
             model.addAttribute("reservoirs", reservoirs);
+            model.addAttribute("months", months);
+            model.addAttribute("amounts", amounts);
             return "dashboard/register_place";
         }
     }
@@ -64,4 +78,9 @@ public class DashboardController {
         return "super/register_place";
     }
 
+    @GetMapping("testG")
+    public String testG() {
+        fillLogService.getMyGraphData();
+        return "redirect:/";
+    }
 }

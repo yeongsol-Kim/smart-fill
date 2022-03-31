@@ -1,6 +1,7 @@
 package com.smartf.comu.service;
 
 import com.smartf.comu.domain.Log;
+import com.smartf.comu.dto.LogReportDto;
 import com.smartf.comu.repository.FillLogRepository;
 import com.smartf.comu.util.SecurityUtil;
 import org.springframework.stereotype.Service;
@@ -35,4 +36,10 @@ public class FillLogService {
         Long id = SecurityUtil.getCurrentDependentId().orElse(null);
         return fillLogRepository.findByBranchId(id);
     }
+
+    public List<LogReportDto> getMyGraphData() {
+        List<LogReportDto> logReportDto = fillLogRepository.findGroupByMonthWithJPQL();
+        return logReportDto;
+    }
+
 }
