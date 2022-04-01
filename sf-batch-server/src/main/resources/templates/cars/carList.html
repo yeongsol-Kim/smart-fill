@@ -126,7 +126,7 @@
                                 <td th:text="${car.carType}+ '(' + ${car.years} + '년식)'"></td>
                                 <td th:text="${car.registrationNumber}"></td>
                                 <td th:text="'asd'"></td>
-                                <td style="padding:2px;">
+                                <td style="padding:4px;">
                                     <a th:href="@{'/cars/update/' + ${car.id}}" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                     <button class="btn btn-danger btn-sm btn-delete" th:value="${car.id}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
@@ -164,8 +164,6 @@
                         </div>
                         <button class="button_check" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">확인</span></button>
-
-
                     </div>
                 </div>
             </div>

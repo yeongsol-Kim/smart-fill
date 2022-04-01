@@ -19,4 +19,13 @@ public interface FillLogRepository extends JpaRepository<Log, Long> {
     )
     List<LogReportDto> findGroupByMonthWithJPQL();
 
+    @Query(value =
+            "SELECT " +
+                    "new com.smartf.comu.dto.LogReportDto(MONTH(l.datetime) as month, SUM(l.amount) as sumAmount) " +
+                    "FROM Log l " +
+                    "WHERE l.carNumber = :id " +
+                    "GROUP BY MONTH(l.datetime)"
+    )
+    List<LogReportDto> findByIdGroupByMonthWithJPQL(String id);
+
 }

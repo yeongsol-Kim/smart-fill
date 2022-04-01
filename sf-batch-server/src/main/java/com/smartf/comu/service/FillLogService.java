@@ -42,4 +42,8 @@ public class FillLogService {
         return logReportDto;
     }
 
+    public List<LogReportDto> getMyGraphDataByCarNumber(String carNumber) {
+        List<LogReportDto> logReportDto = fillLogRepository.findByIdGroupByMonthWithJPQL(carNumber);
+        return logReportDto;
+    }
 }

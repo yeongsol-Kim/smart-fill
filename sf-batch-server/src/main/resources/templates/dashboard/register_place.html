@@ -218,7 +218,7 @@
 
             // Bar Chart Example
             var ctx = document.getElementById("myChart");
-            var myBarChart = new Chart(ctx, {
+            var monthlyChart = new Chart(ctx, {
               type: 'bar',
               data: {
                 /*<![CDATA[*/
@@ -302,6 +302,118 @@
               }
             });
 
+
+            // 차량별 차트
+            var ctx2 = document.getElementById("carLogChart");
+            var carMonthlyChart = new Chart(ctx2, {
+              type: 'bar',
+              data: {
+                /*<![CDATA[*/
+                labels: [[${months}]],
+                /*]]>*/
+                datasets: [{
+                  label: "요소수 주입량",
+                  backgroundColor: "#4e73df",
+                  hoverBackgroundColor: "#2e59d9",
+                  borderColor: "#4e73df",
+                  /*<![CDATA[*/
+                  data: [[${amounts}]],
+                  /*]]>*/
+                }],
+              },
+              options: {
+                maintainAspectRatio: false,
+                layout: {
+                  padding: {
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0
+                  }
+                },
+                scales: {
+                  xAxes: [{
+                    time: {
+                      unit: 'month'
+                    },
+                    gridLines: {
+                      display: false,
+                      drawBorder: false
+                    },
+                    ticks: {
+                      maxTicksLimit: 6
+                    },
+                    maxBarThickness: 25,
+                  }],
+                  yAxes: [{
+                    ticks: {
+                      min: 0,
+                      maxTicksLimit: 5,
+                      padding: 10,
+                      // Include a dollar sign in the ticks
+                      callback: function(value, index, values) {
+                        return number_format(value) + 'ℓ';
+                      }
+                    },
+                    gridLines: {
+                      color: "rgb(234, 236, 244)",
+                      zeroLineColor: "rgb(234, 236, 244)",
+                      drawBorder: false,
+                      borderDash: [2],
+                      zeroLineBorderDash: [2]
+                    }
+                  }],
+                },
+                legend: {
+                  display: false
+                },
+                tooltips: {
+                  titleMarginBottom: 10,
+                  titleFontColor: '#6e707e',
+                  titleFontSize: 14,
+                  backgroundColor: "rgb(255,255,255)",
+                  bodyFontColor: "#858796",
+                  borderColor: '#dddfeb',
+                  borderWidth: 1,
+                  xPadding: 15,
+                  yPadding: 15,
+                  displayColors: false,
+                  caretPadding: 10,
+                  callbacks: {
+                    label: function(tooltipItem, chart) {
+                      var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                      return datasetLabel + ': ' + number_format(tooltipItem.yLabel) + 'ℓ';
+                    }
+                  }
+                },
+              }
+            });
+
+
+            $("#select-car-monthly").on("change", function(){
+                var serverAddress = 'http://localhost:8081/logReports/carNumber/' + $(this).val();
+
+                // jQuery의 .get 메소드 사용
+                $.ajax({
+                    url: serverAddress,
+                    type: 'GET',
+                    success: function onData (data) {
+                        var months = [];
+                        var amounts = [];
+                        console.log(data);
+                        for (value in data) {
+                            months.push(data[value].month + "월");
+                            amounts.push(data[value].sumAmount);
+                        }
+                        carMonthlyChart.data.labels = months;
+                        carMonthlyChart.data.datasets[0].data = amounts;
+                        carMonthlyChart.update();
+                    },
+                    error: function onError (error) {
+                        console.error(error);
+                    }
+                });
+            })
         })
 
         /*]]>*/
@@ -396,7 +508,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4">
+            <div class="col-lg-6 col-xl-4">
                 <div class="card shadow mb-4">
                     <div class="card-header">
                         <h6 class="m-0 font-weight-bold text-primary">월별 요소수 주입량</h6>
@@ -405,6 +517,22 @@
                         <!-- Area Chart -->
                         <div class="chart-area">
                             <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xl-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold text-primary">차량별 월별 요소수 주입량</h6>
+                    </div>
+                    <div class="card-body">
+                        <select id="select-car-monthly">
+                            <option th:each="car : ${cars}" th:text="${car.carNumber}" th:value="${car.carNumber}"></option>
+                        </select>
+                        <!-- Area Chart -->
+                        <div class="chart-area">
+                            <canvas id="carLogChart"></canvas>
                         </div>
                     </div>
                 </div>

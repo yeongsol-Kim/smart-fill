@@ -12,7 +12,7 @@ public class CarDto {
 
     private Long id;
 
-    private Long carNumber;
+    private String carNumber;
 
     private String carType;
 
