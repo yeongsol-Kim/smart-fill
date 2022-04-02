@@ -166,12 +166,15 @@
 
         $(document).ready(function() {
 
+            // 주입 로그 Data table
             $('#dataTable').DataTable( {
-                "scrollY":        "200px",
+                "scrollY":        "300px",
                 "scrollCollapse": true,
-                "paging":         false
+                "paging":         false,
+                "order": [0, 'desc']
             } );
 
+            // 저장조 정보
             var re = [[${reservoirs}]];
 
             if (re != null) {
@@ -436,6 +439,9 @@
 <!--            로그 조회 -->
             <div class=" col-xl-8">
                 <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold text-primary">전체 주입 로그</h6>
+                    </div>
                     <div class="card-body table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
@@ -462,8 +468,8 @@
                             </div>
                         </table>
                         <div class="search-date">
-                            <input type="date"> ~
-                            <input type="date">
+                            <input type="text" id="min" name="min"> ~
+                            <input type="text" id="max" name="max">
                             <input type="button" class="btn btn-primary" value="조회">
                         </div>
                     </div>
