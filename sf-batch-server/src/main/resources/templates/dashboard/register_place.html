@@ -180,13 +180,19 @@
             if (re != null) {
                 $("#reservoir-max").text('MAX ' + re[0].fuelMax + 'L');
                 $("#reservoir-level").text(re[0].fuelLevel + 'L');
+                $("#percent").css("height", (re[0].fuelLevel / re[0].fuelMax * 100) + '%');
+                $("#percent").text(Math.floor((re[0].fuelLevel / re[0].fuelMax * 100)) + '%');
                 $(".progress-bar").css("height", (re[0].fuelLevel / re[0].fuelMax * 100) + '%');
+
             }
+
             $("#sel-reservoir").on('change', function() {
                 var id = $("#sel-reservoir option").index("#sel-reservoir option:selected") * -1;
 
                 $("#reservoir-max").text('MAX ' + re[id].fuelMax + 'L');
                 $("#reservoir-level").text(re[id].fuelLevel + 'L');
+                $("#percent").css("height", (re[id].fuelLevel / re[id].fuelMax * 100) + '%');
+                $("#percent").text(Math.floor((re[id].fuelLevel / re[id].fuelMax * 100)) + '%');
                 $(".progress-bar").css("height", (re[id].fuelLevel / re[id].fuelMax * 100) + '%');
             });
 
@@ -311,17 +317,13 @@
             var carMonthlyChart = new Chart(ctx2, {
               type: 'bar',
               data: {
-                /*<![CDATA[*/
-                labels: [[${months}]],
-                /*]]>*/
+                labels: [],
                 datasets: [{
                   label: "요소수 주입량",
                   backgroundColor: "#4e73df",
                   hoverBackgroundColor: "#2e59d9",
                   borderColor: "#4e73df",
-                  /*<![CDATA[*/
-                  data: [[${amounts}]],
-                  /*]]>*/
+                  data: [],
                 }],
               },
               options: {
@@ -393,7 +395,10 @@
             });
 
 
+            // 차량별 월 요소수 주입량
             $("#select-car-monthly").on("change", function(){
+
+                // 서버 주소
                 var serverAddress = 'http://localhost:8081/logReports/carNumber/' + $(this).val();
 
                 // jQuery의 .get 메소드 사용
@@ -440,7 +445,7 @@
             <div class=" col-xl-8">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <h6 class="m-0 font-weight-bold text-primary">전체 주입 로그</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">전체 주입 내역</h6>
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -486,10 +491,12 @@
 
                         <div class="row" th:if="${reservoirs != null}">
                             <div class="tank col-4 p-4">
-                                <div class="progress" style="bottom">
+                                <div class="progress">
                                     <div class="progress-bar" style="overflow: hidden;"></div>
                                 </div>
-                                <p>36.1%</p>
+                                <div class="flex" style="display: flex; flex-direction: column-reverse;">
+                                    <span id="percent"></span>
+                                </div>
                             </div>
                             <div class="col-8">
                                 <form action="/reservoirs/put" method="post">
@@ -529,17 +536,26 @@
             </div>
             <div class="col-lg-6 col-xl-4">
                 <div class="card shadow mb-4">
+
                     <div class="card-header">
                         <h6 class="m-0 font-weight-bold text-primary">차량별 월별 요소수 주입량</h6>
                     </div>
                     <div class="card-body">
-                        <select id="select-car-monthly">
-                            <option th:each="car : ${cars}" th:text="${car.carNumber}" th:value="${car.carNumber}"></option>
-                        </select>
-                        <!-- Area Chart -->
-                        <div class="chart-area">
-                            <canvas id="carLogChart"></canvas>
-                        </div>
+                        <th:block th:if="${cars} != null">
+                            <select id="select-car-monthly">
+                                <option selected disabled>차량 선택</option>
+                                <option th:each="car : ${cars}" th:text="${car.carNumber}" th:value="${car.carNumber}"></option>
+                            </select>
+                            <!-- Area Chart -->
+                            <div class="chart-area">
+                                <canvas id="carLogChart"></canvas>
+                            </div>
+                        </th:block>
+                        <th:block th:unless="${cars} != null">
+                            <div class="info-blank p-20 text-center">
+                                <h4>등록된 차량이 없습니다.</h4>
+                            </div>
+                        </th:block>
                     </div>
                 </div>
             </div>

@@ -40,7 +40,7 @@ public class MemberController {
         return "members/memberList";
     }
 
-    //로그인 회사 지점의 기사 리스트
+    // 직원 목록 페이지
     @GetMapping("/members")
     @PreAuthorize("hasRole('BRANCH')")
     public String list(Model model) {
@@ -50,8 +50,9 @@ public class MemberController {
     }
 
 
+    // 직원 추가 페이지
     @GetMapping("/members/new")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String createForm(Model model) {
         model.addAttribute("req", "new");
         model.addAttribute("member", Member.builder().build());
@@ -59,7 +60,7 @@ public class MemberController {
     }
 
 
-
+    // 직원 추가 처리
     @PostMapping("/members/new")
     @PreAuthorize("hasRole('BRANCH')")
     public String create(MemberInfoDto form) throws IOException {
@@ -69,8 +70,9 @@ public class MemberController {
         return "redirect:/members";
     }
 
+    // 직원 수정
     @GetMapping("/members/update/{id}")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editForm(Model model, @PathVariable Long id) throws Exception {
         try {
             Member member = memberService.getEditMemberInfo(id);
@@ -87,7 +89,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/update")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String updateMember(MemberInfoDto memberInfoDto) throws Exception {
         try {
             memberService.updateDriver(memberInfoDto);
@@ -98,7 +100,7 @@ public class MemberController {
     }
 
     @GetMapping("/memberDelete/{id}")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String carDelete(@PathVariable Long id) throws Exception {
         memberService.deleteMember(id);
         return "redirect:/members";

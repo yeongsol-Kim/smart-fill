@@ -36,15 +36,30 @@ public class FillLogService {
         //return fillLogRepository.findByBranchId(branchId, Sort.by(Sort.Direction.DESC, "datetime"));
     }
 
+
+    // 지점의 주입 내역 조회
+    public List<Log> getBranchLogs(Long branchId) {
+        return fillLogRepository.findByBranchId(branchId);
+    }
+
+    // 주입 내역 조회 (지점 관리자)
     public List<Log> getMyBranchLogs() {
         Long id = SecurityUtil.getCurrentDependentId().orElse(null);
         return fillLogRepository.findByBranchId(id);
         //return fillLogRepository.findByBranchId(id, Sort.by(Sort.Direction.DESC, "datetime"));
     }
 
-    public List<LogReportDto> getMyGraphData() {
+    // 지점의 월 주입 통계
+    public List<LogReportDto> getGraphData(Long branchId) {
 
-        List<LogReportDto> logReportDto = fillLogRepository.findByBranchIdGroupByMonthWithJPQL(SecurityUtil.getCurrentDependentId().orElse(null));
+        List<LogReportDto> logReportDto = fillLogRepository.findByBranchIdGroupByMonthWithJPQL(branchId);
+        return logReportDto;
+    }
+
+    // 월 주입 통계 (지점 관리자)
+    public List<LogReportDto> getMyGraphData() {
+        Long id = SecurityUtil.getCurrentDependentId().orElse(null);
+        List<LogReportDto> logReportDto = fillLogRepository.findByBranchIdGroupByMonthWithJPQL(id);
         return logReportDto;
     }
 

@@ -6,12 +6,11 @@ import com.smartf.comu.domain.Log;
 import com.smartf.comu.domain.Reservoir;
 import com.smartf.comu.dto.LogReportDto;
 import com.smartf.comu.service.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +46,13 @@ public class DashboardController {
             List<String> months = new ArrayList<>();
             List<Long> amounts = new ArrayList<>();
 
+            // 프론트 처리를 위해 값이 없으면 null 주입
             if (reservoirs.isEmpty()) {
                 reservoirs = null;
+            }
+
+            if (cars.isEmpty()) {
+                cars = null;
             }
 
             logReports.stream().forEach(s -> {
@@ -63,6 +67,44 @@ public class DashboardController {
             model.addAttribute("amounts", amounts);
             return "dashboard/register_place";
         }
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String dashboard(@PathVariable Long id, Model model, Authentication authentication) throws Exception {
+
+        // 접근 제어 (본인 회사 소속 지점인지 검사)
+        if(!branchService.isMyBranch(id)) {
+            return "redirect:/";
+        }
+
+        List<Log> fillLogs = fillLogService.getBranchLogs(id);
+        List<Reservoir> reservoirs = reservoirService.getReservoirs(id);
+        List<LogReportDto> logReports = fillLogService.getGraphData(id);
+        List<Car> cars = carService.getBranchCarList(id);
+        List<String> months = new ArrayList<>();
+        List<Long> amounts = new ArrayList<>();
+
+        // 프론트 처리를 위해 값이 없으면 null 주입
+        if (reservoirs.isEmpty()) {
+            reservoirs = null;
+        }
+
+        if (cars.isEmpty()) {
+            cars = null;
+        }
+
+        logReports.stream().forEach(s -> {
+            months.add(s.getMonth() + "월");
+            amounts.add(s.getSumAmount());
+        });
+
+        model.addAttribute("fillLogs", fillLogs);
+        model.addAttribute("reservoirs", reservoirs);
+        model.addAttribute("cars", cars);
+        model.addAttribute("months", months);
+        model.addAttribute("amounts", amounts);
+        return "dashboard/register_place";
     }
 
     @PostMapping("/branch/new")

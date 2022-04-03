@@ -20,7 +20,12 @@ public class ReservoirService {
         this.reservoirRepository = repository;
     }
 
+    // 지점의 저장조 조회
+    public List<Reservoir> getReservoirs(Long branchId) {
+        return reservoirRepository.findByBranchId(branchId);
+    }
 
+    // 저장조 조회 (지점 관리자)
     public List<Reservoir> getMyReservoirs() {
         Long id = SecurityUtil.getCurrentDependentId().orElse(null);
         return reservoirRepository.findByBranchId(id);

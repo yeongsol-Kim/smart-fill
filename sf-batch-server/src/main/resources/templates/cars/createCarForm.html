@@ -100,7 +100,7 @@
         <div class="row">
 
 
-            <div class="col-lg-12 mb-4">
+            <div class="col-lg-8 col-xl-6 mb-4">
 
                 <!-- Illustrations -->
                 <div class="card shadow mb-4">
@@ -111,11 +111,12 @@
                         <form th:action="@{'/cars/' + ${req}}" method="post" enctype="multipart/form-data">
                             <div class="image-upload">
                                 <label for="profile_pt">
+                                    사진
                                     <span id='View_area' style='position:relative; width: 100px; height: 160px; color: black; border: 0px solid black; dispaly: inline;'>
-                                        <img id="prev_View_area" style="width: 100px; height: 125px; border:1px solid #CDCDCD;" src="/img/user-blank.png"/>
+                                        <img id="prev_View_area" style="width: 100px; height: 125px; border:1px solid #CDCDCD; cursor:pointer;" src="/img/car-blank.png"/>
                                     </span>
                                 </label>
-                                <input type="file" name="profile_pt" id="profile_pt" onchange="previewImage(this,'View_area')">
+                                <input type="file" class="d-none" name="profile_pt" id="profile_pt" onchange="previewImage(this,'View_area')">
                             </div>
                             <div class="pic-upload"></div>
                             <span th:if="${req} == 'update'">

@@ -31,14 +31,14 @@ public class CarController {
     }
 
     @GetMapping("/carDelete/{id}")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String carDelete(@PathVariable Long id) {
         carService.deleteCar(id);
         return "redirect:/cars";
     }
 
     @GetMapping("/cars/new")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String createForm(Model model) {
         model.addAttribute("req", "new");
         model.addAttribute("car", Car.builder().build());
@@ -46,7 +46,7 @@ public class CarController {
     }
 
     @PostMapping("/cars/new")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String create(CarDto carDto) {
         carService.addCar(carDto);
 
@@ -55,7 +55,7 @@ public class CarController {
 
 
     @GetMapping("/cars/update/{id}")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String updateForm(Model model, @PathVariable Long id) throws Exception {
         try {
             Car car = carService.getEditCarInfo(id);
@@ -72,7 +72,7 @@ public class CarController {
     }
 
     @PostMapping("/cars/update")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String updateCar(CarDto carDto) throws Exception {
         try {
             carService.updateCar(carDto);

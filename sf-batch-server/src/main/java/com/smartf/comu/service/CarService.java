@@ -20,6 +20,12 @@ public class CarService {
         return carRepository.findAll();
     }
 
+    // 지점의 목록 조회
+    public List<Car> getBranchCarList(Long branchId) {
+        return carRepository.findByBranchId(branchId);
+    }
+
+    // 차량 목록 조회 (지점 관리자)
     public List<Car> getMyBranchCarList() {
         Long branchId = SecurityUtil.getCurrentDependentId().orElse(null);
         return carRepository.findByBranchId(branchId);

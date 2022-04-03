@@ -1,9 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
-      layout:decorate="~{layout/layoutCompany}">
+      layout:decorate="~{layout/layout}">
 
 <th:block layout:fragment="css">
+    <style>
+        .branch {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .branch-list {
+            display: flex;
+            flex-wrap : wrap;
+            justify-content: space-between;
+
+        }
+        .branch-pic {
+            width: 125px;
+            min-height: 150px;
+            border: 1px solid black;
+            background-color: #ad2547;
+        }
+    </style>
 
 </th:block>
 
@@ -12,6 +31,35 @@
 </th:block>
 
 <th:block layout:fragment="content">
+
+    <div class="container-fluid">
+        <!-- DataTales Example -->
+        <div class="row">
+            <!--            로그 조회 -->
+            <div class=" col-xl-8">
+                <div class="card shadow mb-4">
+                    <th:block th:if="${branches} != null">
+                        <div class="card-header">
+                            <h6 class="m-0 font-weight-bold text-primary">지점 목록</h6>
+                        </div>
+                        <div class="card-body branch-list">
+                            <a th:each="branch : ${branches}" th:href="@{/{id}(id=${branch.id})}">
+                                <div class="branch mx-5">
+                                    <div class="branch-pic">
+                                        <img src="/img/smartf-logo.png" class="branch-pic" style="width: 100%;">
+                                    </div>
+                                    <h6 class="text-center" th:text="${branch.name}"></h6>
+                                </div>
+                            </a>
+                        </div>
+                    </th:block>
+                    <th:block th:unless="${branches} != null">
+                        등록된 지점이 없습니다. 지점을 등록해 주세요.
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="block mb-4">
         <form action="branch/new" method="post">
             <h5>지점 생성</h5>
