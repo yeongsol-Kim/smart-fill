@@ -27,6 +27,8 @@ public class UserDto {
    @Size(min = 3, max = 100)
    private String password;
 
+   private Long branchId;
+
    @NotNull
    @Size(min = 3, max = 50)
    private String nickname;
@@ -40,6 +42,7 @@ public class UserDto {
               .id(user.getUserId())
               .username(user.getUsername())
               .nickname(user.getNickname())
+              .branchId(user.getBranchId())
               .authorityDtoSet(user.getAuthorities().stream()
                       .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
                       .collect(Collectors.toSet()))

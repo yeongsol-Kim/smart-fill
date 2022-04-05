@@ -22,6 +22,9 @@ public class User {
    @Column(name = "username", length = 50, unique = true)
    private String username;
 
+   @Column(name = "branch_id")
+   private Long branchId;
+
    @Column(name = "password", length = 100)
    private String password;
 
@@ -33,8 +36,8 @@ public class User {
 
    @ManyToMany
    @JoinTable(
-      name = "user_authority",
-      joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-      inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+           name = "user_authority",
+           joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+           inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
    private Set<Authority> authorities;
 }

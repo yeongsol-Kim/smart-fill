@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class CarService {
     private CarRepository carRepository;
 
@@ -16,16 +17,21 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    @Transactional(readOnly = true)
+
     public Boolean isRegistrationCar(Long carNumber) {
         Car car = carRepository.findByCarNumber(carNumber);
         return car.getId() != null;
         //return UserDto.from(userRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
     }
 
-    @Transactional(readOnly = true)
+
     public List<Car> getCarListByCarNumber(String carNumber) {
         return carRepository.findByCarNumberContains(carNumber);
+
+    }
+
+    public List<Car> searchMyBranchCars(String carNumber, Long branchId) {
+        return carRepository.findByCarNumberContainsAndBranchId(carNumber, branchId);
 
     }
 }

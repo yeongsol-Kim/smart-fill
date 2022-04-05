@@ -4,6 +4,8 @@ import com.smartf.comu.entity.Branch;
 import com.smartf.comu.entity.Log;
 import lombok.*;
 
+import javax.persistence.Column;
+
 
 @Getter
 @Setter
@@ -17,6 +19,8 @@ public class BranchDto {
     private String name;
 
     private Long companyId;
+
+    private Long branchId;
 
     public static BranchDto from(Branch branch) {
         if(branch == null) return null;

@@ -19,6 +19,9 @@ public class Car {
     @Column(name = "car_number")
     private String carNumber;
 
+    @Column(name = "branch_id")
+    private Long branchId;
+
     @Column(name = "years")
     private Long years;
 

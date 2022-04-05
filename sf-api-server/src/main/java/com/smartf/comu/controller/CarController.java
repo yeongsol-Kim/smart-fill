@@ -2,8 +2,10 @@ package com.smartf.comu.controller;
 
 import com.smartf.comu.entity.Car;
 import com.smartf.comu.service.CarService;
+import com.smartf.comu.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +15,11 @@ import java.util.List;
 @RequestMapping("/api")
 public class CarController {
     private final CarService carService;
+    private final UserService userService;
 
-    public CarController(CarService carService) {
+    public CarController(CarService carService, UserService userService) {
         this.carService = carService;
+        this.userService = userService;
     }
 
 
@@ -23,6 +27,15 @@ public class CarController {
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public List<Car> searchCarList(@PathVariable String number) {
         return carService.getCarListByCarNumber(number);
+
+    }
+
+    @GetMapping("/cars/branchId/carNumbers/{number}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public List<Car> searchMyBranchCarList(@PathVariable String number, Authentication authentication) {
+        Long branchId = userService.getMyUserWithAuthorities().getBranchId();
+
+        return carService.searchMyBranchCars(number, branchId);
 
     }
 
