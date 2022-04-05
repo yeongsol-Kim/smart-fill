@@ -6,6 +6,8 @@ import com.smartf.comu.repository.CarRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CarService {
     private CarRepository carRepository;
@@ -19,5 +21,11 @@ public class CarService {
         Car car = carRepository.findByCarNumber(carNumber);
         return car.getId() != null;
         //return UserDto.from(userRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Car> getCarListByCarNumber(String carNumber) {
+        return carRepository.findByCarNumberContains(carNumber);
+
     }
 }

@@ -17,7 +17,7 @@ public class Car {
     private Long id;
 
     @Column(name = "car_number")
-    private Long carNumber;
+    private String carNumber;
 
     @Column(name = "years")
     private Long years;

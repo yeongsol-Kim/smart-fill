@@ -104,6 +104,7 @@ public class DashboardController {
         model.addAttribute("cars", cars);
         model.addAttribute("months", months);
         model.addAttribute("amounts", amounts);
+        model.addAttribute("id", id);
         return "dashboard/register_place";
     }
 
