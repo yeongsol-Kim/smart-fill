@@ -140,6 +140,11 @@ public class MemberService {
         return memberRepository.findByBranchId(id);
     }
 
+    // 검색 회사 회원 조회
+    public List<Member> findBranchMembers(Long branchId) {
+        return memberRepository.findByBranchId(branchId);
+    }
+
     public Member getEditMemberInfo(Long memberId) throws Exception {
         // 올바른 접근인지 검사
         Member member = isMyBranchMember(memberId);

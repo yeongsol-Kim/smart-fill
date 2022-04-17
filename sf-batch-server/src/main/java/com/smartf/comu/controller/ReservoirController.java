@@ -30,7 +30,7 @@ public class ReservoirController {
 
     // 저장조 목록 페이지
     @GetMapping("/reservoirs")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasAnyRole('BRANCH', 'ADMIN')")
     public String reservoirList(Model model) {
         List<Reservoir> reservoirs = reservoirService.getMyReservoirs();
         List<Pump> pumps = pumpService.getMyPumps();
@@ -41,14 +41,14 @@ public class ReservoirController {
 
     // 저장조 등록 페이지
     @GetMapping("/reservoirs/new")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String createReservoirForm() {
         return "reservoirs/reservoirCreateForm";
     }
 
     // 저장조 등록 처리
     @PostMapping("/reservoirs/new")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String createReservoir(ReservoirDto reservoirDto) {
         reservoirService.addReservoir(reservoirDto);
         return "redirect:/reservoirs";

@@ -23,7 +23,7 @@ public class CarController {
 
 
     @GetMapping("/cars")
-    @PreAuthorize("hasRole('BRANCH')")
+    @PreAuthorize("hasAnyRole('BRANCH', 'ADMIN')")
     public String carList(Model model) {
         List<Car> cars = carService.getMyBranchCarList();
         model.addAttribute("cars", cars);

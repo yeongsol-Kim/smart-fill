@@ -408,7 +408,6 @@
                     success: function onData (data) {
                         var months = [];
                         var amounts = [];
-                        console.log(data);
                         for (value in data) {
                             months.push(data[value].month + "월");
                             amounts.push(data[value].sumAmount);
