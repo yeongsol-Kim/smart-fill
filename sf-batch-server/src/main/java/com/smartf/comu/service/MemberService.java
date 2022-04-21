@@ -78,7 +78,8 @@ public class MemberService {
                 .phoneNumber(memberInfo.getPhoneNumber())
                 .address(memberInfo.getAddress())
                 .datetime(OffsetDateTime.now())
-                .branchId(SecurityUtil.getCurrentDependentId().orElse(null))
+//                .branchId(SecurityUtil.getCurrentDependentId().orElse(null))
+                .branchId(memberInfo.getBranchId())
                 .authorities(Collections.singleton(authority))
                 .activated(1l)
                 .build();

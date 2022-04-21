@@ -1,9 +1,11 @@
 package com.smartf.comu.controller;
 
+import com.smartf.comu.domain.Branch;
 import com.smartf.comu.domain.Pump;
 import com.smartf.comu.domain.Reservoir;
 import com.smartf.comu.dto.ReservoirDto;
 import com.smartf.comu.service.BranchService;
+import com.smartf.comu.service.CompanyAdminService;
 import com.smartf.comu.service.PumpService;
 import com.smartf.comu.service.ReservoirService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,11 +23,13 @@ public class ReservoirController {
     private final ReservoirService reservoirService;
     private final BranchService branchService;
     private final PumpService pumpService;
+    private final CompanyAdminService companyAdminService;
 
-    public ReservoirController(ReservoirService reservoirService, BranchService branchService, PumpService pumpService) {
+    public ReservoirController(ReservoirService reservoirService, BranchService branchService, PumpService pumpService, CompanyAdminService companyAdminService) {
         this.reservoirService = reservoirService;
         this.branchService = branchService;
         this.pumpService = pumpService;
+        this.companyAdminService = companyAdminService;
     }
 
     // 저장조 목록 페이지
@@ -42,14 +46,17 @@ public class ReservoirController {
     // 저장조 등록 페이지
     @GetMapping("/reservoirs/new")
     @PreAuthorize("hasRole('ADMIN')")
-    public String createReservoirForm() {
-        return "reservoirs/reservoirCreateForm";
+    public String createReservoirForm(Model model) {
+        List<Branch> branches = companyAdminService.getMyBranches();
+        model.addAttribute("branches", branches);
+        return "reservoirs/reservoirCreateSelectForm";
     }
 
     // 저장조 등록 처리
     @PostMapping("/reservoirs/new")
     @PreAuthorize("hasRole('ADMIN')")
     public String createReservoir(ReservoirDto reservoirDto) {
+
         reservoirService.addReservoir(reservoirDto);
         return "redirect:/reservoirs";
     }

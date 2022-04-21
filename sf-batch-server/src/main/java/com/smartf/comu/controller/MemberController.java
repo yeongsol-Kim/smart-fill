@@ -59,15 +59,34 @@ public class MemberController {
     }
 
 
-    // 직원 추가 페이지
+//    // 직원 추가 페이지
+//    @GetMapping("/members/new")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public String createForm(Model model) {
+//        model.addAttribute("req", "new");
+//        model.addAttribute("member", Member.builder().build());
+//        return "members/createMemberForm";
+//    }
+
     @GetMapping("/members/new")
     @PreAuthorize("hasRole('ADMIN')")
     public String createForm(Model model) {
+        List<Branch> branches = companyAdminService.getMyBranches();
+        model.addAttribute("branches", branches);
         model.addAttribute("req", "new");
         model.addAttribute("member", Member.builder().build());
-        return "members/createMemberForm";
+        return "members/createMemberSelectForm";
     }
 
+
+//    // 직원 추가 처리
+//    @PostMapping("/members/new")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public String create(MemberInfoDto form) throws IOException {
+//        memberService.addDriver(form);
+//
+//        return "redirect:/members";
+//    }
 
     // 직원 추가 처리
     @PostMapping("/members/new")
@@ -77,6 +96,7 @@ public class MemberController {
 
         return "redirect:/members";
     }
+
 
     // 직원 수정
     @GetMapping("/members/update/{id}")

@@ -86,27 +86,26 @@
             $("#branches").on("change", function() {
 
 
+
+
                 $("#dataTablee").DataTable({
+                    destroy:true,
+                    searching:false,
                     pageLength: 10,
                     ajax:{
                         url:"http://localhost:8081/members/branch/" + $(this).val(),
                         type :"GET",
-                        dataSrc : function(json) {
-                            console.log(json);
-                        },
-                        success : function(data){
-                          console.log(data);
-                        }
+                        dataSrc : ''
                     },
                     columns:[
-                        {data:"name"},
+                        {data:""},
                         {data:"name"},
                         {data:"username"},
                         {data:"carId"},
                         {data:"phoneNumber"},
                         {data:"email"},
-                        {data:"email"},
-                        {data:"address"}
+                        {data:"address"},
+                        {data:""}
                     ]
 
                 });

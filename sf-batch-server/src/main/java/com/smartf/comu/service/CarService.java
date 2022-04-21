@@ -38,7 +38,8 @@ public class CarService {
                 .carType(carDto.getCarType())
                 .years(carDto.getYears())
                 .registrationNumber(carDto.getRegistrationNumber())
-                .branchId(SecurityUtil.getCurrentDependentId().orElse(null))
+                //.branchId(SecurityUtil.getCurrentDependentId().orElse(null))
+                .branchId(carDto.getBranchId())
                 .build();
 
         carRepository.save(car);

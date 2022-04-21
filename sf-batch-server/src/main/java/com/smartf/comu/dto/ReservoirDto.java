@@ -17,5 +17,7 @@ public class ReservoirDto {
 
     private String reservoirName;
 
+    private Long branchId;
+
     private Double fuelMax;
 }

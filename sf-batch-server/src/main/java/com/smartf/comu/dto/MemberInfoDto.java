@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class MemberInfoDto {
     private Long id;
+    private Long branchId;
     private String username;
     private String name;
     private String email;

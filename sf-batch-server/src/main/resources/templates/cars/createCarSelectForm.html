@@ -4,7 +4,6 @@
       layout:decorate="~{layout/layout}">
 
 
-<!-- 본 페이지 커스텀 css -->
 <th:block layout:fragment="css">
     <style>
         .image-upload {
@@ -15,7 +14,6 @@
     </style>
 </th:block>
 
-<!-- 본 페이지 커스텀 script -->
 <th:block layout:fragment="script">
     <script>
         function previewImage(targetObj, View_area) {
@@ -95,23 +93,20 @@
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">직원 관리</h1>
+            <h1 class="h3 mb-0 text-gray-800">차량 관리</h1>
         </div>
 
         <!-- Content Row -->
         <div class="row">
-
-
             <div class="col-lg-8 col-xl-6 mb-4">
 
                 <!-- Illustrations -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">직원 등록</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">차량 등록</h6>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{'/members/' + ${req}}" method="post" enctype="multipart/form-data">
-                            <label for="branches" class="form-label">지점</label>
+                        <form th:action="@{'/cars/' + ${req}}" method="post" enctype="multipart/form-data">
                             <select class="form-control mb-4" id="branches" name="branchId">
                                 <option th:each="branch : ${branches}" th:text="${branch.name}" th:value="${branch.id}"></option>
                             </select>
@@ -119,27 +114,23 @@
                                 <label for="profile_pt">
                                     사진
                                     <span id='View_area' style='position:relative; width: 100px; height: 160px; color: black; border: 0px solid black; dispaly: inline;'>
-                                        <img id="prev_View_area" style="width: 100px; height: 125px; border:1px solid #CDCDCD; cursor:pointer;" src="/img/user-blank.png"/>
+                                        <img id="prev_View_area" style="width: 100px; height: 125px; border:1px solid #CDCDCD; cursor:pointer;" src="/img/car-blank.png"/>
                                     </span>
                                 </label>
-                                <input type="file" name="file" id="profile_pt" class="d-none" onchange="previewImage(this,'View_area')">
+                                <input type="file" class="d-none" name="profile_pt" id="profile_pt" onchange="previewImage(this,'View_area')">
                             </div>
                             <div class="pic-upload"></div>
                             <span th:if="${req} == 'update'">
                                 <input type="hidden" name="id" th:value="${id}"/>
                             </span>
-                            <label for="input-name" class="form-label">이름</label>
-                            <input type="text" class="form-control mb-4" name="name" id="input-name" placeholder="ex) 홍길동" th:value="${member.name}"/>
-                            <label for="input-username" class="form-label">기사번호</label>
-                            <input type="text" class="form-control mb-4" name="username" id="input-username" placeholder="ex) 123456" th:value="${member.username}"/>
-                            <label for="input-password" class="form-label">비밀번호</label>
-                            <input type="password" class="form-control mb-4" name="password" id="input-password" placeholder="비밀번호"/>
-                            <label for="input-email" class="form-label">이메일</label>
-                            <input type="email" class="form-control mb-4" name="email" id="input-email" placeholder="ex) example@xxx.com" th:value="${member.email}"/>
-                            <label for="input-phone" class="form-label">휴대폰 번호</label>
-                            <input type="text" class="form-control mb-4" name="phoneNumber" id="input-phone" placeholder="ex) 010-0000-0000" th:value="${member.phoneNumber}"/>
-                            <label for="input-address" class="form-label">주소</label>
-                            <input type="text" class="form-control mb-4" name="address" id="input-address" placeholder="ex) OO시 OO구 OO길 OO-OO" th:value="${member.address}"/>
+                            <label for="input-carNumber" class="form-label">차량번호</label>
+                            <input type="text" class="form-control mb-4" name="carNumber" id="input-carNumber" placeholder="ex) 00가0000" th:value="${car.carNumber}"/>
+                            <label for="input-carType" class="form-label">차종</label>
+                            <input type="text" class="form-control mb-4" name="carType" id="input-carType" placeholder="ex) 프리마" th:value="${car.carType}"/>
+                            <label for="input-years" class="form-label">연식</label>
+                            <input type="text" class="form-control mb-4" name="years" id="input-years" placeholder="ex) 00" th:value="${car.years}"/>
+                            <label for="input-registrationNumber" class="form-label">등록번호</label>
+                            <input type="text" class="form-control mb-4" name="registrationNumber" id="input-registrationNumber" placeholder="ex) 12341234" th:value="${car.registrationNumber}"/>
                             <button type="submit" class="btn btn-primary">확인</button>
                         </form>
                     </div>
@@ -149,5 +140,6 @@
 
     </div>
     <!-- /.container-fluid -->
+
 </th:block>
 </html>

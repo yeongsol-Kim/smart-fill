@@ -12,6 +12,8 @@ public class CarDto {
 
     private Long id;
 
+    private Long branchId;
+
     private String carNumber;
 
     private String carType;

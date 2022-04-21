@@ -33,7 +33,8 @@ public class ReservoirService {
 
     public void addReservoir(ReservoirDto reservoirDto) {
         Reservoir reservoir = Reservoir.builder()
-                .branchId(SecurityUtil.getCurrentDependentId().orElse(null))
+                //.branchId(SecurityUtil.getCurrentDependentId().orElse(null))
+                .branchId(reservoirDto.getBranchId())
                 .reservoirName(reservoirDto.getReservoirName())
                 .fuelMax(reservoirDto.getFuelMax())
                 .fuelLevel(0D)
