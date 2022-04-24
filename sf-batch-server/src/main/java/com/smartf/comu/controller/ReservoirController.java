@@ -9,6 +9,7 @@ import com.smartf.comu.service.CompanyAdminService;
 import com.smartf.comu.service.PumpService;
 import com.smartf.comu.service.ReservoirService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,12 +36,19 @@ public class ReservoirController {
     // 저장조 목록 페이지
     @GetMapping("/reservoirs")
     @PreAuthorize("hasAnyRole('BRANCH', 'ADMIN')")
-    public String reservoirList(Model model) {
-        List<Reservoir> reservoirs = reservoirService.getMyReservoirs();
-        List<Pump> pumps = pumpService.getMyPumps();
-        model.addAttribute("pumps", pumps);
-        model.addAttribute("reservoirs", reservoirs);
-        return "reservoirs/reservoirList";
+    public String reservoirList(Model model, Authentication authentication) {
+        if (authentication.getAuthorities().toString().equals("[ROLE_BRANCH]")) {
+            List<Reservoir> reservoirs = reservoirService.getMyReservoirs();
+            List<Pump> pumps = pumpService.getMyPumps();
+            model.addAttribute("pumps", pumps);
+            model.addAttribute("reservoirs", reservoirs);
+            return "reservoirs/reservoirList";
+        } else if(authentication.getAuthorities().toString().equals("[ROLE_BRANCH]")) {
+            List<Branch> branches = companyAdminService.getMyBranches();
+            return "reservoirs/reservoirListSelect";
+        }
+
+        return "redirect:/";
     }
 
     // 저장조 등록 페이지

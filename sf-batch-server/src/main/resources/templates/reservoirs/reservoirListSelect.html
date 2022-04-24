@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<th:block layout:fragment="css">
+    <style>
+        .flex {
+            display: flex;
+        }
+
+        .profile_image {
+            padding: 20px;
+            width: 130px;
+            display: flex;
+            cursor: pointer;
+        }
+        .content-header{
+            width:200px;
+            display:grid;
+            padding-left: 30px;
+        }
+        .input_content{
+             width: max-content;
+        }
+
+        .content-body-value{
+            padding :10px
+        }
+
+        button.button_check{
+        width: 120px;
+            height: 40px;
+            color: #fff;
+            background: #004fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 4px 16px rgb(0 79 255 / 30%);
+            transition: 0.3s;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            top: 100%;
+        }
+        button:focus {
+            outline:0;
+        }
+        button:hover{
+            background: rgba(0,79,255,0.9);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,79,255,0.6);
+        }
+
+
+        .reservoir {
+            width:200px;
+        }
+        .tank {
+            min-height:300px;
+            border: 2px solid #888888;
+            border-radius: 1rem;
+            display:flex;
+            margin-bottom: 6px;
+        }
+        .progress {
+            width: 12px;
+            height: 248px;
+            background-color: #eaecf4;
+            border-radius: .5rem;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+        .progress-bar {
+            width: 1rem;
+            background-color: #4e73df;
+            overflow:hidden;
+            bottom: 0px;
+        }
+
+        .pumps {
+            padding: 12px;
+        }
+    </style>
+    <link th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet">
+</th:block>
+
+<th:block layout:fragment="script">
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+
+    <script>
+        $(".user-recode").on("click",function(){
+            //alert($(this).attr("id"));
+            $('#modal-' + $(this).attr("id")).modal('show');
+            //$('#modal-1').show();
+        })
+    </script>
+</th:block>
+
+<th:block layout:fragment="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">저장조 관리</h1>
+            <!--            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i-->
+            <!--                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
+        </div>
+        <select class="form-control mb-4" id="branches" name="branchId">
+            <option th:each="branch : ${branches}" th:text="${branch.name}" th:value="${branch.id}"></option>
+        </select>
+        <div class="row">
+            <div class="col-xl-6 mb-4" th:each="reservoir : ${reservoirs}">
+                <div class="card shadow">
+                    <div class="card-header" th:text="${reservoir.reservoirName}">
+                        저장조
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <th:block th:if="${reservoirs != null}">
+                                <div class="pr-3 pl-3">
+                                    <h5 th:text="${reservoir.reservoirName}"></h5>
+                                    <div class="flex">
+                                        <div class="reservoir">
+                                            <div class="tank p-4">
+                                                <div class="progress">
+                                                    <div class="progress-bar" th:style="'height: ' + ${#numbers.formatPercent(reservoir.fuelLevel / reservoir.fuelMax, 1, 2)}"></div>
+                                                </div>
+                                                <div class="flex" style="display: flex; flex-direction: column-reverse;">
+                                                    <span th:style="'height: ' + ${#numbers.formatPercent(reservoir.fuelLevel / reservoir.fuelMax, 1, 2)}" th:text="${#numbers.formatPercent(reservoir.fuelLevel / reservoir.fuelMax, 1, 2)}"></span>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div id="reservoir-level" class="h5" th:text="${reservoir.fuelLevel} + 'L'">---L</div>
+                                                    <div id="reservoir-max" class="h6" th:text="'/ ' + ${reservoir.fuelMax} + 'L'">MAX  ---L</div>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <form action="/reservoirs/put" method="post">
+                                                    <input type="hidden" name="id" th:value="${reservoir.id}">
+                                                    <input type="text" placeholder="입고할 양을 입력하세요" name="amount" class="form-control mb-2" required="required">
+                                                    <input type="submit" class="btn btn-info form-control mb-4" value="입고">
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="pumps">
+                                            연결된 주입기
+                                            <table style="padding: 12px;">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>번호</th>
+                                                    <th>일련번호</th>
+                                                </tr>
+                                                <tr th:each="pump, idx : ${pumps}">
+                                                    <th:block th:if="${pump.reservoirId} == ${reservoir.id}">
+                                                        <th th:text="${idx.index} + '. '"></th>
+                                                        <td th:text="${pump.number}"></td>
+                                                        <td th:text="${pump.id}"></td>
+                                                    </th:block>
+                                                </tr>
+                                                <form th:action="@{pumps/new}" method="post">
+                                                    <tr>
+                                                        <td>
+                                                            <input type="hidden" name="reservoirId" th:value="${reservoir.id}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="number" placeholder="번호">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="id" placeholder="일련번호">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <input type="submit" class="btn btn-primary form-control" value="추가">
+                                                        </td>
+                                                    </tr>
+                                                </form>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                            <div th:unless="${reservoirs != nul}">
+                                <div class="info-blank p-20 text-center">
+                                    <h4>등록된 저장조가 없습니다.</h4>
+                                    <a href="/reservoirs/new" class="btn btn-primary">저장조 등록</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DataTales Example -->
+<!--        <div class="card shadow mb-4">-->
+<!--            <div class="card-header py-3">-->
+<!--                <h6 class="m-0 font-weight-bold text-primary">저장조 목록</h6>-->
+<!--            </div>-->
+
+<!--            <div class="card-body">-->
+<!--                <div class="table-responsive">-->
+<!--                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th>#</th>-->
+<!--                            <th>저장조 이름</th>-->
+<!--                            <th>최대 저장량</th>-->
+<!--                            <th>현재 저장량</th>-->
+<!--                            <th>저장률</th>-->
+<!--                            <th>관리</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <tr th:each="reservoir : ${reservoirs}">-->
+<!--                            <td th:text="${reservoir.id}"></td>-->
+<!--                            <td th:text="${reservoir.reservoirName}"></td>-->
+<!--                            <td th:text="${reservoir.fuelMax}"></td>-->
+<!--                            <td th:text="${reservoir.fuelLevel}"></td>-->
+<!--                            <td th:text="${#numbers.formatPercent(reservoir.fuelLevel / reservoir.fuelMax, 1, 2)}"></td>-->
+
+<!--                            <td>-->
+<!--                                <a th:href="@{#}" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>-->
+<!--                                <a th:href="@{'/reservoirDelete/' + ${reservoir.id}}" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</th:block>
+</html>
