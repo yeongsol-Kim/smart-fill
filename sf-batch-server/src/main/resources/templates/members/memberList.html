@@ -130,7 +130,7 @@
                                 <th>연락처</th>
                                 <th>이메일</th>
                                 <th>주소</th>
-                                <th>관리</th>
+<!--                                <th>관리</th>-->
                             </tr>
                         </thead>
                         <tfoot>
@@ -142,7 +142,7 @@
                                 <th>연락처</th>
                                 <th>이메일</th>
                                 <th>주소</th>
-                                <th>관리</th>
+<!--                                <th>관리</th>-->
                             </tr>
                         </tfoot>
                         <tbody>
@@ -154,10 +154,10 @@
                             <td th:text="${member.phoneNumber}"></td>
                             <td th:text="${member.email}"></td>
                             <td th:text="${member.address}"></td>
-                            <td>
-                                <a th:href="@{'/members/update/' + ${member.id}}" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                <button class="btn btn-danger btn-sm btn-delete" th:value="${member.id}"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                            </td>
+<!--                            <td>-->
+<!--                                <a th:href="@{'/members/update/' + ${member.id}}" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>-->
+<!--                                <button class="btn btn-danger btn-sm btn-delete" th:value="${member.id}"><i class="fa fa-trash" aria-hidden="true"></i></button>-->
+<!--                            </td>-->
                         </tr>
                         </tbody>
                     </table>
@@ -187,13 +187,14 @@
                         </div>
 
                         <div class="content-body">
-                            <div class="content-body-value">마지막 주입날짜: 2022년 1월 28일 18시 28분 22초</div>
-                            <div class="content-body-value">마지막 주입량: 36.12리터</div>
-                            <div class="content-body-value">총 주입횟수: 62회</div>
-                            <div class="content-body-value">총 주입량: 1326.12리터</div>
+                            <div class="content-body-value">마지막 주입날짜: </div>
+                            <div class="content-body-value">마지막 주입량: </div>
+                            <div class="content-body-value">총 주입횟수: </div>
+                            <div class="content-body-value">총 주입량: </div>
                         </div>
                         <button class="button_check" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">확인</span></button>
+                            <span aria-hidden="true">확인</span>
+                        </button>
 <!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
 <!--                            <span aria-hidden="true">&times;</span>-->
 <!--                        </button>-->

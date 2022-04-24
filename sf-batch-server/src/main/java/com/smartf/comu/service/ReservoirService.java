@@ -51,4 +51,11 @@ public class ReservoirService {
         return 1L;
 
     }
+
+    public List<Reservoir> getMyBranchReservoirs(Long id) {
+
+        // 접근권한 검사!!!!!!!! 추가
+
+        return reservoirRepository.findByBranchId(id);
+    }
 }

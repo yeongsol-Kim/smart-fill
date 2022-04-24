@@ -58,26 +58,41 @@
                     </th:block>
                 </div>
             </div>
+            <div class=" col-xl-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold text-primary">지점 생성</h6>
+                    </div>
+                    <div class="card-body branch-list">
+                        <div class="block mb-4">
+                            <form action="branch/new" method="post">
+                                <h5>지점 생성</h5>
+                                <input type="text" name="name" placeholder="지점 이름">
+                                <input type="submit">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold text-primary">지점 관리자 등록</h6>
+                    </div>
+                    <div class="card-body branch-list">
+                        <form action="branchAdmin/new" method="post">
+                            <h5>지점 관리자 생성</h5>
+                            <select name="dependentId">
+                                <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}"></option>
+                            </select><br/>
+                            <input type="text" name="username" placeholder="아이디"><br/>
+                            <input type="password" name="password" placeholder="비밀번호"><br/>
+                            <input type="password" name="passwordConfirm" placeholder="비밀번호 확인"><br/>
+                            <input type="submit" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="block mb-4">
-        <form action="branch/new" method="post">
-            <h5>지점 생성</h5>
-            <input type="text" name="name" placeholder="지점 이름">
-            <input type="submit">
-        </form>
-    </div>
-    <div class="block">
-        <form action="branchAdmin/new" method="post">
-            <h5>지점 관리자 생성</h5>
-            <select name="dependentId">
-                <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}"></option>
-            </select><br/>
-            <input type="text" name="username" placeholder="아이디"><br/>
-            <input type="password" name="password" placeholder="비밀번호"><br/>
-            <input type="password" name="passwordConfirm" placeholder="비밀번호 확인"><br/>
-            <input type="submit">
-        </form>
-    </div>
+
 </th:block>
 </html>

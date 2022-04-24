@@ -13,7 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -43,8 +45,9 @@ public class ReservoirController {
             model.addAttribute("pumps", pumps);
             model.addAttribute("reservoirs", reservoirs);
             return "reservoirs/reservoirList";
-        } else if(authentication.getAuthorities().toString().equals("[ROLE_BRANCH]")) {
+        } else if(authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
             List<Branch> branches = companyAdminService.getMyBranches();
+            model.addAttribute("branches", branches);
             return "reservoirs/reservoirListSelect";
         }
 
@@ -79,5 +82,12 @@ public class ReservoirController {
         reservoirService.putReservoir(reservoirDto);
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
+    }
+
+    @ResponseBody
+    @GetMapping("/reservoirs/branch/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Reservoir> getReservoirByBranch(@PathVariable Long id) {
+        return reservoirService.getMyBranchReservoirs(id);
     }
 }
