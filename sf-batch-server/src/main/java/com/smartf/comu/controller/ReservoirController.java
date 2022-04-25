@@ -84,6 +84,13 @@ public class ReservoirController {
         return "redirect:" + referer;
     }
 
+    @GetMapping("/reservoirDelete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String reservoirDelete(@PathVariable Long id) throws Exception {
+        reservoirService.deleteReservoir(id);
+        return "redirect:/members";
+    }
+
     @ResponseBody
     @GetMapping("/reservoirs/branch/{id}")
     @PreAuthorize("hasRole('ADMIN')")

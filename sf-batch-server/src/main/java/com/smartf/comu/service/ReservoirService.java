@@ -52,6 +52,10 @@ public class ReservoirService {
 
     }
 
+    public void deleteReservoir(Long id) {
+        reservoirRepository.deleteById(id);
+    }
+
     public List<Reservoir> getMyBranchReservoirs(Long id) {
 
         // 접근권한 검사!!!!!!!! 추가

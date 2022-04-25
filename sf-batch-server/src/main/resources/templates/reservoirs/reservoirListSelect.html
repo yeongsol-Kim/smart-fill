@@ -106,13 +106,11 @@
         })
 
         $("#branches").on("change", function() {
-            console.log($(this).val());
             $.ajax({
                 url: './reservoirs/branch/' + $(this).val(),
                 type: 'GET',
                 success: function onData (data) {
                     $("#list").empty();
-                    console.log(data);
 
                     //progress bar -
 
