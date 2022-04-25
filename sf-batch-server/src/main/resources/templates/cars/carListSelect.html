@@ -1,4 +1,4 @@
-carList.html<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
@@ -64,7 +64,7 @@ carList.html<!DOCTYPE html>
                 $('#modal-' + $(this).attr("id")).modal('show');
             })
 
-            $(".btn-delete").on("click", function() {
+            $(document).on("click", ".btn-delete", function() {
                 if ( confirm("해당 차량을 삭제하시겠습니까?") ) {
                     var uri = "/carDelete/" + $(this).val();
                     location.replace(uri);
@@ -77,7 +77,7 @@ carList.html<!DOCTYPE html>
                     searching:false,
                     pageLength: 10,
                     ajax:{
-                        url:"http://localhost:8081/cars/branch/" + $(this).val(),
+                        url:"./cars/branch/" + $(this).val(),
                         type :"GET",
                         dataSrc : ''
                     },
@@ -87,7 +87,15 @@ carList.html<!DOCTYPE html>
                         {data:"carType"},
                         {data:"registrationNumber"},
                         {data:""},
-                        {data:""}
+                        {data:"id",
+                            render : function(data, type, row){
+                                if (type=='display'){
+                                    data = '<a href="/cars/update/' + data + '" class="btn btn-primary btn-sm mr-1"><i class="fa fa-edit" aria-hidden="true"></i></a>' +
+                                            '<button class="btn btn-danger btn-sm btn-delete" value="' + data + '"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                                }
+                                return data;
+                            }
+                        }
                     ]
 
                 });
@@ -142,15 +150,15 @@ carList.html<!DOCTYPE html>
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr th:each="car : ${cars}" th:id="${car.id}" class="recode">
-                                <td th:text="${car.id}"></td>
-                                <td th:text="${car.carNumber}"></td>
-                                <td th:text="${car.carType}+ '(' + ${car.years} + '년식)'"></td>
-                                <td th:text="${car.registrationNumber}"></td>
-                                <td th:text="'asd'"></td>
+                            <tr class="recode">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td style="padding:4px;">
-                                    <a th:href="@{'/cars/update/' + ${car.id}}" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                    <button class="btn btn-danger btn-sm btn-delete" th:value="${car.id}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+<!--                                    <a th:href="@{'/cars/update/' + ${car.id}}" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>-->
+<!--                                    <button class="btn btn-danger btn-sm btn-delete" th:value="${car.id}"><i class="fa fa-trash" aria-hidden="true"></i></button>-->
                                 </td>
                             </tr>
                         </tbody>

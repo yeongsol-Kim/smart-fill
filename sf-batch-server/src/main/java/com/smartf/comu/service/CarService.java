@@ -82,9 +82,9 @@ public class CarService {
         car.orElseThrow(() -> new Exception("car is null"));
 
         // 다른 회사의 직원을 수정하려고 할 때 오류 발생
-        if(car.get().getBranchId() != SecurityUtil.getCurrentDependentId().orElse(null)) {
-            throw new Exception("not branch car");
-        }
+//        if(car.get().getBranchId() != SecurityUtil.getCurrentDependentId().orElse(null)) {
+//            throw new Exception("not branch car");
+//        }
 
         return car.get();
     }

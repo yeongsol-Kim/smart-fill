@@ -175,9 +175,9 @@ public class MemberService {
         member.orElseThrow(() -> new Exception("member is null"));
 
         // 다른 회사의 직원을 수정하려고 할 때 오류 발생
-        if(member.get().getBranchId() != SecurityUtil.getCurrentDependentId().orElse(null)) {
-            throw new Exception("not branch member");
-        }
+//        if(member.get().getBranchId() != SecurityUtil.getCurrentDependentId().orElse(null)) {
+//            throw new Exception("not branch member");
+//        }
 
         return member.get();
     }

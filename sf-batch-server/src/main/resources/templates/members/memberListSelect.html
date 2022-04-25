@@ -72,11 +72,11 @@
 
     <script>
         $(function(){
-            $(".user-recode").on("click",function(){
-                $('#modal-' + $(this).attr("id")).modal('show');
-            })
+            //$(".user-recode").on("click",function(){
+            //    $('#modal-' + $(this).attr("id")).modal('show');
+            //})
 
-            $(".btn-delete").on("click", function() {
+            $(document).on("click", ".btn-delete", function() {
                 if ( confirm("해당 직원을 삭제하시겠습니까?") ) {
                     var uri = "/memberDelete/" + $(this).val();
                     location.replace(uri);
@@ -85,31 +85,34 @@
 
             $("#branches").on("change", function() {
 
-
-
-
                 $("#dataTablee").DataTable({
                     destroy:true,
                     searching:false,
                     pageLength: 10,
                     ajax:{
-                        url:"http://localhost:8081/members/branch/" + $(this).val(),
+                        url:"./members/branch/" + $(this).val(),
                         type :"GET",
                         dataSrc : ''
                     },
                     columns:[
-                        {data:""},
+                        {data:'DT_RowIndex'},
                         {data:"name"},
                         {data:"username"},
                         {data:"carId"},
                         {data:"phoneNumber"},
                         {data:"email"},
                         {data:"address"},
-                        {data:""}
+                        {data:"id",
+                            render : function(data, type, row){
+                                if (type=='display'){
+                                    data = '<a href="/members/update/' + data + '" class="btn btn-primary btn-sm mr-1"><i class="fa fa-edit" aria-hidden="true"></i></a>' +
+                                            '<button class="btn btn-danger btn-sm btn-delete" value="' + data + '"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                                }
+                                return data;
+                            }
+                        }
                     ]
-
                 });
-
 
             })
         })
@@ -133,7 +136,7 @@
 <th:block layout:fragment="content">
     <!-- Begin Page Content -->
     <div class="container-fluid">
-
+        <div class="btn-delete">asdasdasds</div>
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">직원 관리</h1>
@@ -141,7 +144,7 @@
             <!--                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
         </div>
 
-        <select class="form-control" id="branches">
+        <select class="form-control mb-4" id="branches">
             <option th:each="branch : ${branches}" th:text="${branch.name}" th:value="${branch.id}"></option>
         </select>
 
@@ -178,18 +181,15 @@
                         </tr>
                         </tfoot>
                         <tbody>
-                        <tr th:each="member : ${members}" th:id="${member.id}" class="user-recode">
-                            <td th:text="${member.id}"></td>
-                            <td th:text="${member.name}"></td>
-                            <td th:text="${member.username}"></td>
-                            <td th:text="${member.carId}"></td>
-                            <td th:text="${member.phoneNumber}"></td>
-                            <td th:text="${member.email}"></td>
-                            <td th:text="${member.address}"></td>
-                            <td>
-                                <a th:href="@{'/members/update/' + ${member.id}}" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                <button class="btn btn-danger btn-sm btn-delete" th:value="${member.id}"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                            </td>
+                        <tr class="user-recode">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         </tbody>
                     </table>

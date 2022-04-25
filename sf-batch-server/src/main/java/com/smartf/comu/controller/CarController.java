@@ -7,6 +7,7 @@ import com.smartf.comu.service.CarService;
 import com.smartf.comu.service.CompanyAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +29,17 @@ public class CarController {
 
     @GetMapping("/cars")
     @PreAuthorize("hasAnyRole('BRANCH', 'ADMIN')")
-    public String carList(Model model) {
-        List<Branch> branches = companyAdminService.getMyBranches();
-        model.addAttribute("branches", branches);
-//        List<Car> cars = carService.getMyBranchCarList();
-        model.addAttribute("cars", null);
-        return "cars/carListSelect";
+    public String carList(Model model, Authentication authentication) {
+        if (authentication.getAuthorities().toString().equals("[ROLE_BRANCH]")) {
+            List<Car> cars = carService.getMyBranchCarList();
+            model.addAttribute("cars", cars);
+            return "cars/carList";
+        } else if (authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+            List<Branch> branches = companyAdminService.getMyBranches();
+            model.addAttribute("branches", branches);
+            return "cars/carListSelect";
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/carDelete/{id}")

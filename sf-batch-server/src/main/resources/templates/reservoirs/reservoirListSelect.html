@@ -108,7 +108,7 @@
         $("#branches").on("change", function() {
             console.log($(this).val());
             $.ajax({
-                url: 'http://localhost:8081/reservoirs/branch/' + $(this).val(),
+                url: './reservoirs/branch/' + $(this).val(),
                 type: 'GET',
                 success: function onData (data) {
                     $("#list").empty();
