@@ -129,17 +129,17 @@
                                 <input type="hidden" name="id" th:value="${id}"/>
                             </span>
                             <label for="input-name" class="form-label">이름</label>
-                            <input type="text" class="form-control mb-4" name="name" id="input-name" placeholder="ex) 홍길동" th:value="${member.name}"/>
+                            <input type="text" class="form-control mb-4" name="name" id="input-name" placeholder="ex) 홍길동" th:value="${member.name}" required maxlength="32"/>
                             <label for="input-username" class="form-label">기사번호</label>
-                            <input type="text" class="form-control mb-4" name="username" id="input-username" placeholder="ex) 123456" th:value="${member.username}"/>
+                            <input type="text" class="form-control mb-4" name="username" id="input-username" placeholder="ex) 123456" th:value="${member.username}" required maxlength="32"/>
                             <label for="input-password" class="form-label">비밀번호</label>
                             <input type="password" class="form-control mb-4" name="password" id="input-password" placeholder="비밀번호"/>
                             <label for="input-email" class="form-label">이메일</label>
-                            <input type="email" class="form-control mb-4" name="email" id="input-email" placeholder="ex) example@xxx.com" th:value="${member.email}"/>
+                            <input type="email" class="form-control mb-4" name="email" id="input-email" placeholder="ex) example@xxx.com" th:value="${member.email}" required maxlength="50"/>
                             <label for="input-phone" class="form-label">휴대폰 번호</label>
-                            <input type="text" class="form-control mb-4" name="phoneNumber" id="input-phone" placeholder="ex) 010-0000-0000" th:value="${member.phoneNumber}"/>
+                            <input type="text" class="form-control mb-4" name="phoneNumber" id="input-phone" placeholder="ex) 010-0000-0000" th:value="${member.phoneNumber}" required minlength="8" maxlength="15"/>
                             <label for="input-address" class="form-label">주소</label>
-                            <input type="text" class="form-control mb-4" name="address" id="input-address" placeholder="ex) OO시 OO구 OO길 OO-OO" th:value="${member.address}"/>
+                            <input type="text" class="form-control mb-4" name="address" id="input-address" placeholder="ex) OO시 OO구 OO길 OO-OO" th:value="${member.address}" required maxlength="50"/>
                             <button type="submit" class="btn btn-primary">확인</button>
                         </form>
                     </div>

@@ -70,7 +70,6 @@ public class MemberService {
                 .build();
 
         Member member = Member.builder()
-
                 .username(memberInfo.getUsername())
                 .password(passwordEncoder.encode(memberInfo.getPassword()))
                 .name(memberInfo.getName())

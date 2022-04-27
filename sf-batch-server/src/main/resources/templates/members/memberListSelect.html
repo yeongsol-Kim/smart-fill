@@ -85,7 +85,7 @@
 
             $("#branches").on("change", function() {
 
-                $("#dataTablee").DataTable({
+                var t = $("#dataTablee").DataTable({
                     destroy:true,
                     searching:false,
                     pageLength: 10,
@@ -95,14 +95,14 @@
                         dataSrc : ''
                     },
                     columns:[
-                        {data:'DT_RowIndex'},
-                        {data:"name"},
-                        {data:"username"},
-                        {data:"carId"},
-                        {data:"phoneNumber"},
-                        {data:"email"},
-                        {data:"address"},
-                        {data:"id",
+                        {data: "ids", defaultContent: ""},
+                        {data: "name"},
+                        {data: "username"},
+                        {data: "carId"},
+                        {data: "phoneNumber"},
+                        {data: "email"},
+                        {data: "address"},
+                        {data: "id",
                             render : function(data, type, row){
                                 if (type=='display'){
                                     data = '<a href="/members/update/' + data + '" class="btn btn-primary btn-sm mr-1"><i class="fa fa-edit" aria-hidden="true"></i></a>' +
@@ -111,9 +111,21 @@
                                 return data;
                             }
                         }
+                    ],
+                    "columnDefs": [
+                         {
+                             "searchable": false,
+                             "orderable": false,
+                             "targets": 0
+                         },
                     ]
                 });
 
+               t.on( 'order.dt search.dt', function () {
+                    t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                        cell.innerHTML = i+1;
+                    } );
+                } ).draw();
             })
         })
 
@@ -136,7 +148,6 @@
 <th:block layout:fragment="content">
     <!-- Begin Page Content -->
     <div class="container-fluid">
-        <div class="btn-delete">asdasdasds</div>
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">직원 관리</h1>
@@ -145,6 +156,7 @@
         </div>
 
         <select class="form-control mb-4" id="branches">
+            <option value="" disabled hidden selected>선택</option>
             <option th:each="branch : ${branches}" th:text="${branch.name}" th:value="${branch.id}"></option>
         </select>
 
@@ -198,7 +210,7 @@
         </div>
 
         <!-- 추후 ajax로 변경 -->
-        <div th:each="member : ${members}" th:id="'modal-' + ${member.id}" class="modal" tabindex="-1">
+        <div id="modal" class="modal" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -209,20 +221,20 @@
                     <div class="modal-body">
                         <div class="profile_image">
                                     <span id='View_area' style='position:relative; width: 100px; height: 160px; color: black; border: 0px solid black; dispaly: inline;'>
-                                        <img id="prev_View_area" style="width: 100px; height: 125px; border:1px solid #CDCDCD;" th:src="'/uploadUserProfiles/' + ${member.picture}"/>
+                                        <img id="prev_View_area" style="width: 100px; height: 125px; border:1px solid #CDCDCD;" src="/uploadUserProfiles/"/>
                                     </span>
                             <div class="content-header">
-                                <div th:text="'이름: ' + ${member.username}"></div>
-                                <div th:text="'번호: ' + ${member.id} + '번 기사'"></div>
-                                <div class="input_content" th:text="'연락처: ' + ${member.phoneNumber}"></div>
+                                <div>이름: ()</div>
+                                <div>번호: ()번 기사</div>
+                                <div class="input_content">연락처: (phoneNumber)</div>
                             </div>
                         </div>
 
                         <div class="content-body">
-                            <div class="content-body-value">마지막 주입날짜: 2022년 1월 28일 18시 28분 22초</div>
-                            <div class="content-body-value">마지막 주입량: 36.12리터</div>
-                            <div class="content-body-value">총 주입횟수: 62회</div>
-                            <div class="content-body-value">총 주입량: 1326.12리터</div>
+                            <div class="content-body-value">마지막 주입날짜: (2022년 1월 28일 18시 28분 22초)</div>
+                            <div class="content-body-value">마지막 주입량: (36.12리터)</div>
+                            <div class="content-body-value">총 주입횟수: (62회)</div>
+                            <div class="content-body-value">총 주입량: (1326.12리터)</div>
                         </div>
                         <button class="button_check" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">확인</span></button>

@@ -6,6 +6,7 @@ import com.smartf.comu.dto.AdminDto;
 import com.smartf.comu.repository.AdminAuthorityRepository;
 import com.smartf.comu.repository.AdminRepository;
 import com.smartf.comu.util.SecurityUtil;
+import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,6 +33,12 @@ public class AdminService implements UserDetailsService {
 
     // 회사 관리자 생성 (추후 함수 분리)
     public Long addAdmin(AdminDto adminDto) {
+
+        if (!adminDto.getPassword().equals(adminDto.getPasswordConfirm())) {
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+
+
 
         adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
 

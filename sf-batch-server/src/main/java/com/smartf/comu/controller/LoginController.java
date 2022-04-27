@@ -43,7 +43,7 @@ public class LoginController {
             adminService.addAdmin(adminDto);
         } catch (Exception e) {
             model.addAttribute("error", true);
-            model.addAttribute("exception", "중복된 아이디입니다. 다른 아이디를 사용해 주세요");
+            model.addAttribute("exception", e.getMessage());
             return "signup";
         }
 

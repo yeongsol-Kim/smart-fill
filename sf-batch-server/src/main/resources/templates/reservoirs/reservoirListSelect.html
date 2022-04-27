@@ -100,9 +100,7 @@
 
     <script>
         $(".user-recode").on("click",function(){
-            //alert($(this).attr("id"));
             $('#modal-' + $(this).attr("id")).modal('show');
-            //$('#modal-1').show();
         })
 
         $("#branches").on("change", function() {
@@ -212,6 +210,7 @@
             <!--                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
         </div>
         <select class="form-control mb-4" id="branches" name="branchId">
+            <option value="" disabled hidden selected>선택</option>
             <option th:each="branch : ${branches}" th:text="${branch.name}" th:value="${branch.id}"></option>
         </select>
         <div class="row" id="list">
