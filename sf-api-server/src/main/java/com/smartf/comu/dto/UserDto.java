@@ -33,6 +33,8 @@ public class UserDto {
    @Size(min = 3, max = 50)
    private String nickname;
 
+   private Long type;
+
    private Set<AuthorityDto> authorityDtoSet;
 
    public static UserDto from(User user) {

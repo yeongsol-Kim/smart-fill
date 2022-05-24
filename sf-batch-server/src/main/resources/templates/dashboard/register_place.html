@@ -425,6 +425,11 @@
               }
             });
 
+            $("#out").on("click", function(){
+                $("#amount").val($("#amount").val() * -1);
+                $("#reservoir-form").submit();
+            })
+
 
             // 차량별 월 요소수 주입량
             $("#select-car-monthly").on("change", function(){
@@ -529,12 +534,13 @@
                                 </div>
                             </div>
                             <div class="col-8">
-                                <form action="/reservoirs/put" method="post">
+                                <form action="/reservoirs/put" method="post" id="reservoir-form">
                                     <select id="sel-reservoir" name="id" class="mb-4">
                                         <option th:each="reservoir, idx : ${reservoirs}" th:text="${reservoir.reservoirName}" th:id="${idx.index}" th:value="${reservoir.id}"></option>
                                     </select>
-                                    <input type="text" placeholder="입고할 양을 입력하세요" name="amount" class="form-control mb-2" required="required">
-                                    <input type="submit" class="btn btn-info form-control mb-4" value="입고">
+                                    <input type="text" placeholder="입고할 양을 입력하세요" id="amount" name="amount" class="form-control mb-2" required="required">
+                                    <input type="submit" class="btn btn-info form-control mb-2" value="입고">
+                                    <input type="button" id="out" class="btn btn-danger form-control mb-4" value="출고">
                                 </form>
                                 <div class="text-right">
                                     <div id="reservoir-max" class="h6">MAX  ---L</div>

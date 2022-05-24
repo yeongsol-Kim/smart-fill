@@ -1,5 +1,6 @@
 package com.smartf.comu.controller;
 
+import com.smartf.comu.dto.ReceiveGoodsDto;
 import com.smartf.comu.dto.UserDto;
 import com.smartf.comu.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
 
     @PostMapping("/test-redirect")
     public void testRedirect(HttpServletResponse response) throws IOException {

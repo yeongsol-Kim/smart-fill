@@ -25,8 +25,20 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginPage(Model model, @RequestParam(value="error", required = false) String error, @RequestParam(value="exception", required = false) String exception) {
+        String msg = "";
+//        if (!exception.isEmpty()) {
+//            switch (exception) {
+//                case "00": msg = "아이디 또는 패스워드가 잘못되었습니다."; break;
+//                case "01": msg = "계정이 비활성화 상태입니다."; break;
+//                case "02": msg = "비밀번호가 만료되었습니다."; break;
+//                case "03": msg = "비밀번호가 일치하지 않습니다."; break;
+//                case "04": msg = "이메일이 잘못되었습니다."; break;
+//                default: msg = "서버가 응답하지 않습니다. 잠시 후 다시 시도해주세요";
+//            }
+//        }
         model.addAttribute("error", error);
-        model.addAttribute("exception", exception);
+        model.addAttribute("exception", msg);
+
         return "loginPage";
     }
 
