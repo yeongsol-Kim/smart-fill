@@ -25,110 +25,84 @@
       </a>
     </li>
 
-    <!-- Divider -->
+    <!-- Company -->
     <hr class="sidebar-divider">
 
-    <th:block  sec:authorize="hasRole('BRANCH')">
-
-      <div class="sidebar-heading">
-        정보 조회
-      </div>
-
-    </th:block>
-
-    <th:block  sec:authorize="hasRole('ADMIN')">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        직원 관리
-      </div>
-    </th:block>
+    <!-- Heading -->
+    <div class="sidebar-heading">
+      거래처
+    </div>
     <!-- Nav Item - 직원 목록 -->
     <li class="nav-item">
-      <a class="nav-link" th:href="@{/members}">
+      <a class="nav-link" th:href="@{/company}">
         <i class="fas fa-fw fa-user"></i>
-        <span>직원 목록</span></a>
+        <span>거래처 목록</span></a>
     </li>
-
-    <th:block  sec:authorize="hasRole('ADMIN')">
-
-      <!-- Nav Item - 직원 추가 -->
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/members/new}">
-          <i class="fas fa-fw fa-user-plus"></i>
-          <span>직원 추가</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        차량 관리
-      </div>
-
-    </th:block>
-    <!-- Nav Item - 차량 목록 -->
-    <li class="nav-item">
-      <a class="nav-link" th:href="@{/cars}">
-        <i class="fas fa-fw fa-car"></i>
-        <span>차량 목록</span></a>
-    </li>
-    <th:block  sec:authorize="hasRole('ADMIN')">
-
-      <!-- Nav Item - 차량 추가 -->
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/cars/new}">
-          <i class="fas fa-fw fa-car"></i>
-          <span>차량 추가</span>
-        </a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        저장조 관리
-      </div>
-    </th:block>
-    <!-- Nav Item - 저장조 목록 -->
-    <li class="nav-item">
-      <a class="nav-link" th:href="@{/reservoirs}">
-        <i class="fa-solid fa-tank-water"></i>
-        <span>저장조 목록</span>
-      </a>
-    </li>
-    <th:block  sec:authorize="hasRole('ADMIN')">
-
-      <!-- Nav Item - 저장조 등록 -->
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/reservoirs/new}">
-          <i class="fa-solid fa-tank-water"></i>
-          <span>저장조 등록</span>
-        </a>
-      </li>
-    </th:block>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
     <li class="nav-item">
       <a class="nav-link" th:href="@{/notice}">
-        <i class="fas fa-fw fa-car"></i>
-        <span>공지사항</span>
-      </a>
+        <i class="fas fa-fw fa-notice"></i>
+        <span>공지 사항</span></a>
     </li>
 
-    <th:block sec:authorize="hasRole('ADMIN')">
+<!--    <th:block  sec:authorize="hasRole('ADMIN')">-->
 
-    <li class="nav-item">
-      <a class="nav-link" th:href="@{/cars/new}">
-        <i class="fas fa-fw fa-car"></i>
-        <span>문의사항</span>
-      </a>
-    </li>
-  </th:block>
+<!--      &lt;!&ndash; Nav Item - 직원 추가 &ndash;&gt;-->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link" th:href="@{/members/new}">-->
+<!--          <i class="fas fa-fw fa-user-plus"></i>-->
+<!--          <span>직원 추가</span></a>-->
+<!--      </li>-->
+
+<!--      &lt;!&ndash; Divider &ndash;&gt;-->
+<!--      <hr class="sidebar-divider">-->
+
+<!--      &lt;!&ndash; Heading &ndash;&gt;-->
+<!--      <div class="sidebar-heading">-->
+<!--        차량 관리-->
+<!--      </div>-->
+
+<!--    </th:block>-->
+<!--    &lt;!&ndash; Nav Item - 차량 목록 &ndash;&gt;-->
+<!--    <li class="nav-item">-->
+<!--      <a class="nav-link" th:href="@{/cars}">-->
+<!--        <i class="fas fa-fw fa-car"></i>-->
+<!--        <span>차량 목록</span></a>-->
+<!--    </li>-->
+<!--    <th:block  sec:authorize="hasRole('ADMIN')">-->
+
+<!--      &lt;!&ndash; Nav Item - 차량 추가 &ndash;&gt;-->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link" th:href="@{/cars/new}">-->
+<!--          <i class="fas fa-fw fa-car"></i>-->
+<!--          <span>차량 추가</span>-->
+<!--        </a>-->
+<!--      </li>-->
+
+<!--      &lt;!&ndash; Divider &ndash;&gt;-->
+<!--      <hr class="sidebar-divider">-->
+
+<!--      &lt;!&ndash; Heading &ndash;&gt;-->
+<!--      <div class="sidebar-heading">-->
+<!--        저장조 관리-->
+<!--      </div>-->
+<!--    </th:block>-->
+<!--    &lt;!&ndash; Nav Item - 저장조 목록 &ndash;&gt;-->
+<!--    <li class="nav-item">-->
+<!--      <a class="nav-link" th:href="@{/reservoirs}">-->
+<!--        <i class="fa-solid fa-tank-water"></i>-->
+<!--        <span>저장조 목록</span>-->
+<!--      </a>-->
+<!--    </li>-->
+<!--    <th:block  sec:authorize="hasRole('ADMIN')">-->
+
+<!--      &lt;!&ndash; Nav Item - 저장조 등록 &ndash;&gt;-->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link" th:href="@{/reservoirs/new}">-->
+<!--          <i class="fa-solid fa-tank-water"></i>-->
+<!--          <span>저장조 등록</span>-->
+<!--        </a>-->
+<!--      </li>-->
+<!--    </th:block>-->
 <!--    &lt;!&ndash; Divider &ndash;&gt;-->
 <!--    <hr class="sidebar-divider">-->
 

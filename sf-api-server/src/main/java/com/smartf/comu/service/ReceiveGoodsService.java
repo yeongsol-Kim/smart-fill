@@ -5,6 +5,7 @@ import com.smartf.comu.entity.ReceiveGoods;
 import com.smartf.comu.entity.ReceiveGoodsLog;
 import com.smartf.comu.repository.ReceiveGoodsLogRepository;
 import com.smartf.comu.repository.ReceiveGoodsRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +17,12 @@ public class ReceiveGoodsService {
 
     private final ReceiveGoodsRepository receiveGoodsRepository;
     private final ReceiveGoodsLogRepository receiveGoodsLogRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public ReceiveGoodsService(ReceiveGoodsRepository receiveGoodsRepository, ReceiveGoodsLogRepository receiveGoodsLogRepository) {
+    public ReceiveGoodsService(ReceiveGoodsRepository receiveGoodsRepository, ReceiveGoodsLogRepository receiveGoodsLogRepository, BCryptPasswordEncoder passwordEncoder) {
         this.receiveGoodsRepository = receiveGoodsRepository;
         this.receiveGoodsLogRepository = receiveGoodsLogRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Boolean loginReceiveGoods(String username, String password) {

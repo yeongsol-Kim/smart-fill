@@ -16,7 +16,7 @@ import java.util.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member{
+public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

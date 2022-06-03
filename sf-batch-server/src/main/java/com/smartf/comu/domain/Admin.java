@@ -18,7 +18,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GAdmin implements UserDetails {
+public class Admin implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

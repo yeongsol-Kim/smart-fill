@@ -34,11 +34,12 @@ public class DashboardController {
 
     @GetMapping("/")
     public String dashboard(Model model, Authentication authentication) {
-        if (authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+        String authType = authentication.getAuthorities().toString();
+        if (authType.equals("[ROLE_ADMIN]")) {
             List<Branch> branches = companyAdminService.getMyBranches();
             model.addAttribute("branches", branches);
             return "company/demo";
-        } else {
+        } else if (authType.equals("[ROLE_USER]")) {
             List<Log> fillLogs = fillLogService.getMyBranchLogs();
             List<Reservoir> reservoirs = reservoirService.getMyReservoirs();
             List<LogReportDto> logReports = fillLogService.getMyGraphData();
@@ -66,7 +67,10 @@ public class DashboardController {
             model.addAttribute("months", months);
             model.addAttribute("amounts", amounts);
             return "dashboard/register_place";
+        } else if(authType.equals("[ROLE_SUPER]")) {
+            return "super/dash";
         }
+        return "loginPage";
     }
 
     @GetMapping("/{id}")
@@ -121,7 +125,7 @@ public class DashboardController {
 
     @GetMapping("/super")
     public String superDash(Model model) {
-        return "super/register_place";
+        return "super/dash";
     }
 
 

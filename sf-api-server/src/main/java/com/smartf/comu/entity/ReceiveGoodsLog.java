@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReceiveGoodsLog {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

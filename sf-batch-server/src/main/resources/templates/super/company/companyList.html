@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutSuper}">
+
+<th:block layout:fragment="css">
+    <style>
+
+        .company-item {
+            border : 1px solid;
+        }
+        .company-content {
+            display: flex;
+        }
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+        }
+        .flex-column {
+            display: flex;
+            flex-direction: column;
+        }
+        .flex-column-r {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    </style>
+
+    <!--= datatable css -->
+    <link th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet">
+</th:block>
+
+<th:block layout:fragment="script">
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+
+</th:block>
+
+<th:block layout:fragment="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">거래처 관리</h1>
+            <!--            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i-->
+            <!--                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
+        </div>
+
+        <div class="row">
+            <div class="col-xl-6 col-lg-8">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold text-primary">거래처 목록</h6>
+                    </div>
+                    <div class="card-body">
+                        <div th:each="company : ${companies}" class="company-item p-2 m-2">
+                            <div class="flex-row">
+                                <a class="mr-4" th:href="'/company/' + ${company.id}">
+                                    <img src="/img/smartf-logo.png" style="width: 65px; border: 1px solid; border-radius: 3px; background-color: #ad2547;">
+                                </a>
+                                <div class="flex-column m-1">
+                                    <div class="contents-text">2022.01.01 ~ 2022.05.01 (4개월)</div>
+                                    <div class="contents-text" th:text="'담당자 : ' + ${company.ceo} + '(' + ${company.tel} +')'">담당자 : [정보 없읍]</div>
+                                    <div class="contents-text" th:text="'이메일 : ' +${company.email}">이메일 : [정보 없음]</div>
+                                    <div class="contents-text" th:text="'회사ID :' + ${company.id}">회사ID : [정보 없음]</div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <span class="" style="font-size: 1.25rem;" th:text="${company.name} + '     ({n}곳 운영) '"></span><span class="ml-3" th:text="' 주입기 총 {n}대 운영'"></span>
+                                <div class="float-right">
+                                    <th:block th:if="${company.status} == 0">
+                                        <div class="d-inline-block float-right" style="color: black;">거래중단</div>
+                                    </th:block>
+                                    <th:block th:if="${company.status} == 1">
+                                        <div class="d-inline-block float-right" style="color: green;">허용중..</div>
+                                    </th:block>
+                                    <th:block th:if="${company.status} == -1">
+                                        <div class="d-inline-block float-right" style="color: red;">허용중단</div>
+                                    </th:block>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>
