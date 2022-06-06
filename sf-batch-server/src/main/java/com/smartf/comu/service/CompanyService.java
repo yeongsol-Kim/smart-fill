@@ -1,7 +1,7 @@
 package com.smartf.comu.service;
 
 import com.smartf.comu.domain.Branch;
-import com.smartf.comu.domain.Inquiry;
+import com.smartf.comu.entity.Inquiry;
 import com.smartf.comu.entity.Company;
 import com.smartf.comu.repository.BranchRepository;
 import com.smartf.comu.repository.CompanyRepository;
@@ -42,6 +42,12 @@ public class CompanyService {
     public List<Branch> getBranches(Long id) {
         return branchRepository.findByCompanyId(id);
     }
+
+    // 삽입
+    public Company insertCompany(Company company) {
+        return companyRepository.save(company);
+    }
+
 
     // 상태 설정
     public void setStatus(Long id, int status) {

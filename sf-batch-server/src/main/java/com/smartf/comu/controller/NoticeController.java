@@ -4,6 +4,7 @@ import com.smartf.comu.domain.Notice;
 import com.smartf.comu.dto.NoticeDto;
 import com.smartf.comu.service.NoticeService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +23,18 @@ public class NoticeController {
     }
 
     @GetMapping("/notice")
-    public String superNoticePage(Model model) {
+    public String superNoticePage(Model model, Authentication authentication) {
+        String auth = authentication.getAuthorities().toString();
+        System.out.println(authentication.getAuthorities());
+
+
         List<Notice> notices = noticeService.getNoticeList();
         model.addAttribute("notices", notices);
-        return "/super/notice/noticeList";
+        if (auth.equals("[ROLE_SUPER]")) {
+            return "/super/notice/noticeList";
+        } else {
+            return "/notice/noticeList";
+        }
     }
 
     @GetMapping("/notice/new")

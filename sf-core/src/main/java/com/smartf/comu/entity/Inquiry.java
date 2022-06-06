@@ -1,9 +1,11 @@
-package com.smartf.comu.domain;
+package com.smartf.comu.entity;
 
+import com.smartf.comu.entity.InquiryRequest;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "inquiry")
@@ -35,4 +37,7 @@ public class Inquiry {
 
     @Column(name = "inquiry_time")
     private LocalDateTime inquiryTime;
+
+    @OneToMany(mappedBy = "inquiry")
+    private List<InquiryRequest> inquiryRequests;
 }

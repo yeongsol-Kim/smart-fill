@@ -1,7 +1,7 @@
 package com.smartf.comu.controller;
 
 import com.smartf.comu.domain.Branch;
-import com.smartf.comu.domain.Inquiry;
+import com.smartf.comu.entity.Inquiry;
 import com.smartf.comu.entity.Company;
 import com.smartf.comu.service.CompanyService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,6 +35,24 @@ public class SuperCompanyController {
 //        }
 
         return "super/company/companyList";
+    }
+
+
+    //거래처 둥록 페이지
+    @GetMapping("/company/new")
+    @PreAuthorize("hasRole('SUPER')")
+    public String companyFormPage() {
+
+        return "super/company/companyForm";
+    }
+
+    //거래처 둥록 처리
+    @PostMapping("/company/new")
+    @PreAuthorize("hasRole('SUPER')")
+    public String companyInsert(Company company) {
+        companyService.insertCompany(company);
+
+        return "redirect:/company";
     }
 
     //거래처 상세 페이지

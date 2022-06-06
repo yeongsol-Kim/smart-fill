@@ -24,6 +24,10 @@
             display: flex;
             flex-direction: column-reverse;
         }
+        .a-company {
+            text-decoration:none !important;
+            color: #858796 !important;
+        }
     </style>
 
     <!--= datatable css -->
@@ -57,39 +61,41 @@
         </div>
 
         <div class="row">
-            <div class="col-xl-6 col-lg-8">
+            <div class="col-xl-7 col-lg-10">
                 <div class="card shadow">
                     <div class="card-header">
                         <h6 class="m-0 font-weight-bold text-primary">거래처 목록</h6>
                     </div>
                     <div class="card-body">
                         <div th:each="company : ${companies}" class="company-item p-2 m-2">
-                            <div class="flex-row">
-                                <a class="mr-4" th:href="'/company/' + ${company.id}">
-                                    <img src="/img/smartf-logo.png" style="width: 65px; border: 1px solid; border-radius: 3px; background-color: #ad2547;">
-                                </a>
-                                <div class="flex-column m-1">
-                                    <div class="contents-text">2022.01.01 ~ 2022.05.01 (4개월)</div>
-                                    <div class="contents-text" th:text="'담당자 : ' + ${company.ceo} + '(' + ${company.tel} +')'">담당자 : [정보 없읍]</div>
-                                    <div class="contents-text" th:text="'이메일 : ' +${company.email}">이메일 : [정보 없음]</div>
-                                    <div class="contents-text" th:text="'회사ID :' + ${company.id}">회사ID : [정보 없음]</div>
+                            <a th:href="'/company/' + ${company.id}" class="a-company">
+                                <div class="flex-row">
+                                    <span class="mr-4">
+                                        <img src="/img/smartf-logo.png" style="width: 65px; border: 1px solid; border-radius: 3px; background-color: #ad2547;">
+                                    </span>
+                                    <div class="flex-column m-1">
+                                        <div class="contents-text">2022.01.01 ~ 2022.05.01 (4개월)</div>
+                                        <div class="contents-text" th:text="'담당자 : ' + ${company.ceo} + '(' + ${company.tel} +')'">담당자 : [정보 없읍]</div>
+                                        <div class="contents-text" th:text="'이메일 : ' +${company.email}">이메일 : [정보 없음]</div>
+                                        <div class="contents-text" th:text="'회사ID :' + ${company.id}">회사ID : [정보 없음]</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mt-2">
-                                <span class="" style="font-size: 1.25rem;" th:text="${company.name} + '     ({n}곳 운영) '"></span><span class="ml-3" th:text="' 주입기 총 {n}대 운영'"></span>
-                                <div class="float-right">
-                                    <th:block th:if="${company.status} == 0">
-                                        <div class="d-inline-block float-right" style="color: black;">거래중단</div>
-                                    </th:block>
-                                    <th:block th:if="${company.status} == 1">
-                                        <div class="d-inline-block float-right" style="color: green;">허용중..</div>
-                                    </th:block>
-                                    <th:block th:if="${company.status} == -1">
-                                        <div class="d-inline-block float-right" style="color: red;">허용중단</div>
-                                    </th:block>
+                                <div class="mt-2">
+                                    <span class="" style="font-size: 1.25rem;" th:text="${company.name} + '     ({n}곳 운영) '"></span><span class="ml-3" th:text="' 주입기 총 {n}대 운영'"></span>
+                                    <div class="float-right">
+                                        <th:block th:if="${company.status} == 0">
+                                            <div class="d-inline-block float-right" style="color: black;">거래중단</div>
+                                        </th:block>
+                                        <th:block th:if="${company.status} == 1">
+                                            <div class="d-inline-block float-right" style="color: green;">허용중..</div>
+                                        </th:block>
+                                        <th:block th:if="${company.status} == -1">
+                                            <div class="d-inline-block float-right" style="color: red;">허용중단</div>
+                                        </th:block>
 
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
