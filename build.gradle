@@ -50,7 +50,7 @@ subprojects {
 project(':sf-core') {
     // 공통 코드
 
-    bootJar { enabled = false } // core 은 bootJar 로 패키징 할 필요 없음
+    bootJar { enabled = false }
     jar { enabled = true }
 
     dependencies {
@@ -62,7 +62,7 @@ project(':sf-api-server') {
     jar { enabled = false }
 
     dependencies {
-        implementation project(':sf-core') // 컴파일 시 velog-core project 로딩
+        implementation project(':sf-core')
         implementation 'org.springframework.boot:spring-boot-starter-web'
     }
 }
@@ -72,6 +72,6 @@ project(':sf-batch-server') {
     jar { enabled = false }
 
     dependencies {
-        implementation project(':sf-core') // 컴파일 시 velog-core project 로딩
+        implementation project(':sf-core')
     }
 }

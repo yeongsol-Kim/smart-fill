@@ -31,6 +31,19 @@
         .text-justify {
             text-align: justify;
         }
+
+        .nav-pills .nav-link {
+            margin: 1px;
+            background-color: lightgrey;
+            border: 1px solid #858796;
+            color: white;
+            font-size: 0.75rem;
+            border-radius: 2px;
+        }
+        .nav-pills .nav-link.active {
+            color: black;
+            background-color:white;
+        }
     </style>
 
     <!--= datatable css -->
@@ -66,7 +79,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xl-6 col-lg-8">
+            <div class="col-xl-7 col-lg-10">
                 <div class="card shadow">
                     <div class="card-header">
                         <h6 class="m-0 font-weight-bold text-primary">거래처 상세</h6>
@@ -104,14 +117,13 @@
                                         <h4 class="d-inline-block pr-1 pl-1" th:text="${company.name}"> [지점명] </h4>
                                         <h5 class="d-inline-block pr-1 pl-1" th:text="(n곳운영)"> [n곳운영] </h5>
                                         <hr class="m-1">
-
-                                        <div class="col-2 flex-column">
-                                            <div class="text-justify">지점명: </div>
-                                            <div class="text-justify">주입기: </div>
-                                            <div class="text-justify">저장탱크: </div>
-                                        </div>
                                         <div class="row">
-                                            <div th:each="branch : ${branches}" class="col-2 flex-column">
+                                            <div class="col-sm-4 col-md-3 col-lg-2 flex-column">
+                                                <div class="text-justify">지점명: </div>
+                                                <div class="text-justify">주입기: </div>
+                                                <div class="text-justify">저장탱크: </div>
+                                            </div>
+                                            <div th:each="branch : ${branches}" style="border-right: 1px solid;" class="col-sm-4 col-md-3 col-lg-2 flex-column">
                                                 <div class="text-center" th:text="${branch.name}"> [지점명] </div>
                                                 <div class="text-center"> 2대 </div>
                                                 <div class="text-center"> 20t 1대 </div>
@@ -120,7 +132,7 @@
                                     </div>
 
                                     <div class="tab-pane" id="pay">
-                                        <table>
+                                        <table class="text-center w-100">
                                             <tr>
                                                 <th>일자</th>
                                                 <th>계약기간 / 요소수구매</th>
@@ -143,9 +155,10 @@
                                             </tr>
                                         </table>
                                         <hr class="m-1">
-                                        <div class="flex-row" style="">
-                                            <form th:action="@{/company/status}" method="post">
-                                                <div class="flex-column d-inline-block">
+
+                                        <form th:action="@{/company/status}" method="post">
+                                            <div class="flex-row" style="justify-content: space-evenly;">
+                                                <div class="flex-column d-inline-block mr-4 ml-4">
                                                     <input type="hidden" name="id" th:value="${company.id}">
                                                     <select name="status">
                                                         <option value="1">허 용 중...</option>
@@ -154,9 +167,12 @@
                                                     </select>
                                                     <p style="font-size:0.5rem">프로그램 사용 권한 여부</p>
                                                 </div>
-                                                <input type="submit" value="확인">
-                                            </form>
-                                        </div>
+                                                <div>
+                                                    <input class="btn-btn-light" type="submit" value="확인">
+                                                </div>
+                                            </div>
+                                        </form>
+
                                     </div>
 
                                     <div class="tab-pane" id="inquiry">
@@ -170,7 +186,7 @@
                                             <h4 class="" th:text="${inquiry.title}"></h4>
                                             <div class="" th:text="${inquiry.contents}"></div>
                                             <div class="text-right">
-                                                <a th:id="${inquiry.id}" class="btn btn-default btn-request" href="#">답변</a>
+                                                <a th:id="${inquiry.id}" class="btn btn-light btn-request" href="#">답변</a>
                                             </div>
                                         </div>
                                         <hr>
@@ -184,9 +200,11 @@
         </div>
     </div>
     <form th:action="@{/inquiry/request}" method="post" id="request-form" class="d-none">
-        <textarea class="form-control" name="contents" rows="5" placeholder="문의 답변을 작성하세요."></textarea>
-        <input type="hidden" id="input-inquiry-id" name="inquiryId" value="0">
-        <input type="submit" class="btn btn-primary float-right" value="제출">
+        <div class="mt-4 mb-5">
+            <textarea class="form-control" name="contents" rows="5" placeholder="문의 답변을 작성하세요."></textarea>
+            <input type="hidden" id="input-inquiry-id" name="inquiryId" value="0">
+            <input type="submit" class="btn btn-primary float-right m-1" value="제출">
+        </div>
     </form>
 </th:block>
 </html>

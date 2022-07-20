@@ -5,12 +5,6 @@
 
 <th:block layout:fragment="css">
     <style>
-
-        .company-item {
-            border : 1px solid;
-        }
-        .company-content {
-            display: flex;
         }
         .flex-row {
             display: flex;
@@ -67,13 +61,13 @@
                         <h6 class="m-0 font-weight-bold text-primary">공지 목록</h6>
                     </div>
                     <div class="card-body">
-                        <div th:each="notice : ${notices}" class="p-2">
+                        <div th:each="notice : ${notices}" class="p-2" style="position: relative">
                             <h4 th:text="${notice.title}"></h4>
                             <div th:text="${notice.contents}"></div>
-                            <th:block  sec:authorize="hasRole('SUPER')">
-                                <div class="float-right">
-                                    <a class="btn btn-default" th:href="@{'/notice/edit/' + ${notice.id}}">수정</a>
-                                    <a th:id="${notice.id}" class="btn btn-default notice-del">삭제</a>
+                            <th:block sec:authorize="hasRole('SUPER')">
+                                <div class="flex-column" style="position: absolute; right:0px; bottom:20px;">
+                                    <div class="mb-1"><a class="btn btn-light btn-sm" th:href="@{'/notice/edit/' + ${notice.id}}">수정</a></div>
+                                    <div><a th:id="${notice.id}" class="btn btn-light btn-sm notice-del">삭제</a></div>
                                 </div>
                             </th:block>
                             <hr class="m-2">

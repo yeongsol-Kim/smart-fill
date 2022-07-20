@@ -40,7 +40,7 @@ public class NoticeController {
     @GetMapping("/notice/new")
     @PreAuthorize("hasRole('SUPER')")
     public String superNoticeWritePage(Model model) {
-        model.addAttribute("notice", new Notice());
+        model.addAttribute("notice", Notice.builder().build());
         return "/super/notice/noticeForm";
     }
 

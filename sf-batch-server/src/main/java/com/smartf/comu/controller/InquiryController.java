@@ -55,6 +55,7 @@ public class InquiryController {
     public String inquiryRequest(InquiryRequestDto inquiryRequestDto) {
         InquiryRequest inquiryRequest = InquiryRequest.builder()
                 .contents(inquiryRequestDto.getContents())
+                .inquiry(Inquiry.builder().id(inquiryRequestDto.getInquiryId()).build())
                 //.inquiryId(inquiryRequestDto.getInquiryId())
                 .requestDate(LocalDateTime.now())
                 .build();
