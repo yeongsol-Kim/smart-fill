@@ -55,6 +55,18 @@ public class NoticeController {
         return "/super/notice/noticeForm";
     }
 
+    @PostMapping("/notice/edit/{id}")
+    @PreAuthorize("hasRole('SUPER')")
+    public String noticeUpdate(NoticeDto noticeDto, @PathVariable Long id) {
+        Notice notice = Notice.builder()
+                .id(id)
+                .title(noticeDto.getTitle())
+                .contents(noticeDto.getContents())
+                .build();
+        noticeService.insertNotice(notice);
+        return "redirect:/notice";
+    }
+
     @PostMapping("/notice/new")
     @PreAuthorize("hasRole('SUPER')")
     public String noticeInsert(NoticeDto noticeDto) {
