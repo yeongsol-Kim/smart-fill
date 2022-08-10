@@ -22,12 +22,12 @@ public class InquiryController {
         this.inquiryService = inquiryService;
     }
 
+
     @GetMapping("/inquiry")
     @PreAuthorize("hasRole('ADMIN')")
     public String inquiryPage(Model model, InquiryRequestDto inquiryRequestDto, Authentication authentication) {
 
         model.addAttribute("inquiries", inquiryService.getMyCompanyInquiry());
-        System.out.println(inquiryService.getMyCompanyInquiry());
         return "inquiry/inquiryList";
     }
 

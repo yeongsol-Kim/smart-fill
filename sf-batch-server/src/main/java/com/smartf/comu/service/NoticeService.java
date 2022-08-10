@@ -2,6 +2,7 @@ package com.smartf.comu.service;
 
 import com.smartf.comu.domain.Notice;
 import com.smartf.comu.repository.NoticeRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +26,7 @@ public class NoticeService {
 
     // 공지 목록
     public List<Notice> getNoticeList() {
-        return noticeRepository.findAll();
+        return noticeRepository.findAll(Sort.by(Sort.Direction.DESC, "writeDate"));
     }
 
 

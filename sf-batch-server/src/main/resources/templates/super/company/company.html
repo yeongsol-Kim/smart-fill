@@ -87,9 +87,9 @@
                     <div class="card-body">
                         <div class="company-item p-2 m-2">
                             <div class="flex-row">
-                                <div class="mr-4" style="border: 1px solid black; width : 60px;">
-
-                                </div>
+                                <span class="mr-4">
+                                    <img src="/img/smartf-logo.png" style="width: 65px; border: 1px solid; border-radius: 3px; background-color: #ad2547;">
+                                </span>
                                 <div class="flex-column m-1">
                                     <div class="contents-text">2022.01.01 ~ 2022.05.01 (4개월)</div>
                                     <div class="contents-text" th:text="'담당자 : ' + ${company.ceo} + '(' + ${company.tel} +')'">담당자 : [정보 없읍]</div>
@@ -185,6 +185,9 @@
                                             <div class="d-inline-block float-right" th:text="${inquiry.writer}"></div>
                                             <h4 class="" th:text="${inquiry.title}"></h4>
                                             <div class="" th:text="${inquiry.contents}"></div>
+                                            <div th:each="req : ${inquiry.inquiryRequests}" class="p-2 flex-column" style="background-color: ghostwhite; ">
+                                                <div>ㄴ<div th:text="${req.contents}">asda</div></div>
+                                            </div>
                                             <div class="text-right">
                                                 <a th:id="${inquiry.id}" class="btn btn-light btn-request" href="#">답변</a>
                                             </div>
