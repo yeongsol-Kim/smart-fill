@@ -37,22 +37,19 @@
                             <h1 class="h4 text-gray-900 mb-4">업체 회원가입</h1>
                         </div>
 
-                        <form th:action="@{/register}" method="post" class="user">
+                        <form th:action="@{/register}" method="post" class="user" th:object="${admin}">
                             <div class="form-group">
-                                <input type="text" name="username" class="form-control form-control-user" id="exampleInputUsername"
-                                       placeholder="아이디" required minlength="2" maxlength="20">
+                                <input type="text" th:field="*{username}" class="form-control form-control-user" placeholder="아이디">
+                                <span class="help-block" th:errors="*{username}"></span>
                             </div>
                             <div class="form-group">
-                                <input type="number" name="dependentId" class="form-control form-control-user"
-                                       id="dependentId" placeholder="회사 id" required maxlength="10">
+                                <input type="number"  th:field="*{dependentId}" class="form-control form-control-user" placeholder="회사 id">
                             </div>
                             <div class="form-group">
-                                    <input type="password" name="password" class="form-control form-control-user"
-                                           id="exampleInputPassword" placeholder="비밀번호" required  minlength="8" maxlength="16">
+                                    <input type="password"  th:field="*{password}" class="form-control form-control-user" placeholder="비밀번호">
                             </div>
                             <div class="form-group">
-                                <input type="password" name="passwordConfirm" class="form-control form-control-user"
-                                       id="exampleRepeatPassword" placeholder="비밀번호 확인" required minlength="8" maxlength="16">
+                                <input type="password" th:field="*{passwordConfirm}" class="form-control form-control-user" placeholder="비밀번호 확인">
                             </div>
 
                             <div th:if="${error}">

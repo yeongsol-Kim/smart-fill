@@ -72,6 +72,7 @@ project(':sf-batch-server') {
     jar { enabled = false }
 
     dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
         implementation project(':sf-core')
     }
 }

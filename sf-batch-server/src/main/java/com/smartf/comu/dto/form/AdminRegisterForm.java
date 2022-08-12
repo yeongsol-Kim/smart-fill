@@ -1,16 +1,13 @@
-package com.smartf.comu.dto;
+package com.smartf.comu.dto.form;
 
-import lombok.*;
+import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class AdminDto {
+@Data
+public class AdminRegisterForm {
 
     @NotEmpty
     @Size(min = 4, max = 20)
@@ -24,8 +21,6 @@ public class AdminDto {
     @Size(min = 8, max = 16)
     private String passwordConfirm;
 
-    @NotEmpty
-    @Size(max = 10)
+    @NotNull
     private Long dependentId;
-
 }
