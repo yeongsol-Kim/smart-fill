@@ -4,6 +4,7 @@ import com.smartf.comu.domain.Branch;
 import com.smartf.comu.domain.Car;
 import com.smartf.comu.domain.Log;
 import com.smartf.comu.domain.Reservoir;
+import com.smartf.comu.dto.BranchDto;
 import com.smartf.comu.dto.LogReportDto;
 import com.smartf.comu.service.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,10 +37,12 @@ public class DashboardController {
     public String dashboard(Model model, Authentication authentication) {
         String authType = authentication.getAuthorities().toString();
         if (authType.equals("[ROLE_ADMIN]")) {
-            List<Branch> branches = companyAdminService.getMyBranches();
+
+            List<BranchDto> branches = companyAdminService.getMyBranches();
             model.addAttribute("branches", branches);
             return "company/demo";
-        } else if (authType.equals("[ROLE_USER]")) {
+
+        } else if (authType.equals("[ROLE_BRANCH]")) {
             List<Log> fillLogs = fillLogService.getMyBranchLogs();
             List<Reservoir> reservoirs = reservoirService.getMyReservoirs();
             List<LogReportDto> logReports = fillLogService.getMyGraphData();
@@ -66,7 +69,7 @@ public class DashboardController {
             model.addAttribute("cars", cars);
             model.addAttribute("months", months);
             model.addAttribute("amounts", amounts);
-            return "dashboard/register_place";
+            return "dashboard/branch";
         } else if(authType.equals("[ROLE_SUPER]")) {
             return "super/dash";
         }

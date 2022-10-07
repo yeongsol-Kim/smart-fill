@@ -5,22 +5,60 @@
 
 <th:block layout:fragment="css">
     <style>
-        .branch {
+        .tool-box {
+            display: flex;
+            flex-direction: row;
+        }
+        .tool-title {
+            min-width: 80px;
+        }
+        .tool-form-item {
+            display: flex;
+        }
+        .tool-submit {
+            margin-left: 1rem;
+            background-color: rgb(174, 39, 72);
+            color:white;
+            font-size: 1.3rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            border-radius: 0.5rem;
+        }
+        .branch-item {
+            display:flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid lightgray;
+            color: black;
+            font-weight: bold;
+        }
+        .branch-item-head {
+            display: flex;
+        }
+        .branch-pic {
+            width: 50px;
+            min-height: 35px;
+            border: 1px solid black;
+            background-color: #ad2547;
+        }
+        .branch-title {
+            min-width:150px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
-        .branch-list {
-            display: flex;
-            flex-wrap : wrap;
-            justify-content: space-around;
-
+        .branch-month {
+            font-size: 2rem;
+            width: 75px;
         }
-        .branch-pic {
-            width: 125px;
-            min-height: 150px;
-            border: 1px solid black;
-            background-color: #ad2547;
+        .branch-statistics {
+            width: 200px;
+        }
+        .branch-item-contents {
+            width: 175px;
+            font-size: 0.75rem;
+            color: rbg(48, 88, 187);
         }
     </style>
 
@@ -42,15 +80,35 @@
                         <div class="card-header">
                             <h6 class="m-0 font-weight-bold text-primary">지점 목록</h6>
                         </div>
-                        <div class="card-body branch-list">
-                            <a th:each="branch : ${branches}" th:href="@{/{id}(id=${branch.id})}">
-                                <div class="branch mx-5">
-                                    <div class="branch-pic">
-                                        <img src="/img/smartf-logo.png" class="branch-pic" style="width: 100%;">
+                        <div class="card-body">
+                            <th:block th:each="branch : ${branches}">
+                                <div class="branch-item">
+                                    <div class="branch-item-head">
+                                        <div class="branch-pic">
+                                            <img src="/img/smartf-logo.png" class="branch-pic" style="width: 100%;">
+                                        </div>
+                                        <div class="branch-title">
+                                            <div th:text="${branch.name}"></div>
+                                            <div th:text="${branch.name}"></div>
+                                        </div>
                                     </div>
-                                    <h6 class="text-center" th:text="${branch.name}"></h6>
+                                    <div class="branch-month">
+                                        5월
+                                    </div>
+                                    <div class="branch-statistics">
+                                        <div th:text="${branch.name}"></div>
+                                        <div th:text="${branch.name}"></div>
+                                        <div th:text="${branch.name}"></div>
+                                    </div>
+                                    <div class="branch-item-contents text-right">
+                                        <div th:text="${branch.address}"></div>
+                                        <div th:text="${branch.name}"></div>
+                                        <div th:text="${branch.name}"></div>
+                                        <div th:text="${branch.name}"></div>
+                                    </div>
                                 </div>
-                            </a>
+
+                            </th:block>
                         </div>
                     </th:block>
                     <th:block th:unless="${branches} != null">
@@ -60,34 +118,57 @@
             </div>
             <div class=" col-xl-4">
                 <div class="card shadow mb-4">
-                    <div class="card-header">
-                        <h6 class="m-0 font-weight-bold text-primary">지점 생성</h6>
+                    <div class="card-header text-center">
+                        <h6 class="m-0 font-weight-bold">지 사 관 리</h6>
                     </div>
-                    <div class="card-body branch-list">
-                        <div class="block mb-4">
-                            <form action="branch/new" method="post">
-                                <h5>지점 생성</h5>
-                                <input type="text" name="name" placeholder="지점 이름">
-                                <input type="submit">
+                    <div class="card-body">
+
+                        <div class="block tool-box mb-4">
+                            <div class="tool-title">지사생성</div>
+
+                            <form action="branch/new" method="post" style="width:100%">
+                                <div class="tool-form-item">
+                                    <input class="form-control" type="text" name="name" placeholder="지점 이름">
+                                    <input class="tool-submit" type="submit">
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <h6 class="m-0 font-weight-bold text-primary">지점 관리자 등록</h6>
+                        <h6 class="m-0 font-weight-bold text-center">지사관리자등록</h6>
                     </div>
-                    <div class="card-body branch-list">
-                        <form action="branchAdmin/new" method="post">
-                            <h5>지점 관리자 생성</h5>
-                            <select name="dependentId">
-                                <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}"></option>
-                            </select><br/>
-                            <input type="text" name="username" placeholder="아이디"><br/>
-                            <input type="password" name="password" placeholder="비밀번호"><br/>
-                            <input type="password" name="passwordConfirm" placeholder="비밀번호 확인"><br/>
-                            <input type="submit" class="btn btn-primary">
-                        </form>
+                    <div class="card-body">
+                        <div class="tool-box mb-4">
+                            <div class="tool-title">관리자생성</div>
+                            <form action="branchAdmin/new" method="post">
+                                <div class="tool-form-item">
+                                    <select class="form-control" name="dependentId">
+                                        <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}"></option>
+                                    </select>
+                                </div>
+                                <div class="tool-form-item">
+                                    <input class="form-control" type="text" name="username" placeholder="아이디">
+                                </div>
+                                <div class="tool-form-item">
+                                    <input class="form-control" type="password" name="password" placeholder="비밀번호">
+                                </div>
+                                <div class="tool-form-item">
+                                    <input class="form-control" type="password" name="passwordConfirm" placeholder="비밀번호 확인">
+                                    <input class="tool-submit" type="submit">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- #### 알림 #### -->
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold text-center">알림</h6>
+                    </div>
+                    <div class="card-body">
+
                     </div>
                 </div>
             </div>

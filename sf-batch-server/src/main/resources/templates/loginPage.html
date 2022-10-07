@@ -13,81 +13,156 @@
 
     <!-- Custom fonts for this template-->
     <link th:href="@{vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css"/>
-    <link
-            th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}"
+    <link th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}"
             rel="stylesheet"/>
 
     <!-- Custom styles for this template-->
     <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet"/>
 
+    <style>
+        .upbar {
+            background-color: rgb(11, 102, 183);
+            background-image: url('/img/logo/sfill-logo-white.png');
+            background-size: 100px;
+            background-repeat: no-repeat;
+            background-position: 1rem;
+            width: 100%
+            height: 40px;
+            height: 3.5rem;
+        }
+
+        .login-frame {
+            background-image: url('/img/logo/login-frame.png');
+            background-size: 720px;
+            background-repeat: no-repeat;
+            width: 720px;
+            min-height: 720px;
+            display: inline-block;
+            text-align: center;
+        }
+        .login-container {
+            width:20rem;
+            text-align: center;
+            display: inline-block;
+        }
+        .login-title-area {
+            padding: 2.5rem;
+        }
+        .login-title {
+            color: rgb(11, 102, 183);
+        }
+        .user {
+            width: 20rem;
+        }
+    </style>
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-white">
+
+<div class="upbar">
+</div>
 
 <div class="container">
 
-    <!-- Outer Row -->
-    <div class="row justify-content-center">
-
-        <div class="col-xl-10 col-lg-12 col-md-9">
-
-            <div class="card o-hidden border-0 shadow-lg my-5">
-                <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
-                    <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block text-center">
-                            <img src="/img/main-img.png" style="height: 400px;">
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="p-5">
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">스마트필</h1>
-                                </div>
-                                <form class="user" th:action="@{/login}" method="post">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-user"
-                                               name="username"
-                                               id="exampleInputEmail" aria-describedby="emailHelp"
-                                               placeholder="아이디" required minlength="4" maxlength="20"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control form-control-user"
-                                               name="password"
-                                               id="exampleInputPassword" placeholder="비밀번호" required maxlength="20" minlength="8"/>
-                                    </div>
-<!--                                    <div class="form-group">-->
-<!--                                        <div class="custom-control custom-checkbox small">-->
-<!--                                            <input type="checkbox" class="custom-control-input" name="remember-me" id="customCheck"/>-->
-<!--                                            <label class="custom-control-label" for="customCheck">아이디 저장</label>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                                        로그인
-                                    </button>
-                                </form>
-                                <hr>
-                                <div th:if="${param.error}">
-                                    <p th:text="${exception}" class="alert alert-danger"></p>
-                                </div>
-                                <div class="text-center">
-                                    <a class="small" href="forgot-password.html">비밀번호를 잊으셨나요?</a>
-                                </div>
-                                <div class="text-center">
-                                    <a class="small" th:href="@{/register}">회원가입</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="login-frame">
+        <div class="login-container">
+            <div class="login-title-area">
+                <h2 class="login-title">스마트필</h2>
+                <div class="login-title">스 마 트 입 출 고</div>
             </div>
 
+            <form class="user" th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-user" name="username" id="exampleInputEmail"
+                           aria-describedby="emailHelp" placeholder="아이디" required minlength="4" maxlength="20"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control form-control-user" name="password"
+                           id="exampleInputPassword" placeholder="비밀번호" required maxlength="20" minlength="8"/>
+                </div>
+                <!--                                    <div class="form-group">-->
+                <!--                                        <div class="custom-control custom-checkbox small">-->
+                <!--                                            <input type="checkbox" class="custom-control-input" name="remember-me" id="customCheck"/>-->
+                <!--                                            <label class="custom-control-label" for="customCheck">아이디 저장</label>-->
+                <!--                                        </div>-->
+                <!--                                    </div>-->
+                <button type="submit" class="btn btn-primary btn-user btn-block">
+                    로그인
+                </button>
+            </form>
+            <hr>
+            <div class="text-center">
+                <a class="small" href="forgot-password.html">비밀번호를 잊으셨나요?</a>
+            </div>
+            <div class="text-center">
+                <a class="small" th:href="@{/register}">회원가입</a>
+            </div>
         </div>
-
     </div>
+
+
+
+
+
+<!--        <div class="col-xl-10 col-lg-12 col-md-9">-->
+
+<!--            <div class="card o-hidden border-0 shadow-lg my-5">-->
+<!--                <div class="card-body p-0">-->
+<!--                    &lt;!&ndash; Nested Row within Card Body &ndash;&gt;-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-lg-6 d-none d-lg-block text-center">-->
+<!--                            <img src="/img/main-img.png" style="height: 400px;">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-6">-->
+<!--                            <div class="p-5">-->
+<!--                                <div class="text-center">-->
+<!--                                    <h1 class="h4 text-gray-900 mb-4">스마트필</h1>-->
+<!--                                </div>-->
+<!--&lt;!&ndash;                                <form class="user" th:action="@{/login}" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <input type="text" class="form-control form-control-user"&ndash;&gt;-->
+<!--&lt;!&ndash;                                               name="username"&ndash;&gt;-->
+<!--&lt;!&ndash;                                               id="exampleInputEmail" aria-describedby="emailHelp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                               placeholder="아이디" required minlength="4" maxlength="20"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <input type="password" class="form-control form-control-user"&ndash;&gt;-->
+<!--&lt;!&ndash;                                               name="password"&ndash;&gt;-->
+<!--&lt;!&ndash;                                               id="exampleInputPassword" placeholder="비밀번호" required maxlength="20" minlength="8"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                    <div class="form-group">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        <div class="custom-control custom-checkbox small">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            <input type="checkbox" class="custom-control-input" name="remember-me" id="customCheck"/>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            <label class="custom-control-label" for="customCheck">아이디 저장</label>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                    </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <button type="submit" class="btn btn-primary btn-user btn-block">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        로그인&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </form>&ndash;&gt;-->
+<!--                                <hr>-->
+<!--                                <div th:if="${param.error}">-->
+<!--                                    <p th:text="${exception}" class="alert alert-danger"></p>-->
+<!--                                </div>-->
+<!--                                <div class="text-center">-->
+<!--                                    <a class="small" href="forgot-password.html">비밀번호를 잊으셨나요?</a>-->
+<!--                                </div>-->
+<!--                                <div class="text-center">-->
+<!--                                    <a class="small" th:href="@{/register}">회원가입</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+
+<!--    </div>-->
     <footer class="sticky-footer">
         <div class="container my-auto">
-            <div class="copyright text-center my-auto" style="color:white;">
+            <div class="copyright text-center my-auto" style="rgb(11, 102, 183)">
                 <div class="mb-1"><span class="mr-2 mb-1">스마트필 주식회사</span><span class="mr-2">대표 신상원</span><span class="mr-2">사업자번호:864-87-00161</span><span class="mr-2">주소:경기도 평택시 포승읍 서동대로 417(블루스테이션 요소수충전소)</span></div>
                 <div class="mb-1"><span class="mr-2 mb-1">대표전화: 02)407-2314</span><span class="mr-2">팩스번호 02)6000-9451</span><span class="mr-2">홈페이지:http://www.soultec.co.kr/</span></div>
                 <div class="mb-1"><span class="mr-2 mb-1">고객센터 운영시간: 09:00~18:00</span><span class="mr-2">공휴일: 주말(토, 일) 및 공휴일</span></div>

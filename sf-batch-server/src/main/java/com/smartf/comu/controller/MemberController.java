@@ -2,6 +2,7 @@ package com.smartf.comu.controller;
 
 import com.smartf.comu.domain.Branch;
 import com.smartf.comu.domain.Member;
+import com.smartf.comu.dto.BranchDto;
 import com.smartf.comu.dto.MemberInfoDto;
 import com.smartf.comu.service.CompanyAdminService;
 import com.smartf.comu.service.MemberService;
@@ -50,7 +51,7 @@ public class MemberController {
             model.addAttribute("members", members);
             return "members/memberList";
         } else {
-            List<Branch> branches = companyAdminService.getMyBranches();
+            List<BranchDto> branches = companyAdminService.getMyBranches();
             model.addAttribute("branches", branches);
             model.addAttribute("members", null);
             return "members/memberListSelect";
@@ -71,7 +72,7 @@ public class MemberController {
     @GetMapping("/members/new")
     @PreAuthorize("hasRole('ADMIN')")
     public String createForm(Model model) {
-        List<Branch> branches = companyAdminService.getMyBranches();
+        List<BranchDto> branches = companyAdminService.getMyBranches();
         model.addAttribute("branches", branches);
         model.addAttribute("req", "new");
         model.addAttribute("member", Member.builder().build());

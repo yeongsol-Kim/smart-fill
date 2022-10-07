@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
+@Entity
 @Table(name="tank_fill")
 @Getter
 @Setter
@@ -25,7 +26,7 @@ public class TankFill {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "company_id")
+    @Column(name = "amount")
     private Integer amount;
 
 }

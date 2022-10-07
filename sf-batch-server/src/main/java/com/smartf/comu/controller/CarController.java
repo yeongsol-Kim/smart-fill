@@ -2,6 +2,7 @@ package com.smartf.comu.controller;
 
 import com.smartf.comu.domain.Branch;
 import com.smartf.comu.domain.Car;
+import com.smartf.comu.dto.BranchDto;
 import com.smartf.comu.dto.CarDto;
 import com.smartf.comu.service.CarService;
 import com.smartf.comu.service.CompanyAdminService;
@@ -35,7 +36,7 @@ public class CarController {
             model.addAttribute("cars", cars);
             return "cars/carList";
         } else if (authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-            List<Branch> branches = companyAdminService.getMyBranches();
+            List<BranchDto> branches = companyAdminService.getMyBranches();
             model.addAttribute("branches", branches);
             return "cars/carListSelect";
         }
@@ -52,8 +53,8 @@ public class CarController {
     @GetMapping("/cars/new")
     @PreAuthorize("hasRole('ADMIN')")
     public String createForm(Model model) {
-        List<Branch> branches = companyAdminService.getMyBranches();
-        model.addAttribute("branches", branches);
+        List<BranchDto> branchDtoList = companyAdminService.getMyBranches();
+        model.addAttribute("branches", branchDtoList);
         model.addAttribute("req", "new");
         model.addAttribute("car", Car.builder().build());
         return "cars/createCarSelectForm";

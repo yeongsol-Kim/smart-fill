@@ -18,8 +18,8 @@ public class TankFillAddForm {
     @NotEmpty
     private String passwordConfirm;
 
-    @NotEmpty
-    private String tankId;
+    @NotNull
+    private Integer tankId;
 
     @NotNull
     private Integer amount;

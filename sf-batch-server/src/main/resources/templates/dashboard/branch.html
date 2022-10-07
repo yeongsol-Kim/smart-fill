@@ -256,24 +256,21 @@
               return s.join(dec);
             }
 
-            // Bar Chart Example
+
+
+            // #### 출고 통계 차트 ####
+
             var ctx = document.getElementById("myChart");
             var monthlyChart = new Chart(ctx, {
-              type: 'bar',
-              data: {
-                /*<![CDATA[*/
-                labels: [[${months}]],
-                /*]]>*/
-                datasets: [{
-                  label: "요소수 주입량",
-                  backgroundColor: "#4e73df",
-                  hoverBackgroundColor: "#2e59d9",
-                  borderColor: "#4e73df",
-                  /*<![CDATA[*/
-                  data: [[${amounts}]],
-                  /*]]>*/
-                }],
-              },
+                type: 'line',
+                data: {
+                    labels: [[${months}]],
+                    datasets: [{
+                        fill: false,
+                        label: "요소수 주입량",
+                        data: [[${amounts}]]
+                    }],
+                  },
               options: {
                 maintainAspectRatio: false,
                 layout: {
@@ -303,7 +300,6 @@
                       min: 0,
                       maxTicksLimit: 5,
                       padding: 10,
-                      // Include a dollar sign in the ticks
                       callback: function(value, index, values) {
                         return number_format(value) + 'ℓ';
                       }
@@ -472,15 +468,13 @@
 
 
 <th:block layout:fragment="content">
-    <!-- Begin Page Content -->
     <div class="container-fluid">
-        <!-- DataTales Example -->
         <div class="row">
-<!--            로그 조회 -->
+            <!-- #### 출고 현황 #### -->
             <div class=" col-xl-8">
                 <div class="card shadow mb-4">
-                    <div class="card-header">
-                        <h6 class="m-0 font-weight-bold text-primary">전체 주입 내역</h6>
+                    <div class="card-header bg-primary">
+                        <h6 class="m-0 font-weight-bold text-center text-white">출고 현황</h6>
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -491,7 +485,7 @@
                                     <th>기사번호</th>
                                     <th>차량번호</th>
                                     <th>종류</th>
-                                    <th>L</th>
+                                    <th>투입량</th>
                                 </tr>
                             </thead>
                             <div>
@@ -516,11 +510,11 @@
                 </div>
             </div>
 
-<!--            요소수 잔량 확인 -->
+            <!-- #### 요소수 잔량 확인 #### -->
             <div class="col-xl-4">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <h6 class="m-0 font-weight-bold text-primary">요소수 잔량 조회 및 관리</h6>
+                        <h6 class="m-0 font-weight-bold text-center">요소수 재고 관리</h6>
                     </div>
                     <div class="card-body reservoir">
 
@@ -557,10 +551,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-8">
+
+            <!-- #### 출고 통계 #### -->
+            <div class="col-xl-4">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <h6 class="m-0 font-weight-bold text-primary">월별 요소수 주입량</h6>
+                        <h6 class="m-0 font-weight-bold">출고 통계</h6>
                     </div>
                     <div class="card-body">
                         <!-- Area Chart -->
@@ -570,31 +566,67 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-xl-4">
-                <div class="card shadow mb-4">
 
+            <!-- #### 상세 내역 #### -->
+            <div class="col-xl-4">
+                <div class="card shadow mb-4">
                     <div class="card-header">
-                        <h6 class="m-0 font-weight-bold text-primary">차량별 월별 요소수 주입량</h6>
+                        <h6 class="m-0 font-weight-bold">상세내역</h6>
                     </div>
                     <div class="card-body">
-                        <th:block th:if="${cars} != null">
-                            <select id="select-car-monthly">
-                                <option selected disabled>차량 선택</option>
-                                <option th:each="car : ${cars}" th:text="${car.carNumber}" th:value="${car.carNumber}"></option>
-                            </select>
-                            <!-- Area Chart -->
-                            <div class="chart-area">
-                                <canvas id="carLogChart"></canvas>
+                        <div class="d-flex" style="justify-content: center; color: black;">
+                            <div>
+                                <h3 class="mr-3">N월</h3>
                             </div>
-                        </th:block>
-                        <th:block th:unless="${cars} != null">
-                            <div class="info-blank p-20 text-center">
-                                <h4>등록된 차량이 없습니다.</h4>
+                            <div class="">
+                                <h6>총 출고 건수: n회</h6>
+                                <h6>총 출고량: nnn.nn L</h6>
                             </div>
-                        </th:block>
+                        </div>
+                        <!-- 주간별 집계 현황-->
+                        <div class="" style="border: 1px solid lightgray; height: 200px; overflow: scroll;">
+
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- #### 알림 #### -->
+            <div class="col-xl-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold text-center">알림</h6>
+                    </div>
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+
+<!--            <div class="col-lg-6 col-xl-4">-->
+<!--                <div class="card shadow mb-4">-->
+
+<!--                    <div class="card-header">-->
+<!--                        <h6 class="m-0 font-weight-bold text-primary">차량별 월별 요소수 주입량</h6>-->
+<!--                    </div>-->
+<!--                    <div class="card-body">-->
+<!--                        <th:block th:if="${cars} != null">-->
+<!--                            <select id="select-car-monthly">-->
+<!--                                <option selected disabled>차량 선택</option>-->
+<!--                                <option th:each="car : ${cars}" th:text="${car.carNumber}" th:value="${car.carNumber}"></option>-->
+<!--                            </select>-->
+<!--                            &lt;!&ndash; Area Chart &ndash;&gt;-->
+<!--                            <div class="chart-area">-->
+<!--                                <canvas id="carLogChart"></canvas>-->
+<!--                            </div>-->
+<!--                        </th:block>-->
+<!--                        <th:block th:unless="${cars} != null">-->
+<!--                            <div class="info-blank p-20 text-center">-->
+<!--                                <h4>등록된 차량이 없습니다.</h4>-->
+<!--                            </div>-->
+<!--                        </th:block>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </div>
 </th:block>

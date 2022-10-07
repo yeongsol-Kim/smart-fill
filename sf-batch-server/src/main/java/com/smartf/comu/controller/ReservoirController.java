@@ -3,6 +3,7 @@ package com.smartf.comu.controller;
 import com.smartf.comu.domain.Branch;
 import com.smartf.comu.domain.Pump;
 import com.smartf.comu.domain.Reservoir;
+import com.smartf.comu.dto.BranchDto;
 import com.smartf.comu.dto.ReservoirDto;
 import com.smartf.comu.service.BranchService;
 import com.smartf.comu.service.CompanyAdminService;
@@ -46,7 +47,7 @@ public class ReservoirController {
             model.addAttribute("reservoirs", reservoirs);
             return "reservoirs/reservoirList";
         } else if(authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-            List<Branch> branches = companyAdminService.getMyBranches();
+            List<BranchDto> branches = companyAdminService.getMyBranches();
             model.addAttribute("branches", branches);
             return "reservoirs/reservoirListSelect";
         }
@@ -58,7 +59,7 @@ public class ReservoirController {
     @GetMapping("/reservoirs/new")
     @PreAuthorize("hasRole('ADMIN')")
     public String createReservoirForm(Model model) {
-        List<Branch> branches = companyAdminService.getMyBranches();
+        List<BranchDto> branches = companyAdminService.getMyBranches();
         model.addAttribute("branches", branches);
         return "reservoirs/reservoirCreateSelectForm";
     }
