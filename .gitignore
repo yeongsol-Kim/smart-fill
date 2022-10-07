@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+/sf-batch-server/src/main/resources/application_saving.properties
+/sf-api-server/src/main/resources/application_saving.yml

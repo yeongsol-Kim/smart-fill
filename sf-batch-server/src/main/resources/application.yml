@@ -1,2 +1,12 @@
 server:
   port: 8081
+
+spring:
+  messages:
+    basename: messages,errors
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: [DB_URL]
+    username: [USERNAME]
+    password: [PASSWORD]
