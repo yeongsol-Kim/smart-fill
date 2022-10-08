@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: [DB_URL]
+    username: [USERNAME]
+    password: [PASSWORD]
+
+jwt:
+  header: Authorization
+  secret: [SECRET_KEY]
+  token-validity-in-seconds: 86400
